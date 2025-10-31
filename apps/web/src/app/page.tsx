@@ -35,5 +35,8 @@ export default async function Page() {
 
   const { _id, _type, pageBuilder } = homePageData ?? {};
 
-  return <PageBuilder id={_id} pageBuilder={pageBuilder ?? []} type={_type} />;
+  return <>
+  <h1>Dette er Sarhs test</h1>
+  <PageBuilder id={_id} pageBuilder={pageBuilder ?? []} type={_type} />
+  </>;
 }

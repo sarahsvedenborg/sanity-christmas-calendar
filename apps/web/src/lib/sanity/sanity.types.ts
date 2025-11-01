@@ -2401,6 +2401,741 @@ export type QueryRedirectsResult = Array<{
   destination: string;
   permanent: false | true;
 }>;
+// Variable: queryChristmasCalendarData
+// Query: *[_type == "christmasCalendar"] | order(orderRank asc)[0]{    ...,    title,    description,    "slug": slug.current,    coverImage {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }    },    startDate,    introContent[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },      _type == "image" => {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },        "caption": caption      }    },    "days": days[]-> {        dayNumber,  title,  description,  "slug": slug.current,  icon {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },  reward,  intro[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },  techActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    codeExamples,    resources,    hint,    solution[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    }  },  designActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    designExamples[]{      ...,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      caption    },    resources,    hint  },  sharedNotes[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  },  conclusion[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  }    }  }
+export type QueryChristmasCalendarDataResult = {
+  _id: string;
+  _type: "christmasCalendar";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderRank?: string;
+  title: string;
+  description: string | null;
+  slug: string;
+  coverImage: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number | null;
+      y: number | null;
+    } | null;
+    crop: {
+      bottom: number | null;
+      left: number | null;
+      right: number | null;
+      top: number | null;
+    } | null;
+  } | null;
+  startDate: string;
+  introContent: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+      openInNewTab: boolean | null;
+      href: string | "#" | null;
+    } | {
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot: {
+      x: number | null;
+      y: number | null;
+    } | null;
+    crop: {
+      bottom: number | null;
+      left: number | null;
+      right: number | null;
+      top: number | null;
+    } | null;
+    caption: string | null;
+    _type: "image";
+    _key: string;
+    id: string | null;
+    preview: string | null;
+  }> | null;
+  days: Array<{
+    dayNumber: number;
+    title: string;
+    description: string | null;
+    slug: string;
+    icon: {
+      id: string | null;
+      preview: string | null;
+      hotspot: {
+        x: number | null;
+        y: number | null;
+      } | null;
+      crop: {
+        bottom: number | null;
+        left: number | null;
+        right: number | null;
+        top: number | null;
+      } | null;
+    } | null;
+    reward: string | null;
+    intro: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot: {
+        x: number | null;
+        y: number | null;
+      } | null;
+      crop: {
+        bottom: number | null;
+        left: number | null;
+        right: number | null;
+        top: number | null;
+      } | null;
+      caption: string | null;
+      _type: "image";
+      _key: string;
+      id: string | null;
+      preview: string | null;
+    }> | null;
+    techActivity: {
+      title: string;
+      duration: string | null;
+      difficulty: "advanced" | "beginner" | "intermediate" | null;
+      objectives: Array<string> | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<{
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+          openInNewTab: boolean | null;
+          href: string | "#" | null;
+        } | {
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+        }> | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        caption?: string;
+        _type: "image";
+        _key: string;
+      }> | null;
+      codeExamples: Array<{
+        language?: "bash" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
+        code?: string;
+        filename?: string;
+        _key: string;
+      }> | null;
+      resources: Array<{
+        title?: string;
+        url?: string;
+        _key: string;
+      }> | null;
+      hint: string | null;
+      solution: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<{
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+          openInNewTab: boolean | null;
+          href: string | "#" | null;
+        } | {
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+        }> | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        caption?: string;
+        _type: "image";
+        _key: string;
+      }> | null;
+    } | null;
+    designActivity: {
+      title: string;
+      duration: string | null;
+      difficulty: "advanced" | "beginner" | "intermediate" | null;
+      objectives: Array<string> | null;
+      content: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<{
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+          openInNewTab: boolean | null;
+          href: string | "#" | null;
+        } | {
+          customLink?: CustomUrl;
+          _type: "customLink";
+          _key: string;
+        }> | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      } | {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        caption?: string;
+        _type: "image";
+        _key: string;
+      }> | null;
+      designExamples: Array<{
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot: {
+          x: number | null;
+          y: number | null;
+        } | null;
+        crop: {
+          bottom: number | null;
+          left: number | null;
+          right: number | null;
+          top: number | null;
+        } | null;
+        caption: string | null;
+        _type: "image";
+        _key: string;
+        id: string | null;
+        preview: string | null;
+      }> | null;
+      resources: Array<{
+        title?: string;
+        url?: string;
+        _key: string;
+      }> | null;
+      hint: string | null;
+    } | null;
+    sharedNotes: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    conclusion: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+  }> | null;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoNoIndex?: boolean;
+  seoHideFromLists?: boolean;
+} | null;
+// Variable: queryChristmasCalendarPaths
+// Query: *[_type == "christmasCalendar" && defined(slug.current)].slug.current
+export type QueryChristmasCalendarPathsResult = Array<string>;
+// Variable: queryCalendarDayData
+// Query: *[_type == "calendarDay" && slug.current == $slug][0]{    ...,      dayNumber,  title,  description,  "slug": slug.current,  icon {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },  reward,  intro[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },  techActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    codeExamples,    resources,    hint,    solution[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    }  },  designActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    designExamples[]{      ...,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      caption    },    resources,    hint  },  sharedNotes[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  },  conclusion[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  }  }
+export type QueryCalendarDayDataResult = {
+  _id: string;
+  _type: "calendarDay";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderRank?: string;
+  dayNumber: number;
+  title: string;
+  description: string | null;
+  slug: string;
+  icon: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number | null;
+      y: number | null;
+    } | null;
+    crop: {
+      bottom: number | null;
+      left: number | null;
+      right: number | null;
+      top: number | null;
+    } | null;
+  } | null;
+  reward: string | null;
+  intro: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+      openInNewTab: boolean | null;
+      href: string | "#" | null;
+    } | {
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot: {
+      x: number | null;
+      y: number | null;
+    } | null;
+    crop: {
+      bottom: number | null;
+      left: number | null;
+      right: number | null;
+      top: number | null;
+    } | null;
+    caption: string | null;
+    _type: "image";
+    _key: string;
+    id: string | null;
+    preview: string | null;
+  }> | null;
+  techActivity: {
+    title: string;
+    duration: string | null;
+    difficulty: "advanced" | "beginner" | "intermediate" | null;
+    objectives: Array<string> | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    codeExamples: Array<{
+      language?: "bash" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
+      code?: string;
+      filename?: string;
+      _key: string;
+    }> | null;
+    resources: Array<{
+      title?: string;
+      url?: string;
+      _key: string;
+    }> | null;
+    hint: string | null;
+    solution: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+  } | null;
+  designActivity: {
+    title: string;
+    duration: string | null;
+    difficulty: "advanced" | "beginner" | "intermediate" | null;
+    objectives: Array<string> | null;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+        openInNewTab: boolean | null;
+        href: string | "#" | null;
+      } | {
+        customLink?: CustomUrl;
+        _type: "customLink";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }> | null;
+    designExamples: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot: {
+        x: number | null;
+        y: number | null;
+      } | null;
+      crop: {
+        bottom: number | null;
+        left: number | null;
+        right: number | null;
+        top: number | null;
+      } | null;
+      caption: string | null;
+      _type: "image";
+      _key: string;
+      id: string | null;
+      preview: string | null;
+    }> | null;
+    resources: Array<{
+      title?: string;
+      url?: string;
+      _key: string;
+    }> | null;
+    hint: string | null;
+  } | null;
+  sharedNotes: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+      openInNewTab: boolean | null;
+      href: string | "#" | null;
+    } | {
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  conclusion: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "h2" | "h3" | "h4" | "h5" | "h6" | "inline" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+      openInNewTab: boolean | null;
+      href: string | "#" | null;
+    } | {
+      customLink?: CustomUrl;
+      _type: "customLink";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoNoIndex?: boolean;
+  seoHideFromLists?: boolean;
+} | null;
+// Variable: queryCalendarDayPaths
+// Query: *[_type == "calendarDay" && defined(slug.current)].slug.current
+export type QueryCalendarDayPathsResult = Array<string>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -2423,5 +3158,9 @@ declare module "@sanity/client" {
     "\n  *[_type == \"settings\"][0]{\n    _id,\n    _type,\n    siteTitle,\n    logo {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n    },\n    siteDescription,\n    socialLinks{\n      linkedin,\n      facebook,\n      twitter,\n      instagram,\n      youtube\n    }\n  }\n": QueryGlobalSeoSettingsResult;
     "\n  *[_type == \"settings\"][0]{\n    _id,\n    _type,\n    siteTitle,\n    siteDescription,\n    \"logo\": logo.asset->url + \"?w=80&h=40&dpr=3&fit=max\",\n    \"socialLinks\": socialLinks,\n    \"contactEmail\": contactEmail,\n  }\n": QuerySettingsDataResult;
     "\n  *[_type == \"redirect\" && status == \"active\" && defined(source.current) && defined(destination.current)]{\n    \"source\":source.current, \n    \"destination\":destination.current, \n    \"permanent\" : permanent == \"true\"\n  }\n": QueryRedirectsResult;
+    "\n  *[_type == \"christmasCalendar\"] | order(orderRank asc)[0]{\n    ...,\n    title,\n    description,\n    \"slug\": slug.current,\n    coverImage {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n    },\n    startDate,\n    introContent[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n      _type == \"image\" => {\n        \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n        \"caption\": caption\n      }\n    },\n    \"days\": days[]-> {\n      \n  dayNumber,\n  title,\n  description,\n  \"slug\": slug.current,\n  icon {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  },\n  reward,\n  intro[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  },\n  techActivity {\n    title,\n    duration,\n    difficulty,\n    objectives,\n    content[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    },\n    codeExamples,\n    resources,\n    hint,\n    solution[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    }\n  },\n  designActivity {\n    title,\n    duration,\n    difficulty,\n    objectives,\n    content[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    },\n    designExamples[]{\n      ...,\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      caption\n    },\n    resources,\n    hint\n  },\n  sharedNotes[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n  },\n  conclusion[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n  }\n\n    }\n  }\n": QueryChristmasCalendarDataResult;
+    "\n  *[_type == \"christmasCalendar\" && defined(slug.current)].slug.current\n": QueryChristmasCalendarPathsResult;
+    "\n  *[_type == \"calendarDay\" && slug.current == $slug][0]{\n    ...,\n    \n  dayNumber,\n  title,\n  description,\n  \"slug\": slug.current,\n  icon {\n    \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n  },\n  reward,\n  intro[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n    _type == \"image\" => {\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      \"caption\": caption\n    }\n  },\n  techActivity {\n    title,\n    duration,\n    difficulty,\n    objectives,\n    content[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    },\n    codeExamples,\n    resources,\n    hint,\n    solution[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    }\n  },\n  designActivity {\n    title,\n    duration,\n    difficulty,\n    objectives,\n    content[]{\n      ...,\n      _type == \"block\" => {\n        ...,\n        \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n      },\n    },\n    designExamples[]{\n      ...,\n      \n  \"id\": asset._ref,\n  \"preview\": asset->metadata.lqip,\n  hotspot {\n    x,\n    y\n  },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n      caption\n    },\n    resources,\n    hint\n  },\n  sharedNotes[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n  },\n  conclusion[]{\n    ...,\n    _type == \"block\" => {\n      ...,\n      \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    \"href\": select(\n      type == \"internal\" => internal->slug.current,\n      type == \"external\" => external,\n      \"#\"\n    ),\n  }\n\n  }\n\n    },\n  }\n\n  }\n": QueryCalendarDayDataResult;
+    "\n  *[_type == \"calendarDay\" && defined(slug.current)].slug.current\n": QueryCalendarDayPathsResult;
   }
 }

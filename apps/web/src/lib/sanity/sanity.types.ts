@@ -438,6 +438,147 @@ export type HomePage = {
   ogDescription?: string;
 };
 
+export type CalendarDay = {
+  _id: string;
+  _type: "calendarDay";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderRank?: string;
+  dayNumber: number;
+  title: string;
+  description?: string;
+  slug: Slug;
+  icon?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  reward?: string;
+  intro?: RichText;
+  techActivity?: {
+    title: string;
+    duration?: string;
+    difficulty?: "beginner" | "intermediate" | "advanced";
+    objectives?: Array<string>;
+    content?: RichText;
+    codeExamples?: Array<{
+      language?: "bash" | "typescript" | "javascript" | "json" | "jsx" | "tsx" | "css" | "html";
+      code?: string;
+      filename?: string;
+      _key: string;
+    }>;
+    resources?: Array<{
+      title?: string;
+      url?: string;
+      _key: string;
+    }>;
+    hint?: string;
+    solution?: RichText;
+  };
+  designActivity?: {
+    title: string;
+    duration?: string;
+    difficulty?: "beginner" | "intermediate" | "advanced";
+    objectives?: Array<string>;
+    content?: RichText;
+    designExamples?: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    resources?: Array<{
+      title?: string;
+      url?: string;
+      _key: string;
+    }>;
+    hint?: string;
+  };
+  sharedNotes?: RichText;
+  conclusion?: RichText;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoNoIndex?: boolean;
+  seoHideFromLists?: boolean;
+};
+
+export type ChristmasCalendar = {
+  _id: string;
+  _type: "christmasCalendar";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderRank?: string;
+  title: string;
+  description?: string;
+  slug: Slug;
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  startDate: string;
+  introContent?: RichText;
+  days?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "calendarDay";
+  }>;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  seoNoIndex?: boolean;
+  seoHideFromLists?: boolean;
+};
+
 export type Author = {
   _id: string;
   _type: "author";
@@ -859,7 +1000,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Navbar | Footer | Settings | BlogIndex | HomePage | Author | Faq | Page | Blog | CustomUrl | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = SubscribeNewsletter | ImageLinkCards | FaqAccordion | FeatureCardsIcon | Cta | Hero | PageBuilder | Button | RichText | Redirect | Navbar | Footer | Settings | BlogIndex | HomePage | CalendarDay | ChristmasCalendar | Author | Faq | Page | Blog | CustomUrl | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | IconPicker | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../web/src/lib/sanity/query.ts
 // Variable: queryImageType
@@ -2098,6 +2239,26 @@ export type QueryGenericPageOGDataResult = {
 } | {
   _id: string;
   _type: "blogIndex";
+  title: string | null;
+  description: string | null;
+  image: null;
+  dominantColor: null;
+  seoImage: string | null;
+  logo: string | null;
+  date: string;
+} | {
+  _id: string;
+  _type: "calendarDay";
+  title: string | null;
+  description: string | null;
+  image: null;
+  dominantColor: null;
+  seoImage: string | null;
+  logo: string | null;
+  date: string;
+} | {
+  _id: string;
+  _type: "christmasCalendar";
   title: string | null;
   description: string | null;
   image: null;

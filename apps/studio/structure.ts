@@ -1,6 +1,8 @@
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import {
   BookMarked,
+  Calendar,
+  CalendarDays,
   CogIcon,
   File,
   FileText,
@@ -129,6 +131,13 @@ export const structure = (
         type: "redirect",
         title: "Redirects",
         icon: TrendingUpDown,
+      }),
+      S.divider(),
+      createIndexListWithOrderableItems({
+        S,
+        index: { type: "christmasCalendar", icon: Calendar },
+        list: { type: "calendarDay", title: "Days", icon: CalendarDays },
+        context,
       }),
       S.divider(),
       S.listItem()

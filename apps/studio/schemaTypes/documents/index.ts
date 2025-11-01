@@ -1,6 +1,8 @@
 import { author } from "./author";
 import { blog } from "./blog";
 import { blogIndex } from "./blog-index";
+import { calendarDay } from "./calendar-day";
+import { christmasCalendar } from "./christmas-calendar";
 import { faq } from "./faq";
 import { footer } from "./footer";
 import { homePage } from "./home-page";
@@ -11,4 +13,13 @@ import { settings } from "./settings";
 
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
-export const documents = [blog, page, faq, author, ...singletons, redirect];
+export const documents = [
+  blog,
+  page,
+  faq,
+  author,
+  christmasCalendar,
+  calendarDay,
+  ...singletons,
+  redirect,
+];

@@ -10,6 +10,7 @@ import type { QueryChristmasCalendarDataResult } from "@/lib/sanity/sanity.types
 
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
+import { CalendarLogo } from "./CalendarLogo";
 
 type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 
@@ -49,14 +50,20 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             <div className="mb-8 flex justify-center">
               <div className="relative">
                 <div className="absolute inset-0 animate-ping rounded-full bg-green-500 opacity-20"></div>
-                <div className="relative flex size-32 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-2xl">
+              {/*   <div className="relative flex size-32 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-2xl">
                   <Sparkles className="size-16 text-white" />
+
+                </div> */}
+                  <div className="relative flex size-32 items-center justify-center rounded-full  ">
+               
+    <CalendarLogo />
                 </div>
               </div>
             </div>
+          
 
             <h1 className="mb-4 text-balance bg-gradient-to-r from-red-600 via-green-600 to-blue-600 bg-clip-text font-bold text-5xl tracking-tight text-transparent md:text-7xl">
-              🎄 {data.title} 🎄
+              🎄 {data.title}🎄
             </h1>
 
             {data.description && (

@@ -18,10 +18,15 @@ const fontSans = Geist({
   variable: "--font-sans",
 });
 
-
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+});
+
+const fontInika = Inika({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-inika",
 });
 
 export default async function RootLayout({
@@ -34,7 +39,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} ${fontInika.variable} font-sans antialiased`}
       >
         <Providers>
           <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />

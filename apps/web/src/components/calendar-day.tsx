@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import type { QueryCalendarDayDataResult } from "@/lib/sanity/sanity.types";
-import { urlFor } from "@/lib/sanity/client";
 
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
@@ -22,14 +21,14 @@ type CalendarDayProps = {
 export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
   const [showSolution, setShowSolution] = useState(false);
 
-  const difficultyColors = {
-    beginner: "bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-400 dark:border-green-700",
-    intermediate: "bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-700",
-    advanced: "bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-400 dark:border-red-700",
-  };
+/*   const difficultyColors = {
+    beginner: "bg-green-200/80 text-green-950 border-amber-300 dark:bg-green-900/50 dark:text-green-100 dark:border-amber-700",
+    intermediate: "bg-amber-200/80 text-green-950 border-amber-300 dark:bg-amber-900/50 dark:text-amber-100 dark:border-amber-700",
+    advanced: "bg-red-200/80 text-red-950 border-amber-300 dark:bg-red-900/50 dark:text-red-100 dark:border-amber-700",
+  }; */
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-green-50 to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <Snowflakes />
@@ -38,7 +37,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
       <div className="container relative mx-auto max-w-6xl px-4 py-16">
         {/* Back button */}
         <Link
-          className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-8 inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
           href={`/${calendarSlug}`}
         >
           <span className="text-2xl">←</span>
@@ -47,24 +46,27 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
         {/* Header */}
         <div className="mb-12 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-green-500 to-blue-500 px-6 py-2 text-white shadow-lg">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
             <span className="text-2xl">🎄</span>
-            <span className="font-bold">Day {data.dayNumber}</span>
+            <span className="font-bold text-white">Day {data.dayNumber}</span>
           </div>
 
-          <h1 className="mb-4 text-balance bg-gradient-to-r from-red-600 via-green-600 to-blue-600 bg-clip-text font-bold text-4xl tracking-tight text-transparent md:text-6xl">
+          <h1 className="mb-4 text-balance font-bold text-4xl tracking-tight drop-shadow-lg md:text-6xl" style={{ 
+            color: '#B91C1C',
+            textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
+          }}>
             {data.title}
           </h1>
 
           {data.description && (
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            <p className="mx-auto max-w-2xl text-lg text-white/90">
               {data.description}
             </p>
           )}
 
           {data.reward && (
-            <div className="mt-6 inline-block rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 px-6 py-3 shadow-lg">
-              <p className="flex items-center gap-2 font-bold text-white">
+            <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
+              <p className="flex items-center gap-2 font-bold text-green-950">
                 <span className="text-2xl">🎁</span>
                 <span>Reward: {data.reward}</span>
               </p>
@@ -85,15 +87,15 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
         {/* Introduction */}
         {data.intro && data.intro.length > 0 && (
-          <div className="mb-16 rounded-2xl bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:bg-slate-900/80">
+          <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
             <RichText className="text-left" richText={data.intro} />
           </div>
         )}
 
         {/* Shared Notes */}
         {data.sharedNotes && data.sharedNotes.length > 0 && (
-          <div className="mb-16 rounded-2xl border-4 border-blue-200 bg-blue-50/80 p-8 shadow-xl backdrop-blur-sm dark:border-blue-800 dark:bg-blue-950/30">
-            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-blue-900 dark:text-blue-100">
+          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
               📝 Shared Notes
             </h2>
             <RichText richText={data.sharedNotes} />
@@ -104,19 +106,19 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
         <div className="grid gap-8 md:grid-cols-2">
           {/* Tech Activity */}
           {data.techActivity && (
-            <div className="rounded-2xl border-2 border-green-200 bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:border-green-800 dark:bg-slate-900/80">
+            <div className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-12 items-center justify-center rounded-full bg-green-500 text-white shadow-md">
+                <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
                   <Code2 className="size-6" />
                 </div>
-                <h2 className="font-bold text-2xl text-green-900 dark:text-green-100">
-                  💻 Tech Activity
+                <h2 className="font-bold text-2xl text-green-950 dark:text-white">
+                  Tech Activity
                 </h2>
               </div>
 
               <h3 className="mb-4 font-bold text-xl">{data.techActivity.title}</h3>
 
-              <div className="mb-6 flex flex-wrap gap-3">
+             {/*  <div className="mb-6 flex flex-wrap gap-3">
                 {data.techActivity.duration && (
                   <Badge variant="outline">⏱️ {data.techActivity.duration}</Badge>
                 )}
@@ -130,7 +132,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     {data.techActivity.difficulty.toUpperCase()}
                   </Badge>
                 )}
-              </div>
+              </div> */}
 
               {data.techActivity.objectives && data.techActivity.objectives.length > 0 && (
                 <div className="mb-6">
@@ -167,11 +169,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                               {example.filename || `${example.language || "code"}.${example.language || "txt"}`}
                             </span>
                           </div>
-                          {example.language && (
+                        {/*   {example.language && (
                             <Badge className="bg-slate-700 text-white" variant="outline">
                               {example.language}
                             </Badge>
-                          )}
+                          )} */}
                         </div>
                         <pre className="overflow-x-auto rounded-b-lg bg-slate-950 p-4">
                           <code className="font-mono text-xs text-green-400 lg:text-sm">
@@ -209,14 +211,14 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 )}
 
               {data.techActivity.hint && (
-                <div className="mb-6 rounded-lg border-2 border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950/30">
+                <div className="mb-6 rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                   <div className="flex items-start gap-2">
-                    <Lightbulb className="mt-1 size-5 text-yellow-600 dark:text-yellow-400" />
+                    <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
                     <div>
-                      <h4 className="mb-1 font-semibold text-yellow-900 dark:text-yellow-100">
+                      <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
                         Hint
                       </h4>
-                      <p className="text-yellow-800 dark:text-yellow-200">
+                      <p className="text-green-900 dark:text-amber-200">
                         {data.techActivity.hint}
                       </p>
                     </div>
@@ -228,15 +230,16 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 data.techActivity.solution.length > 0 && (
                   <div>
                     <button
-                      className="mb-4 w-full rounded-lg bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg"
+                      className="mb-4 w-full rounded-lg border-2 border-amber-300 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg"
                       onClick={() => setShowSolution(!showSolution)}
+                      style={{ backgroundColor: '#B91C1C', borderColor: '#D4AF37' }}
                       type="button"
                     >
                       {showSolution ? "🙈 Hide Solution" : "👁️ Show Solution"}
                     </button>
                     {showSolution && (
-                      <div className="rounded-lg border-2 border-green-200 bg-green-50 p-6 dark:border-green-800 dark:bg-green-950/30">
-                        <h4 className="mb-3 font-semibold text-green-900 dark:text-green-100">
+                      <div className="rounded-lg border-2 border-amber-300 bg-white/95 p-6 dark:border-amber-700 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+                        <h4 className="mb-3 font-semibold text-green-950 dark:text-white">
                           ✅ Solution
                         </h4>
                         <RichText richText={data.techActivity.solution} />
@@ -249,19 +252,19 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
           {/* Design Activity */}
           {data.designActivity && (
-            <div className="rounded-2xl border-2 border-purple-200 bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:border-purple-800 dark:bg-slate-900/80">
+            <div className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-12 items-center justify-center rounded-full bg-purple-500 text-white shadow-md">
+                <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
                   <Palette className="size-6" />
                 </div>
-                <h2 className="font-bold text-2xl text-purple-900 dark:text-purple-100">
-                  🎨 Design Activity
+                <h2 className="font-bold text-2xl text-green-950 dark:text-white">
+                  Design Activity
                 </h2>
               </div>
 
               <h3 className="mb-4 font-bold text-xl">{data.designActivity.title}</h3>
 
-              <div className="mb-6 flex flex-wrap gap-3">
+            {/*   <div className="mb-6 flex flex-wrap gap-3">
                 {data.designActivity.duration && (
                   <Badge variant="outline">⏱️ {data.designActivity.duration}</Badge>
                 )}
@@ -275,7 +278,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     {data.designActivity.difficulty.toUpperCase()}
                   </Badge>
                 )}
-              </div>
+              </div> */}
 
               {data.designActivity.objectives &&
                 data.designActivity.objectives.length > 0 && (
@@ -353,14 +356,14 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 )}
 
               {data.designActivity.hint && (
-                <div className="rounded-lg border-2 border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-950/30">
+                <div className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                   <div className="flex items-start gap-2">
-                    <Lightbulb className="mt-1 size-5 text-yellow-600 dark:text-yellow-400" />
+                    <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
                     <div>
-                      <h4 className="mb-1 font-semibold text-yellow-900 dark:text-yellow-100">
+                      <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
                         Hint
                       </h4>
-                      <p className="text-yellow-800 dark:text-yellow-200">
+                      <p className="text-green-900 dark:text-amber-200">
                         {data.designActivity.hint}
                       </p>
                     </div>
@@ -373,8 +376,8 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
         {/* Conclusion */}
         {data.conclusion && data.conclusion.length > 0 && (
-          <div className="mt-16 rounded-2xl bg-gradient-to-br from-green-100 to-blue-100 p-8 shadow-xl dark:from-green-950/30 dark:to-blue-950/30">
-            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl">
+          <div className="mt-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
               🎯 Conclusion
             </h2>
             <RichText richText={data.conclusion} />

@@ -2,7 +2,6 @@
 
 import { Badge } from "@workspace/ui/components/badge";
 import { cn } from "@workspace/ui/lib/utils";
-import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -36,7 +35,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
   const startDate = data.startDate ? new Date(data.startDate) : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-green-50 to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <Snowflakes />
@@ -62,27 +61,49 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             </div>
           
 
-            <h1 className="mb-4 text-balance bg-gradient-to-r from-red-600 via-green-600 to-blue-600 bg-clip-text font-bold text-5xl tracking-tight text-transparent md:text-7xl">
+          {/*   <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              color: '#B91C1C',
+              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
+            }}>
               🎄 {data.title}🎄
-            </h1>
+            </h1> */}
+           {/*    <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              color: '#B91C1C',
+              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
+            }}>
+              Sanity julekalender 2025 <br />
+              - Velkommen 🎄
+            </h1> */}
 
-            {data.description && (
-              <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-                {data.description}
-              </p>
-            )}
+              <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              color: '#B91C1C',
+              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
+            }}>
+              ssssj...<br />
+              Velkommen til <br/><span className="underline">S</span>arahs <span className="underline">S</span>opra <span className="underline">S</span>teria <span className="underline">S</span>anity <br/>julekalender! 🎄
+            </h1>
 
             {/* Countdown */}
             {daysUntilStart !== null && daysUntilStart > 0 && (
-              <div className="mb-8 inline-block rounded-full bg-gradient-to-r from-green-600 to-blue-600 p-1 shadow-lg">
-                <div className="rounded-full bg-white px-8 py-4 dark:bg-slate-950">
-                  <p className="text-center font-bold text-lg text-slate-900 dark:text-white">
+              <div className="mb-8 inline-block rounded-full border-2 border-amber-300 bg-amber-200/20 p-1 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
+                <div className="rounded-full bg-white/95 px-8 py-4 dark:bg-green-950/90">
+                  <p className="text-center font-bold text-lg text-green-950 dark:text-white">
                     {daysUntilStart === 1
                       ? "Starting Tomorrow! 🎉"
                       : `${daysUntilStart} Days Until Start! ⏰`}
                   </p>
                 </div>
               </div>
+            )}
+
+              {data.description && (<>
+              <p className="mb-8 text-lg text-white/90 md:text-xl">
+                {data.description}
+              </p>
+              <div className="mb-8 text-lg text-white/90 md:text-xl">
+              <RichText className="text-left" richText={data.introContent} />
+              </div>
+              </>
             )}
 
             {/* Cover Image */}
@@ -101,11 +122,11 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             )}
 
             {/* Introduction Content */}
-            {data.introContent && data.introContent.length > 0 && (
-              <div className="mb-16 rounded-2xl bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:bg-slate-900/80">
+         {/*    {data.introContent && data.introContent.length > 0 && (
+              <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
                 <RichText className="text-left" richText={data.introContent} />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </section>
@@ -113,8 +134,9 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
       {/* Calendar Grid */}
       <section className="relative pb-24">
         <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center font-bold text-3xl md:text-4xl">
-            ✨ Daily Challenges ✨
+          <h2 className="mb-12 text-center font-bold text-3xl text-white md:text-4xl">
+          {/*   ✨ Daily Challenges ✨ */}
+            ✨ Kalenderluker ✨
           </h2>
 
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -143,18 +165,20 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                     className={cn(
                       "relative flex h-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all duration-300",
                       isAvailable
-                        ? "border-green-300 bg-gradient-to-br from-green-50 to-blue-50 shadow-lg hover:scale-105 hover:shadow-2xl dark:border-green-600 dark:from-green-950/30 dark:to-blue-950/30"
-                        : "border-slate-300 bg-gradient-to-br from-slate-100 to-slate-200 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900"
+                        ? "border-amber-300 bg-white/95 shadow-lg hover:scale-105 hover:shadow-2xl dark:border-amber-700 dark:bg-green-900/40"
+                        : "border-slate-500 bg-slate-700/50 dark:border-slate-600 dark:bg-slate-800/50"
                     )}
+                    style={isAvailable ? { borderColor: '#D4AF37' } : {}}
                   >
                     {/* Day Number */}
                     <div
                       className={cn(
                         "flex size-12 items-center justify-center rounded-full text-2xl font-bold transition-all",
                         isAvailable
-                          ? "bg-gradient-to-br from-green-500 to-blue-500 text-white shadow-md group-hover:scale-110"
-                          : "bg-slate-400 text-white"
+                          ? "bg-red-700 text-white shadow-md group-hover:scale-110"
+                          : "bg-slate-500 text-white"
                       )}
+                      style={isAvailable ? { backgroundColor: '#B91C1C' } : {}}
                     >
                       {day.dayNumber}
                     </div>
@@ -179,8 +203,8 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                       className={cn(
                         "line-clamp-2 text-center text-xs font-semibold transition-colors",
                         isAvailable
-                          ? "text-slate-900 group-hover:text-green-600 dark:text-white dark:group-hover:text-green-400"
-                          : "text-slate-500 dark:text-slate-400"
+                          ? "text-green-950 group-hover:text-red-700 dark:text-white dark:group-hover:text-red-400"
+                          : "text-slate-400 dark:text-slate-500"
                       )}
                     >
                       {day.title}
@@ -188,7 +212,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
                     {/* Reward Badge */}
                     {day.reward && isAvailable && (
-                      <Badge className="bg-gradient-to-r from-yellow-400 to-orange-400 text-xs">
+                      <Badge className="border-2 border-amber-300 bg-amber-200/90 text-xs text-green-950" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                         🎁 {day.reward}
                       </Badge>
                     )}
@@ -203,7 +227,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                     {/* Shine effect on hover */}
                     {isAvailable && (
                       <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity group-hover:opacity-100">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-green-400 via-blue-400 to-green-400 opacity-75 blur-xl"></div>
+                        <div className="absolute -inset-1 opacity-75 blur-xl" style={{ background: 'linear-gradient(to right, #D4AF37, #F5DEB3, #D4AF37)' }}></div>
                       </div>
                     )}
                   </div>
@@ -214,7 +238,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
           {/* Empty state if no days */}
           {days.length === 0 && (
-            <div className="text-center text-muted-foreground">
+            <div className="text-center text-white/80">
               <p className="text-xl">🎄 Coming soon! 🎄</p>
               <p>Calendar days are being prepared...</p>
             </div>

@@ -1,6 +1,6 @@
 import "@workspace/ui/globals.css";
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inika } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
 import { Suspense } from "react";
@@ -23,6 +23,12 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 });
 
+const fontInika = Inika({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-inika",
+});
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +39,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} ${fontInika.variable} font-sans antialiased`}
       >
         <Providers>
           <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />

@@ -403,3 +403,125 @@ export const queryRedirects = defineQuery(`
     "permanent" : permanent == "true"
   }
 `);
+
+// Christmas Calendar queries
+const calendarDayFragment = /* groq */ `
+  dayNumber,
+  title,
+  description,
+  "slug": slug.current,
+  icon {
+    ${imageFields}
+  },
+  reward,
+  intro[]{
+    ...,
+    _type == "block" => {
+      ...,
+      ${markDefsFragment}
+    },
+    _type == "image" => {
+      ${imageFields},
+      "caption": caption
+    }
+  },
+  techActivity {
+    title,
+    duration,
+    difficulty,
+    objectives,
+    content[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+    },
+    codeExamples,
+    resources,
+    hint,
+    solution[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+    }
+  },
+  designActivity {
+    title,
+    duration,
+    difficulty,
+    objectives,
+    content[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+    },
+    designExamples[]{
+      ...,
+      ${imageFields},
+      caption
+    },
+    resources,
+    hint
+  },
+  sharedNotes[]{
+    ...,
+    _type == "block" => {
+      ...,
+      ${markDefsFragment}
+    },
+  },
+  conclusion[]{
+    ...,
+    _type == "block" => {
+      ...,
+      ${markDefsFragment}
+    },
+  }
+`;
+
+export const queryChristmasCalendarData = defineQuery(`
+  *[_type == "christmasCalendar"] | order(orderRank asc)[0]{
+    ...,
+    title,
+    description,
+    "slug": slug.current,
+    coverImage {
+      ${imageFields}
+    },
+    startDate,
+    introContent[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    },
+    "days": days[]-> {
+      ${calendarDayFragment}
+    }
+  }
+`);
+
+export const queryChristmasCalendarPaths = defineQuery(`
+  *[_type == "christmasCalendar" && defined(slug.current)].slug.current
+`);
+
+export const queryCalendarDayData = defineQuery(`
+  *[_type == "calendarDay" && slug.current == $slug][0]{
+    ...,
+    ${calendarDayFragment}
+  }
+`);
+
+export const queryCalendarDayPaths = defineQuery(`
+  *[_type == "calendarDay" && defined(slug.current)].slug.current
+`);

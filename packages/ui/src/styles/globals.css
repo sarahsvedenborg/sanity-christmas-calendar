@@ -124,6 +124,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-inika), var(--font-sans), sans-serif;
+  }
 }
 
 img {
@@ -133,4 +136,21 @@ img {
   height: auto;
   object-fit: cover;
   border-radius: var(--radius-md);
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-snowfall {
+    animation: snowfall linear infinite;
+  }
 }

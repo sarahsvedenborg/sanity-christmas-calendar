@@ -43,7 +43,7 @@ export default async function RootLayout({
       >
         <Providers>
 {/*           <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />  */}
-      {/*     <Navbar />  */}
+          <Navbar /> 
           {children}
         {/*   <Suspense fallback={<FooterSkeleton />}>
             <FooterServer />

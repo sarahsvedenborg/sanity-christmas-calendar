@@ -4,6 +4,7 @@ import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -16,6 +17,7 @@ import { SanityButtons } from "./elements/sanity-buttons";
 import { SanityIcon } from "./elements/sanity-icon";
 import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
+import { CalendarLogo } from "./CalendarLogo";
 
 // Type helpers using utility types
 type NavigationData = {
@@ -302,36 +304,64 @@ function NavbarSkeleton() {
 }
 
 export function Navbar() {
- 
-
- 
-
-
-
+  const pathname = usePathname();
+  // Show back button on day pages (any path that's not the root)
+  const isCalendarDayPage = pathname && pathname !== "/";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background-green-950 backdrop-blur-sm">
+    <header 
+      className="sticky top-0 z-40 w-full border-b border-amber-300/50 backdrop-blur-sm bg-gradient-to-r from-green-950  to-green-950" 
+     /*  style={{ 
+        background: 'linear-gradient(to bottom, rgb(3, 28, 17), rgb(5, 39, 20), rgb(3, 28, 17))',
+        borderColor: 'rgba(212, 175, 55, 0.3)'
+      }} */
+    >
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <div className="flex h-[40px] w-[120px] items-center">
-            <Logo />
-          {/* <img src="/logo.svg" alt="Logo" width={120} height={40} /> */}
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Back button (only on calendar day pages) */}
+          {isCalendarDayPage && (
+            <>
+             <div className="flex flex-1 items-center justify-center md:justify-start">
+            <Link className="flex items-center" href="/">
+            {/*   <img 
+                alt="Logo" 
+                className="h-10 w-auto" 
+                height={20}
+                src="/favicon.ico"
+                width={20}
+              /> */}
+              <div className="mb-[-60px]">
+                  <CalendarLogo width={100} height={100}/>
+                  </div>
+            </Link>
           </div>
+         {/*    <Link
+              className="flex items-center gap-2 text-white/80 transition-colors hover:text-white"
+              href="/"
+            >
+              <span className="text-xl">←</span>
+              <span className="hidden sm:inline">Tilbake til kalender</span>
+            </Link> */}
+            </>
+          )}
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 md:flex">
-          
-          </nav>
+          {/* Logo */}
+         {/*  <div className="flex flex-1 items-center justify-center md:justify-start">
+            <Link className="flex items-center" href="/">
+              <img 
+                alt="Logo" 
+                className="h-10 w-auto" 
+                height={40}
+                src="/favicon.ico"
+                width={40}
+              />
+            </Link>
+          </div> */}
 
-     
-
-   
-       
+          {/* Spacer for alignment when back button is present */}
+          {isCalendarDayPage && <div className="hidden sm:block w-[140px]" />}
         </div>
       </div>
-
-   
     </header>
   );
 }

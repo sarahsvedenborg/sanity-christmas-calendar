@@ -42,19 +42,20 @@ export default async function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} ${fontInika.variable} font-sans antialiased`}
       >
         <Providers>
-          <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />
+{/*           <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />  */}
+      {/*     <Navbar />  */}
           {children}
-          <Suspense fallback={<FooterSkeleton />}>
+        {/*   <Suspense fallback={<FooterSkeleton />}>
             <FooterServer />
-          </Suspense>
+          </Suspense> */}
           <SanityLive />
           <CombinedJsonLd includeOrganization includeWebsite />
-          {(await draftMode()).isEnabled && (
+        {/*   {(await draftMode()).isEnabled && (
             <>
               <PreviewBar />
               <VisualEditing />
             </>
-          )}
+          )} */}
         </Providers>
       </body>
     </html>

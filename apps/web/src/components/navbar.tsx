@@ -301,93 +301,37 @@ function NavbarSkeleton() {
   );
 }
 
-export function Navbar({
-  navbarData: initialNavbarData,
-  settingsData: initialSettingsData,
-}: NavigationData) {
-  const { data, error, isLoading } = useSWR<NavigationData>(
-    "/api/navigation",
-    fetcher,
-    {
-      fallbackData: {
-        navbarData: initialNavbarData,
-        settingsData: initialSettingsData,
-      },
-      revalidateOnFocus: false,
-      revalidateOnMount: false,
-      revalidateOnReconnect: true,
-      refreshInterval: 30_000,
-      errorRetryCount: 3,
-      errorRetryInterval: 5000,
-    }
-  );
+export function Navbar() {
+ 
 
-  const navigationData = data || {
-    navbarData: initialNavbarData,
-    settingsData: initialSettingsData,
-  };
-  const { navbarData, settingsData } = navigationData;
-  const { columns, buttons } = navbarData || {};
-  const { logo, siteTitle } = settingsData || {};
+ 
 
-  // Show skeleton only on initial mount when no fallback data is available
-  if (isLoading && !data && !(initialNavbarData && initialSettingsData)) {
-    return <NavbarSkeleton />;
-  }
+
+
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 w-full border-b bg-background-green-950 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex h-[40px] w-[120px] items-center">
-            {logo && (
-              <Logo
-                alt={siteTitle || ""}
-                height={40}
-                image={logo}
-                priority
-                width={120}
-              />
-            )}
+            <Logo />
+          {/* <img src="/logo.svg" alt="Logo" width={120} height={40} /> */}
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-1 md:flex">
-            {columns?.map((column) => {
-              if (column.type === "column") {
-                return (
-                  <DesktopColumnDropdown column={column} key={column._key} />
-                );
-              }
-              if (column.type === "link") {
-                return <DesktopColumnLink column={column} key={column._key} />;
-              }
-              return null;
-            })}
+          
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden items-center gap-4 md:flex">
-            <ModeToggle />
-            <SanityButtons
-              buttonClassName="rounded-lg"
-              buttons={buttons || []}
-              className="flex items-center gap-2"
-            />
-          </div>
+     
 
-          {/* Mobile Menu */}
-          <MobileMenu navbarData={navbarData} settingsData={settingsData} />
+   
+       
         </div>
       </div>
 
-      {/* Error boundary for SWR */}
-      {error && process.env.NODE_ENV === "development" && (
-        <div className="border-destructive/20 border-b bg-destructive/10 px-4 py-2 text-destructive text-xs">
-          Navigation data fetch error: {error.message}
-        </div>
-      )}
+   
     </header>
   );
 }

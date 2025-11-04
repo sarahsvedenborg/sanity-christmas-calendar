@@ -54,7 +54,7 @@ export const calendarDay = defineType({
     documentSlugField("calendarDay", {
       group: GROUP.MAIN_CONTENT,
     }),
-    defineField({
+ /*    defineField({
       name: "icon",
       title: "Icon",
       description: "A visual icon representing this day's theme",
@@ -63,8 +63,8 @@ export const calendarDay = defineType({
       options: {
         hotspot: true,
       },
-    }),
-    defineField({
+    }), */
+ /*    defineField({
       name: "reward",
       title: "🎁 Reward/Unlock",
       description:
@@ -72,7 +72,7 @@ export const calendarDay = defineType({
       type: "text",
       rows: 1,
       group: GROUP.MAIN_CONTENT,
-    }),
+    }), */
     defineField({
       name: "intro",
       title: "Introduction",
@@ -96,14 +96,14 @@ export const calendarDay = defineType({
           description: "Name of this tech task",
           validation: (Rule) => Rule.required(),
         }),
-        defineField({
+      /*   defineField({
           name: "duration",
           type: "string",
           title: "Estimated Duration",
           description:
             "How long this task typically takes (e.g., '45 minutes')",
-        }),
-        defineField({
+        }), */
+    /*     defineField({
           name: "difficulty",
           type: "string",
           title: "Difficulty Level",
@@ -116,7 +116,7 @@ export const calendarDay = defineType({
             layout: "radio",
           },
           initialValue: "beginner",
-        }),
+        }), */
         defineField({
           name: "objectives",
           title: "Learning Objectives",
@@ -184,6 +184,11 @@ export const calendarDay = defineType({
             }),
           ],
         }),
+         defineField({
+      name: "handIn",
+      title: "Hand ins",
+      type: "richText",
+    }),
         defineField({
           name: "resources",
           title: "Resources",
@@ -217,20 +222,20 @@ export const calendarDay = defineType({
             }),
           ],
         }),
-        defineField({
+      /*   defineField({
           name: "hint",
           title: "💡 Hint",
           type: "text",
           description: "Optional hint if users get stuck",
           rows: 2,
-        }),
-        defineField({
+        }), */
+      /*   defineField({
           name: "solution",
           title: "✅ Solution",
           description:
             "The complete solution (hidden by default, shown when users need help)",
           type: "richText",
-        }),
+        }), */
       ],
       preview: {
         select: {
@@ -259,13 +264,13 @@ export const calendarDay = defineType({
           description: "Name of this design task",
           validation: (Rule) => Rule.required(),
         }),
-        defineField({
+      /*   defineField({
           name: "duration",
           type: "string",
           title: "Estimated Duration",
           description: "How long this task typically takes",
-        }),
-        defineField({
+        }), */
+      /*   defineField({
           name: "difficulty",
           type: "string",
           title: "Difficulty Level",
@@ -278,7 +283,7 @@ export const calendarDay = defineType({
             layout: "radio",
           },
           initialValue: "beginner",
-        }),
+        }), */
         defineField({
           name: "objectives",
           title: "Learning Objectives",
@@ -293,7 +298,7 @@ export const calendarDay = defineType({
             "Step-by-step instructions for completing the design task",
           type: "richText",
         }),
-        defineField({
+      /*   defineField({
           name: "designExamples",
           title: "Design Examples",
           description: "Images showing examples or inspiration",
@@ -314,7 +319,12 @@ export const calendarDay = defineType({
               ],
             }),
           ],
-        }),
+        }), */
+         defineField({
+      name: "handIn",
+      title: "Hand ins",
+      type: "richText",
+    }),
         defineField({
           name: "resources",
           title: "Resources",
@@ -348,13 +358,13 @@ export const calendarDay = defineType({
             }),
           ],
         }),
-        defineField({
+     /*    defineField({
           name: "hint",
           title: "💡 Hint",
           type: "text",
           description: "Optional hint if users get stuck",
           rows: 2,
-        }),
+        }), */
       ],
       preview: {
         select: {
@@ -368,21 +378,21 @@ export const calendarDay = defineType({
         }),
       },
     }),
-    defineField({
+ /*    defineField({
       name: "sharedNotes",
       title: "📝 Shared Notes",
       description: "Important information for both tech and design tracks",
       type: "richText",
       group: GROUP.MAIN_CONTENT,
-    }),
-    defineField({
+    }), */
+  /*   defineField({
       name: "conclusion",
       title: "Conclusion",
       description:
         "A summary of what was learned and how it sets up the next day",
       type: "richText",
       group: GROUP.MAIN_CONTENT,
-    }),
+    }), */
     ...seoFields,
   ],
   preview: {

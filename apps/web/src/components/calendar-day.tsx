@@ -58,20 +58,20 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
             {data.title}
           </h1>
 
-          {data.description && (
+        {/*   {data.description && (
             <p className="mx-auto max-w-2xl text-lg text-white/90">
               {data.description}
             </p>
-          )}
+          )} */}
 
-          {data.reward && (
+         {/*  {data.reward && (
             <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
               <p className="flex items-center gap-2 font-bold text-green-950">
                 <span className="text-2xl">🎁</span>
                 <span>Reward: {data.reward}</span>
               </p>
             </div>
-          )}
+          )} */}
 
           {data.icon && (
             <div className="mt-8 flex justify-center">
@@ -86,11 +86,22 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
         </div>
 
         {/* Introduction */}
-        {data.intro && data.intro.length > 0 && (
+       {/*   {data.intro && data.intro.length > 0 && (
           <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-            <RichText className="text-left" richText={data.intro} />
+           
+            <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                    <BookOpen className="size-5" />
+                    Learning Objectives:   <span className="prose">{data.description}</span>
+                  </h4>
           </div>
-        )}
+        )}  */}
+
+          {data.intro && data.intro.length > 0 && (
+          <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+           <h2 className="font-bold text-3xl text-green-950 dark:text-white">Felles intro</h2>
+           <RichText className="text-left" richText={data.intro} />
+          </div>
+        )} 
 
         {/* Shared Notes */}
         {data.sharedNotes && data.sharedNotes.length > 0 && (
@@ -111,12 +122,12 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
                   <Code2 className="size-6" />
                 </div>
-                <h2 className="font-bold text-2xl text-green-950 dark:text-white">
-                  Tech Activity
+                <h2 className="font-bold text-3xl text-green-950 dark:text-white">
+                  Tech-oppgave <br/> {/* {data.techActivity.title} */}
                 </h2>
               </div>
 
-              <h3 className="mb-4 font-bold text-xl">{data.techActivity.title}</h3>
+             {/*  <h3 className="mb-4 font-bold text-xl">{data.techActivity.title}</h3> */}
 
              {/*  <div className="mb-6 flex flex-wrap gap-3">
                 {data.techActivity.duration && (
@@ -136,10 +147,10 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
               {data.techActivity.objectives && data.techActivity.objectives.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                  <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
                     <BookOpen className="size-5" />
-                    Learning Objectives
-                  </h4>
+                    Læringsmål
+                  </h3>
                   <ul className="space-y-2">
                     {data.techActivity.objectives.map((objective, idx) => (
                       <li key={idx} className="flex items-start gap-2">
@@ -151,8 +162,21 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 </div>
               )}
 
+
+                        {data.techActivity.handIn && data.techActivity.handIn?.length > 0 && (
+          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              Innlevering
+            </h3>
+            <RichText richText={data.techActivity.handIn} />
+          </div>
+        )}
+
               {data.techActivity.content && data.techActivity.content.length > 0 && (
                 <div className="mb-6">
+                   <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+                      Oppgave
+                    </h3>
                   <RichText richText={data.techActivity.content} />
                 </div>
               )}
@@ -185,13 +209,14 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                   </div>
                 )}
 
+
               {data.techActivity.resources &&
                 data.techActivity.resources.length > 0 && (
                   <div className="mb-6">
-                    <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
                       <LinkIcon className="size-5" />
-                      Resources
-                    </h4>
+                      Ressurser
+                    </h3>
                     <ul className="space-y-2">
                       {data.techActivity.resources.map((resource) => (
                         <li key={resource._key}>
@@ -209,7 +234,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     </ul>
                   </div>
                 )}
-
+{/* 
               {data.techActivity.hint && (
                 <div className="mb-6 rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                   <div className="flex items-start gap-2">
@@ -224,9 +249,9 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
-              {data.techActivity.solution &&
+            {/*   {data.techActivity.solution &&
                 data.techActivity.solution.length > 0 && (
                   <div>
                     <button
@@ -246,7 +271,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                       </div>
                     )}
                   </div>
-                )}
+                )} */}
             </div>
           )}
 
@@ -257,12 +282,12 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                 <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
                   <Palette className="size-6" />
                 </div>
-                <h2 className="font-bold text-2xl text-green-950 dark:text-white">
-                  Design Activity
+                <h2 className="font-bold text-3xl text-green-950 dark:text-white">
+                  Designoppgave <br/> {/* {data.designActivity.title} */}
                 </h2>
               </div>
 
-              <h3 className="mb-4 font-bold text-xl">{data.designActivity.title}</h3>
+{/*               <h3 className="mb-4 font-bold text-2xl">{data.designActivity.title}</h3> */}
 
             {/*   <div className="mb-6 flex flex-wrap gap-3">
                 {data.designActivity.duration && (
@@ -283,10 +308,10 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               {data.designActivity.objectives &&
                 data.designActivity.objectives.length > 0 && (
                   <div className="mb-6">
-                    <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
                       <BookOpen className="size-5" />
-                      Learning Objectives
-                    </h4>
+                      Læringsmål
+                    </h3>
                     <ul className="space-y-2">
                       {data.designActivity.objectives.map((objective, idx) => (
                         <li key={idx} className="flex items-start gap-2">
@@ -298,9 +323,21 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                   </div>
                 )}
 
+                   {data.designActivity?.handIn && data.designActivity?.handIn?.length > 0 && (
+          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              Innlevering
+            </h3>
+            <RichText richText={data.designActivity?.handIn} />
+          </div>
+        )}
+
               {data.designActivity.content &&
                 data.designActivity.content.length > 0 && (
                   <div className="mb-6">
+                     <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+                      Oppgave
+                    </h3>
                     <RichText richText={data.designActivity.content} />
                   </div>
                 )}
@@ -330,13 +367,15 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                   </div>
                 )}
 
+               
+
               {data.designActivity.resources &&
                 data.designActivity.resources.length > 0 && (
                   <div className="mb-6">
-                    <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
                       <LinkIcon className="size-5" />
-                      Resources
-                    </h4>
+                      Ressurser
+                    </h3>
                     <ul className="space-y-2">
                       {data.designActivity.resources.map((resource) => (
                         <li key={resource._key}>

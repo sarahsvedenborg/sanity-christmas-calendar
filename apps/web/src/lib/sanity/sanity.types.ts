@@ -2805,6 +2805,7 @@ export type QueryChristmasCalendarPathsResult = Array<string>;
 // Variable: queryCalendarDayData
 // Query: *[_type == "calendarDay" && slug.current == $slug][0]{    ...,      dayNumber,  title,  description,  "slug": slug.current,  icon {      "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  }  },  reward,  intro[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },    _type == "image" => {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      "caption": caption    }  },  techActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    codeExamples,    resources,    hint,    solution[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    }  },  designActivity {    title,    duration,    difficulty,    objectives,    content[]{      ...,      _type == "block" => {        ...,          markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }      },    },    designExamples[]{      ...,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot {    x,    y  },  crop {    bottom,    left,    right,    top  },      caption    },    resources,    hint  },  sharedNotes[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  },  conclusion[]{    ...,    _type == "block" => {      ...,        markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }    },  }  }
 export type QueryCalendarDayDataResult = {
+  handIn: unknown;
   _id: string;
   _type: "calendarDay";
   _createdAt: string;
@@ -2878,6 +2879,7 @@ export type QueryCalendarDayDataResult = {
     preview: string | null;
   }> | null;
   techActivity: {
+    handIn: any[];
     title: string;
     duration: string | null;
     difficulty: "advanced" | "beginner" | "intermediate" | null;
@@ -2970,6 +2972,7 @@ export type QueryCalendarDayDataResult = {
     }> | null;
   } | null;
   designActivity: {
+   handIn: any[];
     title: string;
     duration: string | null;
     difficulty: "advanced" | "beginner" | "intermediate" | null;

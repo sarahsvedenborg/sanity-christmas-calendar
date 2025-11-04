@@ -48,7 +48,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             {/* Calendar Icon */}
             <div className="mb-8 flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 animate-ping rounded-full bg-green-500 opacity-20"></div>
+                <div className="absolute inset-0 animate-ping rounded-full bg-green-600 opacity-20"></div>
               {/*   <div className="relative flex size-32 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-2xl">
                   <Sparkles className="size-16 text-white" />
 
@@ -75,7 +75,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               - Velkommen 🎄
             </h1> */}
 
-              <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg  md:text-7xl" style={{ 
               color: '#B91C1C',
               textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
             }}>
@@ -85,14 +85,24 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
             {/* Countdown */}
             {daysUntilStart !== null && daysUntilStart > 0 && (
-              <div className="mb-8 inline-block rounded-full border-2 border-amber-300 bg-amber-200/20 p-1 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-                <div className="rounded-full bg-white/95 px-8 py-4 dark:bg-green-950/90">
-                  <p className="text-center font-bold text-lg text-green-950 dark:text-white">
-                    {daysUntilStart === 1
-                      ? "Starting Tomorrow! 🎉"
-                      : `${daysUntilStart} Days Until Start! ⏰`}
-                  </p>
+              <div className="mb-20 mt-20 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-3 text-white">
+                {/*   <span className="text-5xl">⏰</span> */}
+                  <div className="flex flex-col items-center">
+                    <span className="text-7xl font-bold leading-none" style={{ color: '#D4AF37' }}>
+                      {daysUntilStart}
+                    </span>
+                    <span className="text-sm uppercase tracking-wider text-white/80">
+                      {daysUntilStart === 1 ? 'dag igjen' : 'dager igjen'}
+                    </span>
+                  </div>
+           {/*        <span className="text-5xl">🎄</span> */}
                 </div>
+                <p className="text-center text-xl font-semibold text-white/90">
+                  {daysUntilStart === 1
+                    ? "Starter i morgen! 🎉"
+                    : "Før kalenderen starter..."}
+                </p>
               </div>
             )}
 

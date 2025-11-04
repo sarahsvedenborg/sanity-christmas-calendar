@@ -446,7 +446,14 @@ const calendarDayFragment = /* groq */ `
         ...,
         ${markDefsFragment}
       },
-    }
+    },
+     handIn[]{
+    ...,
+    _type == "block" => {
+      ...,
+      ${markDefsFragment}
+    },
+  },
   },
   designActivity {
     title,
@@ -466,7 +473,14 @@ const calendarDayFragment = /* groq */ `
       caption
     },
     resources,
-    hint
+    hint,
+    handIn[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+    },
   },
   sharedNotes[]{
     ...,

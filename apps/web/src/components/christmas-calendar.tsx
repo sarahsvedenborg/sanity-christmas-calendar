@@ -67,21 +67,21 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             }}>
               🎄 {data.title}🎄
             </h1> */}
-           {/*    <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              <h1 className="mb-4 text-balance font-bold text-5xl line-height-1 tracking-tight drop-shadow-lg md:text-7xl" style={{ 
               color: '#B91C1C',
               textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
             }}>
-              Sanity julekalender 2025 <br />
+              Sanity julekalender <br />
               - Velkommen 🎄
-            </h1> */}
+            </h1> 
 
-              <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg  md:text-7xl" style={{ 
+         {/*      <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg  md:text-7xl" style={{ 
               color: '#B91C1C',
               textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
             }}>
               ssssj...<br />
               Velkommen til <br/><span className="underline">S</span>arahs <span className="underline">S</span>opra <span className="underline">S</span>teria <span className="underline">S</span>anity <br/>julekalender! 🎄
-            </h1>
+            </h1> */}
 
             {/* Countdown */}
             {daysUntilStart !== null && daysUntilStart > 0 && (

@@ -5,11 +5,11 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
 import { Suspense } from "react";
 import { preconnect } from "react-dom";
-import { FooterServer, FooterSkeleton } from "@/components/footer";
 import { CombinedJsonLd } from "@/components/json-ld";
 import { Navbar } from "@/components/navbar";
 import { PreviewBar } from "@/components/preview-bar";
 import { Providers } from "@/components/providers";
+import { SimpleFooter } from "@/components/simple-footer";
 import { getNavigationData } from "@/lib/navigation";
 import { SanityLive } from "@/lib/sanity/live";
 
@@ -45,9 +45,7 @@ export default async function RootLayout({
 {/*           <Navbar navbarData={nav.navbarData} settingsData={nav.settingsData} />  */}
           <Navbar /> 
           {children}
-        {/*   <Suspense fallback={<FooterSkeleton />}>
-            <FooterServer />
-          </Suspense> */}
+          <SimpleFooter />
           <SanityLive />
           <CombinedJsonLd includeOrganization includeWebsite />
         {/*   {(await draftMode()).isEnabled && (

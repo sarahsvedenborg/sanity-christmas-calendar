@@ -35,20 +35,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
       </div>
 
       <div className="container relative mx-auto max-w-6xl px-4 py-16">
-        {/* Back button */}
-        <Link
-          className="mb-8 inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
-          href={`/${calendarSlug}`}
-        >
-          <span className="text-2xl">←</span>
-          <span>Back to Calendar</span>
-        </Link>
-
         {/* Header */}
         <div className="mb-12 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-            <span className="text-2xl">🎄</span>
-            <span className="font-bold text-white">Day {data.dayNumber}</span>
+            <span className="text-2xl">{/* 🎄 */}🎁</span>
+            <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
           </div>
 
           <h1 className="mb-4 text-balance font-bold text-4xl tracking-tight drop-shadow-lg md:text-6xl" style={{ 
@@ -58,11 +49,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
             {data.title}
           </h1>
 
-        {/*   {data.description && (
+          {data.description && (
             <p className="mx-auto max-w-2xl text-lg text-white/90">
               {data.description}
             </p>
-          )} */}
+          )}
 
          {/*  {data.reward && (
             <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>

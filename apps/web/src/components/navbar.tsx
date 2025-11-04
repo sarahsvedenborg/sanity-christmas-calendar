@@ -4,6 +4,7 @@ import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -16,6 +17,7 @@ import { SanityButtons } from "./elements/sanity-buttons";
 import { SanityIcon } from "./elements/sanity-icon";
 import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
+import { CalendarLogo } from "./CalendarLogo";
 
 // Type helpers using utility types
 type NavigationData = {
@@ -301,93 +303,65 @@ function NavbarSkeleton() {
   );
 }
 
-export function Navbar({
-  navbarData: initialNavbarData,
-  settingsData: initialSettingsData,
-}: NavigationData) {
-  const { data, error, isLoading } = useSWR<NavigationData>(
-    "/api/navigation",
-    fetcher,
-    {
-      fallbackData: {
-        navbarData: initialNavbarData,
-        settingsData: initialSettingsData,
-      },
-      revalidateOnFocus: false,
-      revalidateOnMount: false,
-      revalidateOnReconnect: true,
-      refreshInterval: 30_000,
-      errorRetryCount: 3,
-      errorRetryInterval: 5000,
-    }
-  );
-
-  const navigationData = data || {
-    navbarData: initialNavbarData,
-    settingsData: initialSettingsData,
-  };
-  const { navbarData, settingsData } = navigationData;
-  const { columns, buttons } = navbarData || {};
-  const { logo, siteTitle } = settingsData || {};
-
-  // Show skeleton only on initial mount when no fallback data is available
-  if (isLoading && !data && !(initialNavbarData && initialSettingsData)) {
-    return <NavbarSkeleton />;
-  }
+export function Navbar() {
+  const pathname = usePathname();
+  // Show back button on day pages (any path that's not the root)
+  const isCalendarDayPage = pathname && pathname !== "/";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
+    <header 
+      className="sticky top-0 z-40 w-full border-b border-amber-300/50 backdrop-blur-sm bg-gradient-to-r from-green-950  to-green-950" 
+     /*  style={{ 
+        background: 'linear-gradient(to bottom, rgb(3, 28, 17), rgb(5, 39, 20), rgb(3, 28, 17))',
+        borderColor: 'rgba(212, 175, 55, 0.3)'
+      }} */
+    >
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Back button (only on calendar day pages) */}
+          {isCalendarDayPage && (
+            <>
+             <div className="flex flex-1 items-center justify-center md:justify-start">
+            <Link className="flex items-center" href="/">
+            {/*   <img 
+                alt="Logo" 
+                className="h-10 w-auto" 
+                height={20}
+                src="/favicon.ico"
+                width={20}
+              /> */}
+              <div className="mb-[-60px]">
+                  <CalendarLogo width={100} height={100}/>
+                  </div>
+            </Link>
+          </div>
+         {/*    <Link
+              className="flex items-center gap-2 text-white/80 transition-colors hover:text-white"
+              href="/"
+            >
+              <span className="text-xl">←</span>
+              <span className="hidden sm:inline">Tilbake til kalender</span>
+            </Link> */}
+            </>
+          )}
+
           {/* Logo */}
-          <div className="flex h-[40px] w-[120px] items-center">
-            {logo && (
-              <Logo
-                alt={siteTitle || ""}
+         {/*  <div className="flex flex-1 items-center justify-center md:justify-start">
+            <Link className="flex items-center" href="/">
+              <img 
+                alt="Logo" 
+                className="h-10 w-auto" 
                 height={40}
-                image={logo}
-                priority
-                width={120}
+                src="/favicon.ico"
+                width={40}
               />
-            )}
-          </div>
+            </Link>
+          </div> */}
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {columns?.map((column) => {
-              if (column.type === "column") {
-                return (
-                  <DesktopColumnDropdown column={column} key={column._key} />
-                );
-              }
-              if (column.type === "link") {
-                return <DesktopColumnLink column={column} key={column._key} />;
-              }
-              return null;
-            })}
-          </nav>
-
-          {/* Desktop Actions */}
-          <div className="hidden items-center gap-4 md:flex">
-            <ModeToggle />
-            <SanityButtons
-              buttonClassName="rounded-lg"
-              buttons={buttons || []}
-              className="flex items-center gap-2"
-            />
-          </div>
-
-          {/* Mobile Menu */}
-          <MobileMenu navbarData={navbarData} settingsData={settingsData} />
+          {/* Spacer for alignment when back button is present */}
+          {isCalendarDayPage && <div className="hidden sm:block w-[140px]" />}
         </div>
       </div>
-
-      {/* Error boundary for SWR */}
-      {error && process.env.NODE_ENV === "development" && (
-        <div className="border-destructive/20 border-b bg-destructive/10 px-4 py-2 text-destructive text-xs">
-          Navigation data fetch error: {error.message}
-        </div>
-      )}
     </header>
   );
 }

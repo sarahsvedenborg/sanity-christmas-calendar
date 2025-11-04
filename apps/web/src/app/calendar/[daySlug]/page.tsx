@@ -51,7 +51,7 @@ export default async function CalendarDayPage({
   const calendarSlug = "christmas-calendar"; // This should be dynamic
 
   return (
-    <main className="pb-16">
+    <main className="">
       <CalendarDay calendarSlug={calendarSlug} data={dayData} />
     </main>
   );

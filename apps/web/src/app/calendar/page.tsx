@@ -54,7 +54,7 @@ export default async function CalendarPage() {
   }
 
   return (
-    <main className="pb-16">
+    <main className="">
       <ChristmasCalendar data={calendarData} />
     </main>
   );

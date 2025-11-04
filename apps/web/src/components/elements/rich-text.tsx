@@ -13,6 +13,7 @@ import { SanityImage } from "./sanity-image";
 
 const components: Partial<PortableTextReactComponents> = {
   block: {
+    normal: ({ children }) => <p className="mb-4">{children}</p>,
     h2: ({ children, value }) => {
       const slug = parseChildrenToSlug(value.children);
       return (
@@ -57,7 +58,17 @@ const components: Partial<PortableTextReactComponents> = {
       );
     },
   },
+  list: {
+    bullet: ({ children }) => <ul className="mb-4 ml-6 list-disc space-y-2">{children}</ul>,
+    number: ({ children }) => <ol className="mb-4 ml-6 list-decimal space-y-2">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li>{children}</li>,
+    number: ({ children }) => <li>{children}</li>,
+  },
   marks: {
+    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+    em: ({ children }) => <em className="italic">{children}</em>,
     code: ({ children }) => (
       <code className="rounded-md border border-white/10 bg-opacity-5 p-1 text-sm lg:whitespace-nowrap">
         {children}

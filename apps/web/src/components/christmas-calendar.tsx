@@ -98,20 +98,20 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                   </div>
            {/*        <span className="text-5xl">🎄</span> */}
                 </div>
-                <p className="text-center text-xl font-semibold text-white/90">
+              {/*   <p className="text-center text-xl font-semibold text-white/90">
                   {daysUntilStart === 1
                     ? "Starter i morgen! 🎉"
-                    : "Før kalenderen starter..."}
-                </p>
+                    : "til kalenderen starter..."}
+                </p> */}
               </div>
             )}
 
               {data.description && (<>
-              <p className="mb-8 text-lg text-white/90 md:text-xl">
+              {/* <p className="mb-8 text-lg text-white/90 max-w-3xl mx-auto text-left md:text-xl">
                 {data.description}
-              </p>
+              </p> */}
               <div className="mb-8 text-lg text-white/90 md:text-xl">
-              <RichText className="text-left" richText={data.introContent} />
+              <RichText className="text-left max-w-3xl mx-auto" richText={data.introContent} />
               </div>
               </>
             )}

@@ -12,6 +12,7 @@ import {
   PanelBottom,
   PanelBottomIcon,
   Settings2,
+  TagIcon,
   TrendingUpDown,
   User,
 } from "lucide-react";
@@ -138,6 +139,12 @@ export const structure = (
         index: { type: "christmasCalendar", icon: Calendar },
         list: { type: "calendarDay", title: "Days", icon: CalendarDays },
         context,
+      }),
+      createList({
+        S,
+        type: "dayCategory",
+        title: "Day Categories",
+        icon: TagIcon,
       }),
       S.divider(),
       S.listItem()

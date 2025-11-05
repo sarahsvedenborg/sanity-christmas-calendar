@@ -51,6 +51,15 @@ export const calendarDay = defineType({
         "A brief summary of what users will learn today (appears in previews)",
       group: GROUP.MAIN_CONTENT,
     }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "dayCategory" }],
+      description: "The category this day belongs to",
+      group: GROUP.MAIN_CONTENT,
+      validation: (Rule) => Rule.required().error("A category is required"),
+    }),
     documentSlugField("calendarDay", {
       group: GROUP.MAIN_CONTENT,
     }),

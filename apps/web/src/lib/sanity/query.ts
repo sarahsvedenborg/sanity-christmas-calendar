@@ -410,6 +410,18 @@ const calendarDayFragment = /* groq */ `
   title,
   description,
   "slug": slug.current,
+  isBreak,
+  breakContent[]{
+    ...,
+    _type == "block" => {
+      ...,
+      ${markDefsFragment}
+    },
+    _type == "image" => {
+      ${imageFields},
+      "caption": caption
+    }
+  },
   icon {
     ${imageFields}
   },

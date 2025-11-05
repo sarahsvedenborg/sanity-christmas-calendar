@@ -60,6 +60,22 @@ export const calendarDay = defineType({
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category is required"),
     }),
+    defineField({
+      name: "isBreak",
+      title: "Is Break Day",
+      type: "boolean",
+      description: "Toggle this if this day is a break day (no activities)",
+      group: GROUP.MAIN_CONTENT,
+      initialValue: false,
+    }),
+    defineField({
+      name: "breakContent",
+      title: "Break Day Content",
+      type: "richText",
+      description: "Content to display when this is a break day",
+      group: GROUP.MAIN_CONTENT,
+      hidden: ({ parent }) => !parent?.isBreak,
+    }),
     documentSlugField("calendarDay", {
       group: GROUP.MAIN_CONTENT,
     }),

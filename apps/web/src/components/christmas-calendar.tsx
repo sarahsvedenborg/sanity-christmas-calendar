@@ -10,6 +10,7 @@ import type { QueryChristmasCalendarDataResult } from "@/lib/sanity/sanity.types
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { CalendarLogo } from "./CalendarLogo";
+import { CalendarLogoGold } from "./CalendarLogoGold";
 
 type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 
@@ -184,15 +185,22 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                 return (
                   <div key={group.category._id} className="space-y-6">
                     {/* Category Header */}
-                    <div className="text-center">
-                      <h3 className="text-2xl font-bold text-white md:text-3xl">
-                        {group.category.title}
-                      </h3>
-                      {group.category.description && (
-                        <p className="mt-2 text-white/80">
-                          {group.category.description}
-                        </p>
-                      )}
+                    <div className="flex  gap-4">
+                      {/* CalendarLogo at top left */}
+                     {/*  <div className="flex-shrink-0">
+                        <CalendarLogo width={80} height={80} />
+                      </div> */}
+                      {/* Category Title and Description */}
+                      <div className="flex-1 text-center">
+                        <h3 className="text-2xl font-bold text-white md:text-3xl">
+                          {group.category.title}
+                        </h3>
+                        {group.category.description && (
+                          <p className="mt-2 text-white/80">
+                            {group.category.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     {/* Days Grid for this Category */}
@@ -200,6 +208,9 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                       className="rounded-2xl p-6"
                       style={{ backgroundColor: categoryBgColor }}
                     >
+                         <div className="mt-[-60px] ml-[-60px]">
+                        <CalendarLogoGold width={60} height={60} />
+                      </div> 
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                         {group.days.map((day) => {
                           if (!day) return null;

@@ -422,6 +422,11 @@ const calendarDayFragment = /* groq */ `
       "caption": caption
     }
   },
+  "category": category-> {
+    _id,
+    title,
+    description
+  },
   icon {
     ${imageFields}
   },

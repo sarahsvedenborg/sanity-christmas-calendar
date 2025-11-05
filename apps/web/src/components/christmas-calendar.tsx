@@ -35,9 +35,25 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
   const days = data.days || [];
   const startDate = data.startDate ? new Date(data.startDate) : null;
 
+  console.log("days", days);
+
   // Group days by category
   const groupedDays = days.reduce((acc, day) => {
-    if (!day || !(day as any).category) return acc;
+    if (!day) return acc;
+    
+    // Handle days without categories
+    if (!(day as any).category) {
+      const uncategorizedId = 'uncategorized';
+      if (!acc[uncategorizedId]) {
+        acc[uncategorizedId] = {
+          category: { _id: uncategorizedId, title: 'Other Days', description: null },
+          days: [],
+        };
+      }
+      acc[uncategorizedId].days.push(day);
+      return acc;
+    }
+    
     const categoryId = (day as any).category._id;
     if (!acc[categoryId]) {
       acc[categoryId] = {
@@ -176,11 +192,19 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             <div className="mx-auto max-w-6xl space-y-12">
               {categories.map((group) => {
                 const categoryColor = categoryColorMap.get(group.category._id) || '#D4AF37';
-                const categoryBgColor = categoryColor === '#CD7F32' 
-                  ? 'rgba(205, 127, 50, 0.15)' // Bronze
+           /*      const categoryBgColor = categoryColor === '#CD7F32' 
+                  ? 'rgba(205, 127, 50, 0.5)' // Bronze
                   : categoryColor === '#C0C0C0'
-                  ? 'rgba(192, 192, 192, 0.15)' // Silver
-                  : 'rgba(255, 215, 0, 0.15)'; // Gold
+                  ? 'rgba(192, 192, 192, 0.9)' // Silver
+                  : 'rgba(255, 215, 0, 0.5)'; // Gold */
+
+                   const categoryBgColor = categoryColor === '#CD7F32' 
+                  ? '#E5B18E' // Bronze
+                  : categoryColor === '#C0C0C0'
+                  ? '#D9D9D9' // Silver
+                  : '#E5C68D'; // Gold 
+
+                  
 
                 return (
                   <div key={group.category._id} className="space-y-6">
@@ -215,7 +239,8 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                         {group.days.map((day) => {
                           if (!day) return null;
 
-                          const isAvailable = canOpenDay(
+                          const isBreak = (day as any).isBreak || false;
+                          const isAvailable = isBreak || canOpenDay(
                             day.dayNumber,
                             startDate
                           );
@@ -229,7 +254,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                                   ? "cursor-pointer"
                                   : "cursor-not-allowed opacity-50"
                               )}
-                              href={isAvailable ? `/${data.slug}/${day.slug}` : "#"}
+                              href={isAvailable ? `/${day.slug}` : "#"}
                               key={day.dayNumber}
                             >
                               {/* Card */}
@@ -282,8 +307,15 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                                   {day.title}
                                 </p>
 
+                                {/* Break Day Badge */}
+                                {isBreak && (
+                                  <Badge className="border-2 bg-blue-200/90 text-xs text-green-950" style={{ borderColor: '#3B82F6', backgroundColor: '#DBEAFE' }}>
+                                    🛑 Break Day
+                                  </Badge>
+                                )}
+
                                 {/* Reward Badge */}
-                                {day.reward && isAvailable && (
+                                {day.reward && isAvailable && !isBreak && (
                                   <Badge className="border-2 bg-amber-200/90 text-xs text-green-950" style={{ borderColor: categoryColor, backgroundColor: '#F5DEB3' }}>
                                     🎁 {day.reward}
                                   </Badge>
@@ -318,7 +350,8 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               {days.map((day) => {
                 if (!day) return null;
 
-                const isAvailable = canOpenDay(
+                const isBreak = (day as any).isBreak || false;
+                const isAvailable = isBreak || canOpenDay(
                   day.dayNumber,
                   startDate
                 );
@@ -385,8 +418,15 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                         {day.title}
                       </p>
 
+                      {/* Break Day Badge */}
+                      {isBreak && (
+                        <Badge className="border-2 bg-blue-200/90 text-xs text-green-950" style={{ borderColor: '#3B82F6', backgroundColor: '#DBEAFE' }}>
+                          🛑 Break Day
+                        </Badge>
+                      )}
+
                       {/* Reward Badge */}
-                      {day.reward && isAvailable && (
+                      {day.reward && isAvailable && !isBreak && (
                         <Badge className="border-2 border-amber-300 bg-amber-200/90 text-xs text-green-950" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                           🎁 {day.reward}
                         </Badge>

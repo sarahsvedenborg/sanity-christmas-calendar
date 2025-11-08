@@ -76,6 +76,13 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           )}
         </div>
 
+        {/* Break Day Content */}
+        {(data as any).isBreak && (data as any).breakContent && (data as any).breakContent.length > 0 && (
+          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <RichText richText={(data as any).breakContent} />
+          </div>
+        )}
+
         {/* Introduction */}
        {/*   {data.intro && data.intro.length > 0 && (
           <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
@@ -104,10 +111,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           </div>
         )}
 
-        {/* Two Column Layout for Tech and Design */}
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Tech Activity */}
-          {data.techActivity && (
+        {/* Two Column Layout for Tech and Design - Only show if not a break day */}
+        {!(data as any).isBreak && (
+          <div className="grid gap-8 md:grid-cols-2">
+            {/* Tech Activity */}
+            {data.techActivity && (
             <div className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
               <div className="mb-6 flex items-center gap-3">
                 <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
@@ -402,7 +410,8 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               )}
             </div>
           )}
-        </div>
+          </div>
+        )}
 
         {/* Conclusion */}
         {data.conclusion && data.conclusion.length > 0 && (

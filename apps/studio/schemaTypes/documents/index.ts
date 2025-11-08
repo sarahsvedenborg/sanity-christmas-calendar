@@ -3,6 +3,7 @@ import { blog } from "./blog";
 import { blogIndex } from "./blog-index";
 import { calendarDay } from "./calendar-day";
 import { christmasCalendar } from "./christmas-calendar";
+import { dayCategory } from "./day-category";
 import { faq } from "./faq";
 import { footer } from "./footer";
 import { homePage } from "./home-page";
@@ -20,6 +21,7 @@ export const documents = [
   author,
   christmasCalendar,
   calendarDay,
+  dayCategory,
   ...singletons,
   redirect,
 ];

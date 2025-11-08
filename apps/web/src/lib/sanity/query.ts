@@ -549,7 +549,17 @@ export const queryChristmasCalendarPaths = defineQuery(`
 export const queryCalendarDayData = defineQuery(`
   *[_type == "calendarDay" && slug.current == $slug][0]{
     ...,
-    ${calendarDayFragment}
+    ${calendarDayFragment},
+    "previousDay": *[_type == "calendarDay" && dayNumber < ^.dayNumber] | order(dayNumber desc)[0] {
+      dayNumber,
+      title,
+      "slug": slug.current
+    },
+    "nextDay": *[_type == "calendarDay" && dayNumber > ^.dayNumber] | order(dayNumber asc)[0] {
+      dayNumber,
+      title,
+      "slug": slug.current
+    }
   }
 `);
 

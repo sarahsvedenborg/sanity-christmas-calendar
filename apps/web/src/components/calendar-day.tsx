@@ -2,7 +2,7 @@
 
 import { Badge } from "@workspace/ui/components/badge";
 import { cn } from "@workspace/ui/lib/utils";
-import { Code2, Palette, BookOpen, Link as LinkIcon, Lightbulb } from "lucide-react";
+import { ArrowLeft, ArrowRight, Code2, Palette, BookOpen, Link as LinkIcon, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -23,6 +23,14 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
   const hasTechActivity = Boolean(data.techActivity);
   const hasDesignActivity = Boolean(data.designActivity);
+  const previousDay = (data as any).previousDay as
+    | { slug?: string; dayNumber?: number; title?: string }
+    | null
+    | undefined;
+  const nextDay = (data as any).nextDay as
+    | { slug?: string; dayNumber?: number; title?: string }
+    | null
+    | undefined;
   const [activeSection, setActiveSection] = useState<"tech" | "design">(() => {
     if (hasTechActivity) return "tech";
     if (hasDesignActivity) return "design";
@@ -450,6 +458,39 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
             <RichText richText={data.conclusion} />
           </div>
         )}
+
+        {/* Day Navigation */}
+        <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {previousDay?.slug ? (
+            <Link
+              className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-200 md:w-auto"
+              href={`/${previousDay.slug}`}
+            >
+              <ArrowLeft className="size-5 transition group-hover:-translate-x-1" />
+              <span className="text-center">
+                Forrige dag{previousDay.dayNumber ? `: ${previousDay.dayNumber}` : ""}{" "}
+                {previousDay.title ? `— ${previousDay.title}` : ""}
+              </span>
+            </Link>
+          ) : (
+            <div className="hidden md:block" />
+          )}
+
+          {nextDay?.slug ? (
+            <Link
+              className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-red-700/90 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-900 md:w-auto"
+              href={`/${nextDay.slug}`}
+            >
+              <span className="text-center">
+                Neste dag{nextDay.dayNumber ? `: ${nextDay.dayNumber}` : ""}{" "}
+                {nextDay.title ? `— ${nextDay.title}` : ""}
+              </span>
+              <ArrowRight className="size-5 transition group-hover:translate-x-1" />
+            </Link>
+          ) : (
+            <div className="hidden md:block" />
+          )}
+        </div>
       </div>
     </div>
   );

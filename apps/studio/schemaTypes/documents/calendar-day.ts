@@ -172,6 +172,7 @@ export const calendarDay = defineType({
                   options: {
                     list: [
                       "bash",
+                      "groq",
                       "typescript",
                       "javascript",
                       "json",

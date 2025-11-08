@@ -470,7 +470,7 @@ export type CalendarDay = {
     objectives?: Array<string>;
     content?: RichText;
     codeExamples?: Array<{
-      language?: "bash" | "typescript" | "javascript" | "json" | "jsx" | "tsx" | "css" | "html";
+      language?: "bash" | "groq" | "typescript" | "javascript" | "json" | "jsx" | "tsx" | "css" | "html";
       code?: string;
       filename?: string;
       _key: string;
@@ -2585,7 +2585,7 @@ export type QueryChristmasCalendarDataResult = {
         _key: string;
       }> | null;
       codeExamples: Array<{
-        language?: "bash" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
+        language?: "bash" | "groq" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
         code?: string;
         filename?: string;
         _key: string;
@@ -2922,7 +2922,7 @@ export type QueryCalendarDayDataResult = {
       _key: string;
     }> | null;
     codeExamples: Array<{
-      language?: "bash" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
+      language?: "bash" | "groq" | "css" | "html" | "javascript" | "json" | "jsx" | "tsx" | "typescript";
       code?: string;
       filename?: string;
       _key: string;

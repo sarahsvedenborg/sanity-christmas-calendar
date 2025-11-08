@@ -3408,6 +3408,10 @@
                             "type": "string",
                             "value": "bash"
                           },
+                           {
+                            "type": "string",
+                            "value": "groq"
+                          },
                           {
                             "type": "string",
                             "value": "typescript"

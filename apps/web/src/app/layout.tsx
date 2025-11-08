@@ -1,5 +1,6 @@
 import "@workspace/ui/globals.css";
 
+import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inika } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
@@ -28,6 +29,13 @@ const fontInika = Inika({
   weight: ["400", "700"],
   variable: "--font-inika",
 });
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function RootLayout({
   children,

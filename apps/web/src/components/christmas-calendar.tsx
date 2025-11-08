@@ -35,8 +35,6 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
   const days = data.days || [];
   const startDate = data.startDate ? new Date(data.startDate) : null;
 
-  console.log("days", days);
-
   // Group days by category
   const groupedDays = days.reduce((acc, day) => {
     if (!day) return acc;

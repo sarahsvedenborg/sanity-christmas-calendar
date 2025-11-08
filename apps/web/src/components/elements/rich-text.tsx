@@ -25,7 +25,7 @@ function createComponents({
       normal: ({ children }) => (
         <p
           className={cn(
-            "mb-5 text-base leading-relaxed md:text-lg md:leading-loose",
+            "mb-5 text-base leading-[1.6] md:text-lg md:leading-[1.65]",
             paragraphClassName
           )}
         >
@@ -80,7 +80,7 @@ function createComponents({
       bullet: ({ children }) => (
         <ul
           className={cn(
-            "mb-5 ml-6 list-disc space-y-2 text-base leading-relaxed md:text-lg md:leading-loose",
+            "mb-5 ml-6 list-disc space-y-2 text-base leading-[1.6] md:text-lg md:leading-[1.65]",
             listClassName
           )}
         >
@@ -90,7 +90,7 @@ function createComponents({
       number: ({ children }) => (
         <ol
           className={cn(
-            "mb-5 ml-6 list-decimal space-y-2 text-base leading-relaxed md:text-lg md:leading-loose",
+            "mb-5 ml-6 list-decimal space-y-2 text-base leading-[1.6] md:text-lg md:leading-[1.65]",
             listClassName
           )}
         >

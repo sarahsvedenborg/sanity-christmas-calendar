@@ -148,8 +148,12 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               {/* <p className="mb-8 text-lg text-white/90 max-w-3xl mx-auto text-left md:text-xl">
                 {data.description}
               </p> */}
-              <div className="mb-8 text-lg text-white/90 md:text-xl">
-              <RichText className="text-left max-w-3xl mx-auto" richText={data.introContent} />
+              <div className="mb-8 text-lg text-white/90 md:text-xl" style={{ color: '#fff' }}>
+              <RichText
+                className="mx-auto max-w-3xl text-left"
+                richText={data.introContent}
+                tone="light"
+              />
               </div>
               </>
             )}

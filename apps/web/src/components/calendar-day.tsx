@@ -273,7 +273,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           </div>
         )}
 
-        {design.hint && (
+      {/*   {design.hint && (
           <div
             className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
             style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
@@ -288,7 +288,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   };
@@ -320,12 +320,12 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           }}>
             {data.title}
           </h1>
-
+{/* 
           {data.description && (
             <p className="mx-auto max-w-2xl text-lg text-white/90">
               {data.description}
             </p>
-          )}
+          )} */}
 
          {/*  {data.reward && (
             <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>

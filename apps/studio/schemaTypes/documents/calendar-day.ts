@@ -11,7 +11,7 @@ import { documentSlugField } from "../common";
 
 export const calendarDay = defineType({
   name: "calendarDay",
-  title: "Calendar Day",
+  title: "Kalenderluke",
   type: "document",
   icon: CalendarDaysIcon,
   groups: GROUPS,
@@ -23,60 +23,60 @@ export const calendarDay = defineType({
     defineField({
       name: "dayNumber",
       type: "number",
-      title: "Day Number",
-      description: "Which day of the calendar this is (1-24)",
+      title: "Nummer på dag",
+      description: "Hvilken luke i kalenderen dette er (1-24)",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => [
-        Rule.required().error("Day number is required"),
-        Rule.min(1).error("Day must be at least 1"),
-        Rule.max(24).error("Day must be at most 24"),
-        Rule.integer().error("Day must be a whole number"),
+        Rule.required().error("Dagnummer er påkrevd"),
+        Rule.min(1).error("Dagnummeret må være minst 1"),
+        Rule.max(24).error("Dagnummeret kan ikke være større enn 24"),
+        Rule.integer().error("Dagnummeret må være et heltall"),
       ],
     }),
     defineField({
       name: "title",
       type: "string",
-      title: "Title",
+      title: "Tittel",
       description:
-        "The headline for this day (e.g., 'Set Up Your Sanity Studio')",
+        "Overskriven for dagens oppgave (e.g., 'Set Up Your Sanity Studio')",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A day title is required"),
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Beskrivelse",
       type: "text",
       rows: 2,
       description:
-        "A brief summary of what users will learn today (appears in previews)",
+        "Et kort sammendrag av hva deltakeren kan forvente å lære av dagens luke",
       group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "category",
-      title: "Category",
+      title: "Kategori",
       type: "reference",
       to: [{ type: "dayCategory" }],
-      description: "The category this day belongs to",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category is required"),
     }),
     defineField({
       name: "isBreak",
-      title: "Is Break Day",
+      title: "Er pause-dag?",
       type: "boolean",
-      description: "Toggle this if this day is a break day (no activities)",
+      description: "Skru på denne hvis denne dagen er en pausedag (har ingen oppgaver)",
       group: GROUP.MAIN_CONTENT,
       initialValue: false,
     }),
     defineField({
       name: "breakContent",
-      title: "Break Day Content",
+      title: "Pause-dag innhold",
       type: "richText",
-      description: "Content to display when this is a break day",
       group: GROUP.MAIN_CONTENT,
       hidden: ({ parent }) => !parent?.isBreak,
     }),
     documentSlugField("calendarDay", {
+      title: 'Slug',
+      description: '',      
       group: GROUP.MAIN_CONTENT,
     }),
  /*    defineField({
@@ -100,25 +100,20 @@ export const calendarDay = defineType({
     }), */
     defineField({
       name: "intro",
-      title: "Introduction",
-      description:
-        "Welcome message for this day explaining the learning objectives",
+      title: "Felles intro",
       type: "richText",
       group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "techActivity",
-      title: "💻 Tech Activity",
+      title: "💻 Tech-oppgave",
       type: "object",
       group: GROUP.MAIN_CONTENT,
-      description:
-        "The technical/coding task for users working on the development side",
       fields: [
         defineField({
           name: "title",
           type: "string",
-          title: "Activity Title",
-          description: "Name of this tech task",
+          title: "Tittel på tech-oppgave",
           validation: (Rule) => Rule.required(),
         }),
       /*   defineField({
@@ -144,22 +139,19 @@ export const calendarDay = defineType({
         }), */
         defineField({
           name: "objectives",
-          title: "Learning Objectives",
-          description: "What users will learn from this activity",
+          title: "Lærningsmål",
           type: "array",
           of: [{ type: "string" }],
         }),
         defineField({
           name: "content",
-          title: "Instructions",
-          description: "Step-by-step instructions for completing the tech task",
+          title: "Instruksjoner",
+          description: "Steg-for-steg instruksjoner for å gjennomføre oppgaven",
           type: "richText",
         }),
         defineField({
           name: "codeExamples",
-          title: "Code Examples",
-          description:
-            "Optional code snippets that help users understand the concepts",
+          title: "Kodeeksempler",
           type: "array",
           of: [
             defineArrayMember({
@@ -168,7 +160,7 @@ export const calendarDay = defineType({
                 defineField({
                   name: "language",
                   type: "string",
-                  title: "Language",
+                  title: "Språk",
                   options: {
                     list: [
                       "bash",
@@ -187,14 +179,14 @@ export const calendarDay = defineType({
                 defineField({
                   name: "code",
                   type: "text",
-                  title: "Code",
+                  title: "Kode",
                   rows: 10,
                 }),
                 defineField({
                   name: "filename",
                   type: "string",
-                  title: "Filename",
-                  description: "Name of the file this code belongs to",
+                  title: "Filnavn",
+                  description: "Navnet på filen denne koden tilhører",
                 }),
               ],
               preview: {
@@ -212,13 +204,12 @@ export const calendarDay = defineType({
         }),
          defineField({
       name: "handIn",
-      title: "Hand ins",
+      title: "Innlevering",
       type: "richText",
     }),
         defineField({
           name: "resources",
-          title: "Resources",
-          description: "Helpful links and documentation",
+          title: "Ressurser",
           type: "array",
           of: [
             defineArrayMember({
@@ -227,7 +218,7 @@ export const calendarDay = defineType({
                 defineField({
                   name: "title",
                   type: "string",
-                  title: "Link Title",
+                  title: "Tittel på lenke",
                 }),
                 defineField({
                   name: "url",
@@ -277,17 +268,14 @@ export const calendarDay = defineType({
     }),
     defineField({
       name: "designActivity",
-      title: "🎨 Design Activity",
+      title: "🎨 Designoppgave",
       type: "object",
       group: GROUP.MAIN_CONTENT,
-      description:
-        "The design task for users working on the visual/UX side of the project",
       fields: [
         defineField({
           name: "title",
           type: "string",
-          title: "Activity Title",
-          description: "Name of this design task",
+          title: "Tittle på designoppgave",
           validation: (Rule) => Rule.required(),
         }),
       /*   defineField({
@@ -312,16 +300,15 @@ export const calendarDay = defineType({
         }), */
         defineField({
           name: "objectives",
-          title: "Learning Objectives",
-          description: "What users will learn from this activity",
+          title: "Læringsmål",
           type: "array",
           of: [{ type: "string" }],
         }),
         defineField({
           name: "content",
-          title: "Instructions",
+          title: "Instruksjoner",
           description:
-            "Step-by-step instructions for completing the design task",
+            "Steg-for-steg instruksjoner for å fullføre designoppgaven",
           type: "richText",
         }),
       /*   defineField({
@@ -348,13 +335,12 @@ export const calendarDay = defineType({
         }), */
          defineField({
       name: "handIn",
-      title: "Hand ins",
+      title: "Innlevering",
       type: "richText",
     }),
         defineField({
           name: "resources",
-          title: "Resources",
-          description: "Helpful links and documentation",
+          title: "Ressurser",
           type: "array",
           of: [
             defineArrayMember({
@@ -363,7 +349,7 @@ export const calendarDay = defineType({
                 defineField({
                   name: "title",
                   type: "string",
-                  title: "Link Title",
+                  title: "tittel på lenke",
                 }),
                 defineField({
                   name: "url",

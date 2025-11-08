@@ -5,27 +5,26 @@ import { GROUP, GROUPS } from "../../utils/constant";
 
 export const dayCategory = defineType({
   name: "dayCategory",
-  title: "Day Category",
+  title: "Kalenderkategori",
   type: "document",
   icon: TagIcon,
   groups: GROUPS,
   description:
-    "Categories for organizing calendar days (e.g., 'Setup', 'Content', 'Advanced Features')",
+    "Kategorier for å organisere kalenderluker (f.eks, 'Basic', 'Middels', 'Avansert')",
   fields: [
     defineField({
       name: "title",
       type: "string",
-      title: "Title",
-      description: "The name of this category (e.g., 'Setup', 'Content Management')",
+      title: "Tittel",
+      description: "Navnet på kategorien",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category title is required"),
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Beskrivelse",
       type: "text",
       rows: 3,
-      description: "A brief description of what this category represents",
       group: GROUP.MAIN_CONTENT,
     }),
   ],

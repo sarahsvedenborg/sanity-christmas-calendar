@@ -21,6 +21,278 @@ type CalendarDayProps = {
 export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
   const [showSolution, setShowSolution] = useState(false);
 
+  const hasTechActivity = Boolean(data.techActivity);
+  const hasDesignActivity = Boolean(data.designActivity);
+  const [activeSection, setActiveSection] = useState<"tech" | "design">(() => {
+    if (hasTechActivity) return "tech";
+    if (hasDesignActivity) return "design";
+    return "tech";
+  });
+
+  useEffect(() => {
+    if (hasTechActivity && activeSection === "tech") return;
+    if (hasDesignActivity && activeSection === "design") return;
+
+    if (hasTechActivity) {
+      setActiveSection("tech");
+    } else if (hasDesignActivity) {
+      setActiveSection("design");
+    }
+  }, [hasTechActivity, hasDesignActivity, activeSection]);
+
+  const renderTechActivity = () => {
+    if (!data.techActivity) return null;
+    const tech = data.techActivity;
+
+    return (
+      <div
+        className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90"
+        style={{ borderColor: "#D4AF37" }}
+      >
+        <div className="mb-6 flex items-center gap-3">
+          <div
+            className="flex size-12 items-center justify-center rounded-full text-white shadow-md"
+            style={{ backgroundColor: "#B91C1C" }}
+          >
+            <Code2 className="size-6" />
+          </div>
+          <h2 className="font-bold text-3xl text-green-950 dark:text-white">
+            Tech-oppgave <br />
+          </h2>
+        </div>
+
+        {tech.objectives && tech.objectives.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              <BookOpen className="size-5" />
+              Læringsmål
+            </h3>
+            <ul className="space-y-2">
+              {tech.objectives.map((objective, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="mt-1">✨</span>
+                  <span>{objective}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {tech.handIn && tech.handIn?.length > 0 && (
+          <div
+            className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90"
+            style={{ borderColor: "#D4AF37" }}
+          >
+            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              Innlevering
+            </h3>
+            <RichText richText={tech.handIn} />
+          </div>
+        )}
+
+        {tech.content && tech.content.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              Oppgave
+            </h3>
+            <RichText richText={tech.content} />
+          </div>
+        )}
+
+        {tech.codeExamples && tech.codeExamples.length > 0 && (
+          <div className="mb-6 space-y-4">
+            {tech.codeExamples.map((example, idx) => (
+              <div key={example._key || idx}>
+                <div className="mb-2 flex items-center justify-between rounded-t-lg bg-slate-800 px-4 py-2">
+                  <div className="flex items-center gap-2 text-white">
+                    <Code2 className="size-4" />
+                    <span className="font-mono text-sm">
+                      {example.filename ||
+                        `${example.language || "code"}.${example.language || "txt"}`}
+                    </span>
+                  </div>
+                </div>
+                <pre className="overflow-x-auto rounded-b-lg bg-slate-950 p-4">
+                  <code className="font-mono text-xs text-green-400 lg:text-sm">
+                    {example.code || ""}
+                  </code>
+                </pre>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tech.resources && tech.resources.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              <LinkIcon className="size-5" />
+              Ressurser
+            </h3>
+            <ul className="space-y-2">
+              {tech.resources.map((resource) => (
+                <li key={resource._key}>
+                  <a
+                    className="flex items-center gap-2 text-blue-600 underline transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
+                    href={resource.url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <LinkIcon className="size-4" />
+                    <span>{resource.title || resource.url}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {tech.hint && (
+          <div
+            className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
+            style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
+          >
+            <div className="flex items-start gap-2">
+              <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
+              <div>
+                <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
+                  Hint
+                </h4>
+                <p className="text-green-900 dark:text-amber-200">{tech.hint}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderDesignActivity = () => {
+    if (!data.designActivity) return null;
+    const design = data.designActivity;
+
+    return (
+      <div
+        className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90"
+        style={{ borderColor: "#D4AF37" }}
+      >
+        <div className="mb-6 flex items-center gap-3">
+          <div
+            className="flex size-12 items-center justify-center rounded-full text-white shadow-md"
+            style={{ backgroundColor: "#B91C1C" }}
+          >
+            <Palette className="size-6" />
+          </div>
+          <h2 className="font-bold text-3xl text-green-950 dark:text-white">
+            Designoppgave <br />
+          </h2>
+        </div>
+
+        {design.objectives && design.objectives.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              <BookOpen className="size-5" />
+              Læringsmål
+            </h3>
+            <ul className="space-y-2">
+              {design.objectives.map((objective, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="mt-1">✨</span>
+                  <span>{objective}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {design.handIn && design.handIn?.length > 0 && (
+          <div
+            className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90"
+            style={{ borderColor: "#D4AF37" }}
+          >
+            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              Innlevering
+            </h3>
+            <RichText richText={design.handIn} />
+          </div>
+        )}
+
+        {design.content && design.content.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              Oppgave
+            </h3>
+            <RichText richText={design.content} />
+          </div>
+        )}
+
+        {design.designExamples && design.designExamples.length > 0 && (
+          <div className="mb-6 space-y-4">
+            {design.designExamples.map((example) => (
+              <div key={example._key}>
+                {example.preview && (
+                  <>
+                    <SanityImage
+                      className="rounded-lg"
+                      height={400}
+                      image={example}
+                      width={800}
+                    />
+                    {example.caption && (
+                      <p className="mt-2 text-center text-sm text-muted-foreground">
+                        {example.caption}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {design.resources && design.resources.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
+              <LinkIcon className="size-5" />
+              Ressurser
+            </h3>
+            <ul className="space-y-2">
+              {design.resources.map((resource) => (
+                <li key={resource._key}>
+                  <a
+                    className="flex items-center gap-2 text-blue-600 underline transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
+                    href={resource.url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <LinkIcon className="size-4" />
+                    <span>{resource.title || resource.url}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {design.hint && (
+          <div
+            className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
+            style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
+          >
+            <div className="flex items-start gap-2">
+              <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
+              <div>
+                <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
+                  Hint
+                </h4>
+                <p className="text-green-900 dark:text-amber-200">{design.hint}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
 /*   const difficultyColors = {
     beginner: "bg-green-200/80 text-green-950 border-amber-300 dark:bg-green-900/50 dark:text-green-100 dark:border-amber-700",
     intermediate: "bg-amber-200/80 text-green-950 border-amber-300 dark:bg-amber-900/50 dark:text-amber-100 dark:border-amber-700",
@@ -113,304 +385,60 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
         {/* Two Column Layout for Tech and Design - Only show if not a break day */}
         {!(data as any).isBreak && (
-          <div className="grid gap-8 md:grid-cols-2">
-            {/* Tech Activity */}
-            {data.techActivity && (
-            <div className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
-                  <Code2 className="size-6" />
-                </div>
-                <h2 className="font-bold text-3xl text-green-950 dark:text-white">
-                  Tech-oppgave <br/> {/* {data.techActivity.title} */}
-                </h2>
-              </div>
-
-             {/*  <h3 className="mb-4 font-bold text-xl">{data.techActivity.title}</h3> */}
-
-             {/*  <div className="mb-6 flex flex-wrap gap-3">
-                {data.techActivity.duration && (
-                  <Badge variant="outline">⏱️ {data.techActivity.duration}</Badge>
-                )}
-                {data.techActivity.difficulty && (
-                  <Badge
+          <>
+            {hasTechActivity && hasDesignActivity && (
+              <div className="mb-8 md:hidden">
+                <div
+                  className="flex rounded-full border-2 border-amber-300 bg-white/10 p-1 shadow-lg backdrop-blur-sm"
+                  style={{ borderColor: "#D4AF37" }}
+                >
+                  <button
+                    aria-pressed={activeSection === "tech"}
                     className={cn(
-                      difficultyColors[data.techActivity.difficulty],
-                      "border"
+                      "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+                      activeSection === "tech"
+                        ? "bg-red-700 text-white shadow-md focus-visible:ring-red-900"
+                        : "text-white/80 hover:bg-white/10 focus-visible:ring-amber-200"
                     )}
+                    onClick={() => setActiveSection("tech")}
+                    type="button"
                   >
-                    {data.techActivity.difficulty.toUpperCase()}
-                  </Badge>
-                )}
-              </div> */}
-
-              {data.techActivity.objectives && data.techActivity.objectives.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                    <BookOpen className="size-5" />
-                    Læringsmål
-                  </h3>
-                  <ul className="space-y-2">
-                    {data.techActivity.objectives.map((objective, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="mt-1">✨</span>
-                        <span>{objective}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-
-                        {data.techActivity.handIn && data.techActivity.handIn?.length > 0 && (
-          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
-              Innlevering
-            </h3>
-            <RichText richText={data.techActivity.handIn} />
-          </div>
-        )}
-
-              {data.techActivity.content && data.techActivity.content.length > 0 && (
-                <div className="mb-6">
-                   <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                      Oppgave
-                    </h3>
-                  <RichText richText={data.techActivity.content} />
-                </div>
-              )}
-
-              {data.techActivity.codeExamples &&
-                data.techActivity.codeExamples.length > 0 && (
-                  <div className="mb-6 space-y-4">
-                    {data.techActivity.codeExamples.map((example, idx) => (
-                      <div key={example._key || idx}>
-                        <div className="mb-2 flex items-center justify-between rounded-t-lg bg-slate-800 px-4 py-2">
-                          <div className="flex items-center gap-2 text-white">
-                            <Code2 className="size-4" />
-                            <span className="font-mono text-sm">
-                              {example.filename || `${example.language || "code"}.${example.language || "txt"}`}
-                            </span>
-                          </div>
-                        {/*   {example.language && (
-                            <Badge className="bg-slate-700 text-white" variant="outline">
-                              {example.language}
-                            </Badge>
-                          )} */}
-                        </div>
-                        <pre className="overflow-x-auto rounded-b-lg bg-slate-950 p-4">
-                          <code className="font-mono text-xs text-green-400 lg:text-sm">
-                            {example.code || ""}
-                          </code>
-                        </pre>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-
-              {data.techActivity.resources &&
-                data.techActivity.resources.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                      <LinkIcon className="size-5" />
-                      Ressurser
-                    </h3>
-                    <ul className="space-y-2">
-                      {data.techActivity.resources.map((resource) => (
-                        <li key={resource._key}>
-                          <a
-                            className="flex items-center gap-2 text-blue-600 underline transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
-                            href={resource.url}
-                            rel="noopener noreferrer"
-                            target="_blank"
-                          >
-                            <LinkIcon className="size-4" />
-                            <span>{resource.title || resource.url}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-{/* 
-              {data.techActivity.hint && (
-                <div className="mb-6 rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
-                  <div className="flex items-start gap-2">
-                    <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
-                    <div>
-                      <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
-                        Hint
-                      </h4>
-                      <p className="text-green-900 dark:text-amber-200">
-                        {data.techActivity.hint}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )} */}
-
-            {/*   {data.techActivity.solution &&
-                data.techActivity.solution.length > 0 && (
-                  <div>
-                    <button
-                      className="mb-4 w-full rounded-lg border-2 border-amber-300 px-6 py-3 font-semibold text-white transition-all hover:shadow-lg"
-                      onClick={() => setShowSolution(!showSolution)}
-                      style={{ backgroundColor: '#B91C1C', borderColor: '#D4AF37' }}
-                      type="button"
-                    >
-                      {showSolution ? "🙈 Hide Solution" : "👁️ Show Solution"}
-                    </button>
-                    {showSolution && (
-                      <div className="rounded-lg border-2 border-amber-300 bg-white/95 p-6 dark:border-amber-700 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-                        <h4 className="mb-3 font-semibold text-green-950 dark:text-white">
-                          ✅ Solution
-                        </h4>
-                        <RichText richText={data.techActivity.solution} />
-                      </div>
-                    )}
-                  </div>
-                )} */}
-            </div>
-          )}
-
-          {/* Design Activity */}
-          {data.designActivity && (
-            <div className="rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex size-12 items-center justify-center rounded-full text-white shadow-md" style={{ backgroundColor: '#B91C1C' }}>
-                  <Palette className="size-6" />
-                </div>
-                <h2 className="font-bold text-3xl text-green-950 dark:text-white">
-                  Designoppgave <br/> {/* {data.designActivity.title} */}
-                </h2>
-              </div>
-
-{/*               <h3 className="mb-4 font-bold text-2xl">{data.designActivity.title}</h3> */}
-
-            {/*   <div className="mb-6 flex flex-wrap gap-3">
-                {data.designActivity.duration && (
-                  <Badge variant="outline">⏱️ {data.designActivity.duration}</Badge>
-                )}
-                {data.designActivity.difficulty && (
-                  <Badge
+                    <Code2 className="size-5" />
+                    <span>Tech-oppgave</span>
+                  </button>
+                  <button
+                    aria-pressed={activeSection === "design"}
                     className={cn(
-                      difficultyColors[data.designActivity.difficulty],
-                      "border"
+                      "flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+                      activeSection === "design"
+                        ? "bg-red-700 text-white shadow-md focus-visible:ring-red-900"
+                        : "text-white/80 hover:bg-white/10 focus-visible:ring-amber-200"
                     )}
+                    onClick={() => setActiveSection("design")}
+                    type="button"
                   >
-                    {data.designActivity.difficulty.toUpperCase()}
-                  </Badge>
-                )}
-              </div> */}
-
-              {data.designActivity.objectives &&
-                data.designActivity.objectives.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                      <BookOpen className="size-5" />
-                      Læringsmål
-                    </h3>
-                    <ul className="space-y-2">
-                      {data.designActivity.objectives.map((objective, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <span className="mt-1">✨</span>
-                          <span>{objective}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                   {data.designActivity?.handIn && data.designActivity?.handIn?.length > 0 && (
-          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-            <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
-              Innlevering
-            </h3>
-            <RichText richText={data.designActivity?.handIn} />
-          </div>
-        )}
-
-              {data.designActivity.content &&
-                data.designActivity.content.length > 0 && (
-                  <div className="mb-6">
-                     <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                      Oppgave
-                    </h3>
-                    <RichText richText={data.designActivity.content} />
-                  </div>
-                )}
-
-              {data.designActivity.designExamples &&
-                data.designActivity.designExamples.length > 0 && (
-                  <div className="mb-6 space-y-4">
-                    {data.designActivity.designExamples.map((example) => (
-                      <div key={example._key}>
-                        {example.preview && (
-                          <>
-                            <SanityImage
-                              className="rounded-lg"
-                              height={400}
-                              image={example}
-                              width={800}
-                            />
-                            {example.caption && (
-                              <p className="mt-2 text-center text-sm text-muted-foreground">
-                                {example.caption}
-                              </p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-               
-
-              {data.designActivity.resources &&
-                data.designActivity.resources.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="mb-3 flex items-center gap-2 font-bold text-2xl">
-                      <LinkIcon className="size-5" />
-                      Ressurser
-                    </h3>
-                    <ul className="space-y-2">
-                      {data.designActivity.resources.map((resource) => (
-                        <li key={resource._key}>
-                          <a
-                            className="flex items-center gap-2 text-blue-600 underline transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
-                            href={resource.url}
-                            rel="noopener noreferrer"
-                            target="_blank"
-                          >
-                            <LinkIcon className="size-4" />
-                            <span>{resource.title || resource.url}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-              {data.designActivity.hint && (
-                <div className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
-                  <div className="flex items-start gap-2">
-                    <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
-                    <div>
-                      <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
-                        Hint
-                      </h4>
-                      <p className="text-green-900 dark:text-amber-200">
-                        {data.designActivity.hint}
-                      </p>
-                    </div>
-                  </div>
+                    <Palette className="size-5" />
+                    <span>Designoppgave</span>
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
+
+            <div className="space-y-8 md:hidden">
+              {(!hasDesignActivity || activeSection === "tech") && renderTechActivity()}
+              {(!hasTechActivity || activeSection === "design") && renderDesignActivity()}
             </div>
-          )}
-          </div>
+
+            <div
+              className={cn(
+                "hidden gap-8 md:grid",
+                hasTechActivity && hasDesignActivity ? "md:grid-cols-2" : "md:grid-cols-1"
+              )}
+            >
+              {renderTechActivity()}
+              {renderDesignActivity()}
+            </div>
+          </>
         )}
 
         {/* Conclusion */}

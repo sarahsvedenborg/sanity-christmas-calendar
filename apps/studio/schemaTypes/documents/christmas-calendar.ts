@@ -23,26 +23,22 @@ export const christmasCalendar = defineType({
     defineField({
       name: "title",
       type: "string",
-      title: "Title",
-      description:
-        "The name of your Christmas calendar (e.g., 'Learn Sanity 2024 Calendar')",
+      title: "Overskrift",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) =>
         Rule.required().error("A calendar title is required"),
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Ingress",
       type: "text",
       rows: 3,
-      description:
-        "A brief overview of what this calendar teaches and what users will learn",
       group: GROUP.MAIN_CONTENT,
     }),
-    documentSlugField("christmasCalendar", {
+   /*  documentSlugField("christmasCalendar", {
       group: GROUP.MAIN_CONTENT,
-    }),
-    defineField({
+    }), */
+   /*  defineField({
       name: "coverImage",
       title: "Cover Image",
       description:
@@ -52,27 +48,27 @@ export const christmasCalendar = defineType({
       options: {
         hotspot: true,
       },
-    }),
+    }), */
     defineField({
       name: "startDate",
-      title: "Start Date",
+      title: "Startdato",
       type: "date",
-      description: "When the calendar begins (typically December 1st)",
+      description: "Når begynner kalenderen (typisk 1. desember)",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "introContent",
-      title: "Introduction Content",
+      title: "Introduksjon",
       description:
-        "Welcome message and instructions for participants at the start of the calendar",
+        "Velkomstmelding og instruksjoner til deltakere ",
       type: "richText",
       group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "days",
-      title: "Calendar Days",
-      description: "The 24 days of tasks (should ideally be 24 days)",
+      title: "Kelenderluker",
+      description: "De 24 oppgavene",
       type: "array",
       group: GROUP.MAIN_CONTENT,
       of: [

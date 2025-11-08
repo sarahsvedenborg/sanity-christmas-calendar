@@ -62,9 +62,9 @@ export const documentSlugField = (
     title,
     description,
     group,
-    components: {
+ /*    components: {
       field: PathnameFieldComponent,
-    },
+    }, */
     validation: (Rule) => [
       Rule.required().error("A URL slug is required"),
       Rule.custom(createSlugValidator(getDocumentTypeConfig(documentType))),

@@ -21,7 +21,7 @@ const title = process.env.SANITY_STUDIO_TITLE;
 export default defineConfig({
   name: "default",
   title,
-  icon: Logo,
+/*   icon: Logo, */
   projectId,
   dataset: dataset ?? "production",
   releases: {

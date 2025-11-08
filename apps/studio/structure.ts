@@ -109,44 +109,50 @@ export const structure = (
   context: StructureResolverContext
 ) =>
   S.list()
-    .title("Content")
+    .title("Innhold")
     .items([
-      createSingleTon({ S, type: "homePage", icon: HomeIcon }),
-      S.divider(),
-      createSlugBasedStructure(S, "page"),
-      createIndexListWithOrderableItems({
+    /*   createSingleTon({ S, type: "homePage", icon: HomeIcon }), */
+  /*     S.divider(),
+      createSlugBasedStructure(S, "page"), */
+     /*  createIndexListWithOrderableItems({
         S,
         index: { type: "blogIndex", icon: BookMarked },
         list: { type: "blog", title: "Blogs", icon: FileText },
         context,
-      }),
-      createList({
+      }), */
+    /*   createList({
         S,
         type: "faq",
         title: "FAQs",
         icon: MessageCircle,
-      }),
-      createList({ S, type: "author", title: "Authors", icon: User }),
-      createList({
+      }), */
+     /*  createList({ S, type: "author", title: "Authors", icon: User }), */
+    /*   createList({
         S,
         type: "redirect",
         title: "Redirects",
         icon: TrendingUpDown,
-      }),
-      S.divider(),
+      }), */
+       S.divider(),
       createIndexListWithOrderableItems({
         S,
-        index: { type: "christmasCalendar", icon: Calendar },
-        list: { type: "calendarDay", title: "Days", icon: CalendarDays },
+        index: { type: "christmasCalendar", title: 'Kalenderforside', icon: Calendar },
+        list: { type: "calendarDay", title: "Kalenderluker", icon: CalendarDays },
         context,
-      }),
+      }), 
+      /*   createList({
+        S,
+        type: "christmasCalendar",
+        title: "Kalender",
+        icon: TagIcon,
+      }), */
       createList({
         S,
         type: "dayCategory",
-        title: "Day Categories",
+        title: "Kalenderkategorier",
         icon: TagIcon,
       }),
-      S.divider(),
+   /*    S.divider(),
       S.listItem()
         .title("Site Configuration")
         .icon(Settings2)
@@ -173,5 +179,5 @@ export const structure = (
                 icon: CogIcon,
               }),
             ])
-        ),
+        ), */
     ]);

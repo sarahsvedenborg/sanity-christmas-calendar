@@ -2,6 +2,7 @@ import { author } from "./author";
 import { blog } from "./blog";
 import { blogIndex } from "./blog-index";
 import { calendarDay } from "./calendar-day";
+import { answers } from "./answers";
 import { christmasCalendar } from "./christmas-calendar";
 import { dayCategory } from "./day-category";
 import { faq } from "./faq";
@@ -22,6 +23,7 @@ export const documents = [
   christmasCalendar,
   calendarDay,
   dayCategory,
+  answers,
   ...singletons,
   redirect,
 ];

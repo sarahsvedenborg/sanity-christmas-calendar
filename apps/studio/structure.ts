@@ -65,7 +65,7 @@ const createList = ({ S, type, icon, title, id }: CreateList) => {
 type CreateIndexList = {
   S: StructureBuilder;
   list: Base;
-  index: Base<SingletonType>;
+  index: Base;
   context: StructureResolverContext;
 };
 
@@ -151,6 +151,12 @@ export const structure = (
         type: "dayCategory",
         title: "Kalenderkategorier",
         icon: TagIcon,
+      }),
+      createList({
+        S,
+        type: "answers",
+        title: "Svar",
+        icon: MessageCircle,
       }),
    /*    S.divider(),
       S.listItem()

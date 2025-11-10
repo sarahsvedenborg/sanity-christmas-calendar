@@ -335,10 +335,16 @@ export function Navbar() {
                   </div>
             </Link>
           </div>
-           <Link href="/besvarelser" className="flex items-center text-white/80 transition-colors hover:text-white">
+           <Link
+            href="/besvarelser"
+            className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+          >
             Se besvarelser fra andre
             </Link>
-              <Link href="/progresjon" className="flex items-center text-white/80 transition-colors hover:text-white">
+              <Link
+            href="/progresjon"
+            className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+          >
            
          Se egen progresjon
             </Link>

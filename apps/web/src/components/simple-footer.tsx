@@ -12,7 +12,12 @@ export function SimpleFooter() {
          2025
         </p>
         <p className="text-white/80">
-          <Link href="/definisjoner">Sanity begreper/ord/utrykk </Link>
+          <Link
+                       className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+            href="/definisjoner"
+          >
+            Sanity begreper/ord/utrykk
+          </Link>
         </p>
       </div>
     </footer>

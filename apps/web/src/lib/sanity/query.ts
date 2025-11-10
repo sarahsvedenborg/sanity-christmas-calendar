@@ -35,7 +35,14 @@ const customLinkFragment = /* groq */ `
 const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
-    ${customLinkFragment}
+    ${customLinkFragment},
+    _type == "term" => {
+      definition->{
+        _id,
+        title,
+        description
+      }
+    }
   }
 `;
 
@@ -56,6 +63,25 @@ export const queryAnswersData = defineQuery(`
       }
     },
     _updatedAt
+  }
+`);
+
+export const queryDefinitionsData = defineQuery(`
+  *[_type == "definition"] | order(lower(title) asc) {
+    _id,
+    title,
+    description,
+    content[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    }
   }
 `);
 

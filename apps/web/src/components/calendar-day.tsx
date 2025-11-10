@@ -11,6 +11,7 @@ import type { QueryCalendarDayDataResult } from "@/lib/sanity/sanity.types";
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { BreakDayContent } from "./BreakDayContent";
+import { CalendarLogoBronze } from "./CalendarLogoBronze";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -319,11 +320,18 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
       <div className="container relative mx-auto max-w-6xl px-4 py-16">
         {/* Header */}
+        
         <div className="mb-12 text-center">
+           {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
+           <CalendarLogoBronze width={40} height={40} />
+             <span className="font-bold text-white text-lg">Uke 1: </span>
+              </div> */}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
+           
             <span className="text-2xl">{/* 🎄 */}🎁</span>
+
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
-          </div>
+              </div>
 
           <h1 className="mb-4 text-balance font-bold text-4xl tracking-tight drop-shadow-lg md:text-6xl" style={{ 
             color: '#B91C1C',

@@ -110,6 +110,34 @@ function createComponents({
           {children}
         </code>
       ),
+      term: ({ children, value }) => {
+        const definition = (value as { definition?: { _id?: string; title?: string; description?: string } })?.definition;
+        const tooltipId = definition?._id ? `term-tooltip-${definition._id}` : undefined;
+        const tooltipTitle = definition?.title ?? "Definisjon";
+        const tooltipDescription = definition?.description ?? "Ingen beskrivelse tilgjengelig.";
+
+        return (
+          <span
+            aria-describedby={tooltipId}
+            className="group relative inline-flex cursor-help items-center font-semibold text-green-900 underline decoration-amber-400 decoration-dotted dark:text-amber-200"
+            tabIndex={0}
+          >
+            <span>{children}</span>
+            <span
+              className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 hidden w-64 -translate-x-1/2 rounded-xl border border-amber-300/70 bg-white/95 p-4 text-left text-xs text-green-900 shadow-xl transition-all group-hover:block group-focus-within:block dark:border-amber-700/50 dark:bg-green-950/95 dark:text-amber-100"
+              id={tooltipId}
+              role="tooltip"
+            >
+              <span className="block text-sm font-semibold text-green-900 dark:text-amber-100">
+                {tooltipTitle}
+              </span>
+              <span className="mt-1 block text-xs text-green-900/80 dark:text-amber-200/80">
+                {tooltipDescription}
+              </span>
+            </span>
+          </span>
+        );
+      },
       customLink: ({ children, value }) => {
         if (!value.href || value.href === "#") {
           return (

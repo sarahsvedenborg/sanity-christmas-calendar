@@ -103,6 +103,8 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryCalendarDayData } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
 
+export const revalidate = 60;
+
 async function fetchCalendarDayData(slug: string) {
   return await sanityFetch({
     query: queryCalendarDayData,

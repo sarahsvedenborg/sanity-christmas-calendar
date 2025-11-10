@@ -154,6 +154,12 @@ export const structure = (
       }),
       createList({
         S,
+        type: "definition",
+        title: "Definisjoner",
+        icon: BookMarked,
+      }),
+      createList({
+        S,
         type: "answers",
         title: "Svar",
         icon: MessageCircle,

@@ -1,4 +1,5 @@
 import { ImageIcon, LinkIcon } from "@sanity/icons";
+import { BookMarked } from "lucide-react";
 import {
   type ConditionalProperty,
   defineArrayMember,
@@ -34,6 +35,23 @@ const richTextMembers = [
             defineField({
               name: "customLink",
               type: "customUrl",
+            }),
+          ],
+        },
+        {
+          name: "term",
+          type: "object",
+          title: "Term",
+          icon: BookMarked,
+          fields: [
+            defineField({
+              name: "definition",
+              title: "Definition",
+              description: "Velg hvilken definisjon denne termen skal referere til.",
+              type: "reference",
+              to: [{ type: "definition" }],
+              validation: (rule) =>
+                rule.required().error("Termen må peke til en definisjon."),
             }),
           ],
         },

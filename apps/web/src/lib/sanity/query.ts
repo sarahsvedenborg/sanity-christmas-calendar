@@ -39,6 +39,26 @@ const markDefsFragment = /* groq */ `
   }
 `;
 
+export const queryAnswersData = defineQuery(`
+  *[_type == "answers"] | order(_updatedAt desc) {
+    _id,
+    title,
+    description,
+    content[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    },
+    _updatedAt
+  }
+`);
+
 const richTextFragment = /* groq */ `
   richText[]{
     ...,

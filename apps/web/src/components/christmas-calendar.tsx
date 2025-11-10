@@ -11,6 +11,8 @@ import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { CalendarLogo } from "./CalendarLogo";
 import { CalendarLogoGold } from "./CalendarLogoGold";
+import { CalendarLogoSilver } from "./CalendarLogoSilver";
+import { CalendarLogoBronze } from "./CalendarLogoBronze";
 
 type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 
@@ -72,12 +74,50 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
     categoryColorMap.set(group.category._id, color);
   });
 
+
+  const getLogo = (index: number) => {
+    switch (index) {
+      case 0:
+        return <CalendarLogoBronze width={100} height={100} />;
+      case 1:
+        return <CalendarLogoSilver width={100} height={100} />;
+      case 2:
+        return <CalendarLogoGold width={100} height={100} />;
+    }
+    return <CalendarLogo width={100} height={100} />;
+  };
+
+  const Countdown = () => {
+   return(  <div className="mb-20 mt-20 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-3 text-white">
+                      <div className="relative">
+                            <div className="absolute inset-0 animate-ping rounded-full bg-yellow-800 opacity-20"></div> 
+                  <div className="flex flex-col items-center">
+                    <span className="text-7xl font-bold leading-none" style={{ color: '#D4AF37' }}>
+                      {daysUntilStart}
+                    </span>
+                   
+                    <span className="text-sm uppercase tracking-wider text-white/80">
+                      {daysUntilStart === 1 ? 'dag igjen' : 'dager igjen'}
+                    </span>
+                     </div>
+                  </div>
+                </div>
+              {/*   <p className="text-center text-xl font-semibold text-white/90">
+                  {daysUntilStart === 1
+                    ? "Starter i morgen! 🎉"
+                    : "til kalenderen starter..."}
+                </p> */}
+              </div>)
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <Snowflakes />
       </div>
+
 
       {/* Hero Section */}
       <section className="relative py-16 md:py-24">
@@ -86,15 +126,16 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             {/* Calendar Icon */}
             <div className="mb-8 flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 animate-ping rounded-full bg-green-600 opacity-20"></div>
+           {/*      <div className="absolute inset-0 animate-ping rounded-full bg-green-600 opacity-20"></div> */}
+
               {/*   <div className="relative flex size-32 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-2xl">
                   <Sparkles className="size-16 text-white" />
 
                 </div> */}
-                  <div className="relative flex size-32 items-center justify-center rounded-full  ">
+                 {/*  <div className="relative flex size-32 items-center justify-center rounded-full  ">
                
     <CalendarLogo />
-                </div>
+                </div> */}
               </div>
             </div>
           
@@ -121,27 +162,9 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               Velkommen til <br/><span className="underline">S</span>arahs <span className="underline">S</span>opra <span className="underline">S</span>teria <span className="underline">S</span>anity <br/>julekalender! 🎄
             </h1> */}
 
-            {/* Countdown */}
+       
             {daysUntilStart !== null && daysUntilStart > 0 && (
-              <div className="mb-20 mt-20 flex flex-col items-center gap-4">
-                <div className="flex items-center gap-3 text-white">
-                {/*   <span className="text-5xl">⏰</span> */}
-                  <div className="flex flex-col items-center">
-                    <span className="text-7xl font-bold leading-none" style={{ color: '#D4AF37' }}>
-                      {daysUntilStart}
-                    </span>
-                    <span className="text-sm uppercase tracking-wider text-white/80">
-                      {daysUntilStart === 1 ? 'dag igjen' : 'dager igjen'}
-                    </span>
-                  </div>
-           {/*        <span className="text-5xl">🎄</span> */}
-                </div>
-              {/*   <p className="text-center text-xl font-semibold text-white/90">
-                  {daysUntilStart === 1
-                    ? "Starter i morgen! 🎉"
-                    : "til kalenderen starter..."}
-                </p> */}
-              </div>
+            <Countdown />
             )}
 
               {data.description && (<>
@@ -150,13 +173,13 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               </p> */}
               <div className="mb-8">
                 <RichText
-                  className="mx-auto max-w-3xl text-left"
+                  className="mx-auto max-w-xl text-left"
                   richText={data.introContent}
                   tone="light"
                 />
               </div>
               </>
-            )}
+            )} 
 
             {/* Cover Image */}
             {data.coverImage && (
@@ -192,7 +215,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
           {categories.length > 0 ? (
             <div className="mx-auto max-w-6xl space-y-12">
-              {categories.map((group) => {
+              {categories.map((group, index) => {
                 const categoryColor = categoryColorMap.get(group.category._id) || '#D4AF37';
            /*      const categoryBgColor = categoryColor === '#CD7F32' 
                   ? 'rgba(205, 127, 50, 0.5)' // Bronze
@@ -235,7 +258,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                       style={{ backgroundColor: categoryBgColor }}
                     >
                          <div className="mt-[-60px] ml-[-60px]">
-                        <CalendarLogoGold width={60} height={60} />
+                        {getLogo(index)}
                       </div> 
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                         {group.days.map((day) => {

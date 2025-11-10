@@ -319,7 +319,7 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Back button (only on calendar day pages) */}
-          {isCalendarDayPage && (
+          {true && (
             <>
              <div className="flex flex-1 items-center justify-center md:justify-start">
             <Link className="flex items-center" href="/">
@@ -335,6 +335,13 @@ export function Navbar() {
                   </div>
             </Link>
           </div>
+           <Link href="/besvarelser" className="flex items-center text-white/80 transition-colors hover:text-white">
+            Se besvarelser fra andre
+            </Link>
+              <Link href="/progresjon" className="flex items-center text-white/80 transition-colors hover:text-white">
+           
+         Se egen progresjon
+            </Link>
          {/*    <Link
               className="flex items-center gap-2 text-white/80 transition-colors hover:text-white"
               href="/"

@@ -10,6 +10,7 @@ import type { QueryCalendarDayDataResult } from "@/lib/sanity/sanity.types";
 
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
+import { BreakDayContent } from "./BreakDayContent";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -20,6 +21,8 @@ type CalendarDayProps = {
 
 export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
   const [showSolution, setShowSolution] = useState(false);
+
+
 
   const hasTechActivity = Boolean(data.techActivity);
   const hasDesignActivity = Boolean(data.designActivity);
@@ -358,9 +361,10 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
 
         {/* Break Day Content */}
         {(data as any).isBreak && (data as any).breakContent && (data as any).breakContent.length > 0 && (
-          <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+          <BreakDayContent breakContent={(data as any).breakContent} />
+         /*  <div className="mb-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
             <RichText richText={(data as any).breakContent} />
-          </div>
+          </div> */
         )}
 
         {/* Introduction */}

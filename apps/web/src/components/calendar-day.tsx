@@ -12,6 +12,12 @@ import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { BreakDayContent } from "./BreakDayContent";
 import { CalendarLogoBronze } from "./CalendarLogoBronze";
+import { CalendarLogoSilver } from "./CalendarLogoSilver";
+import { CalendarLogoGold } from "./CalendarLogoGold";
+import { Snowflakes } from "./elements/snowflakes";
+import { LogoBronzeMini } from "./LogoBronzeMini";
+import { LogoSilverMini } from "./LogoSilverMini";
+import { LogoGoldMini } from "./LogoGoldMini";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -51,6 +57,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
       setActiveSection("design");
     }
   }, [hasTechActivity, hasDesignActivity, activeSection]);
+
+  const category = (data as any)?.category as
+    | { identifier?: string | null }
+    | null
+    | undefined;
 
   const renderTechActivity = () => {
     if (!data.techActivity) return null;
@@ -120,7 +131,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     <Code2 className="size-4" />
                     <span className="font-mono text-sm">
                       {example.filename ||
-                        `${example.language || "code"}.${example.language || "txt"}`}
+                        `${example.language || "code"}`}
                     </span>
                   </div>
                 </div>
@@ -158,7 +169,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           </div>
         )}
 
-        {tech.hint && (
+      {/*   {tech.hint && (
           <div
             className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
             style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
@@ -173,7 +184,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   };
@@ -311,6 +322,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
     advanced: "bg-red-200/80 text-red-950 border-amber-300 dark:bg-red-900/50 dark:text-red-100 dark:border-amber-700",
   }; */
 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
@@ -329,7 +341,9 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
            
             {/* <span className="text-2xl">🎁</span> */}
-<CalendarLogoBronze width={40} height={40} />
+{category?.identifier === '1' && <LogoBronzeMini width={30} height={30} />}
+{category?.identifier ==='2' && <LogoSilverMini width={30} height={30} />}
+{category?.identifier ==='3' && <LogoGoldMini width={30} height={30} />}
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
               </div>
 
@@ -507,36 +521,3 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
     </div>
   );
 }
-
-// Snowflake animation component (reused from calendar)
-function Snowflakes() {
-  useEffect(() => {
-    // Ensure animation is available
-  }, []);
-
-  return (
-    <>
-      {Array.from({ length: 50 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute animate-snowfall"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animationDuration: `${10 + Math.random() * 20}s`,
-          }}
-        >
-          <div
-            className="text-white/50"
-            style={{
-              fontSize: `${10 + Math.random() * 20}px`,
-            }}
-          >
-            ❄️
-          </div>
-        </div>
-      ))}
-    </>
-  );
-}
-

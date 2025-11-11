@@ -316,8 +316,8 @@ export function Navbar() {
         borderColor: 'rgba(212, 175, 55, 0.3)'
       }} */
     >
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
+      <div className="container mx-auto px-4 ">
+        <div className="flex h-16 items-center justify-between sm:justify-between gap-4">
           {/* Back button (only on calendar day pages) */}
           {true && (
             <>
@@ -330,7 +330,7 @@ export function Navbar() {
                 src="/favicon.ico"
                 width={20}
               /> */}
-              <div className="mb-[-60px]">
+              <div className="mb-[-60px] scale-75 sm:scale-100">
                   <CalendarLogo width={100} height={100}/>
                   </div>
             </Link>
@@ -339,14 +339,14 @@ export function Navbar() {
             href="/besvarelser"
             className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
           >
-            Se besvarelser fra andre
+            Se besvarelser
             </Link>
               <Link
             href="/progresjon"
             className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
           >
            
-         Se egen progresjon
+         Progresjon
             </Link>
          {/*    <Link
               className="flex items-center gap-2 text-white/80 transition-colors hover:text-white"

@@ -261,7 +261,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                       className="rounded-2xl p-6"
                       style={{ backgroundColor: categoryBgColor }}
                     >
-                         <div className="mt-[-60px] ml-[-60px]">
+                         <div className="mt-[-55px] ml-[-78px] scale-75 sm:mt-[-60px] sm:ml-[-60px] sm:scale-100">
                         {getLogo(index)}
                       </div> 
                       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">

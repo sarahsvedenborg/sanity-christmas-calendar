@@ -2,6 +2,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryAnswersData } from "@/lib/sanity/query";
 
 import { RichText } from "@/components/elements/rich-text";
+import { Snowflakes } from "@/components/elements/snowflakes";
 
 export default async function BesvarelserPage() {
   const { data } = await sanityFetch({
@@ -12,8 +13,13 @@ export default async function BesvarelserPage() {
   const answers = Array.isArray(data) ? data : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 px-4 py-16 dark:from-green-950 dark:via-green-900 dark:to-green-950">
-      <div className="mx-auto max-w-4xl">
+   
+       <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
+      {/* Snowflake animation background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <Snowflakes />
+      </div>
+      <div className="relative mx-auto max-w-4xl px-4 py-16">
         <header className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-white">
             Besvarelser

@@ -14,6 +14,10 @@ import { BreakDayContent } from "./BreakDayContent";
 import { CalendarLogoBronze } from "./CalendarLogoBronze";
 import { CalendarLogoSilver } from "./CalendarLogoSilver";
 import { CalendarLogoGold } from "./CalendarLogoGold";
+import { Snowflakes } from "./elements/snowflakes";
+import { LogoBronzeMini } from "./LogoBronzeMini";
+import { LogoSilverMini } from "./LogoSilverMini";
+import { LogoGoldMini } from "./LogoGoldMini";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -53,6 +57,11 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
       setActiveSection("design");
     }
   }, [hasTechActivity, hasDesignActivity, activeSection]);
+
+  const category = (data as any)?.category as
+    | { identifier?: string | null }
+    | null
+    | undefined;
 
   const renderTechActivity = () => {
     if (!data.techActivity) return null;
@@ -332,9 +341,9 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
            
             {/* <span className="text-2xl">🎁</span> */}
-{data.category?.identifier === '1' && <CalendarLogoBronze width={40} height={40} />}
-{data.category?.identifier ==='2' && <CalendarLogoSilver width={40} height={40} />}
-{data.category?.identifier ==='3' && <CalendarLogoGold width={40} height={40} />}
+{category?.identifier === '1' && <LogoBronzeMini width={30} height={30} />}
+{category?.identifier ==='2' && <LogoSilverMini width={30} height={30} />}
+{category?.identifier ==='3' && <LogoGoldMini width={30} height={30} />}
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
               </div>
 
@@ -512,36 +521,3 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
     </div>
   );
 }
-
-// Snowflake animation component (reused from calendar)
-function Snowflakes() {
-  useEffect(() => {
-    // Ensure animation is available
-  }, []);
-
-  return (
-    <>
-      {Array.from({ length: 50 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute animate-snowfall"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animationDuration: `${10 + Math.random() * 20}s`,
-          }}
-        >
-          <div
-            className="text-white/50"
-            style={{
-              fontSize: `${10 + Math.random() * 20}px`,
-            }}
-          >
-            ❄️
-          </div>
-        </div>
-      ))}
-    </>
-  );
-}
-

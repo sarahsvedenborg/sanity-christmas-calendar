@@ -131,7 +131,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
                     <Code2 className="size-4" />
                     <span className="font-mono text-sm">
                       {example.filename ||
-                        `${example.language || "code"}.${example.language || "txt"}`}
+                        `${example.language || "code"}`}
                     </span>
                   </div>
                 </div>

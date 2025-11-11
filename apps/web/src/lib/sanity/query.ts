@@ -471,6 +471,7 @@ const calendarDayFragment = /* groq */ `
   "category": category-> {
     _id,
     title,
+    identifier,
     description
   },
   icon {

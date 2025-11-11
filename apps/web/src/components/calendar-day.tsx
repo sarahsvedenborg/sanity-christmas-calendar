@@ -12,6 +12,8 @@ import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { BreakDayContent } from "./BreakDayContent";
 import { CalendarLogoBronze } from "./CalendarLogoBronze";
+import { CalendarLogoSilver } from "./CalendarLogoSilver";
+import { CalendarLogoGold } from "./CalendarLogoGold";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -158,7 +160,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           </div>
         )}
 
-        {tech.hint && (
+      {/*   {tech.hint && (
           <div
             className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
             style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
@@ -173,7 +175,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   };
@@ -311,6 +313,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
     advanced: "bg-red-200/80 text-red-950 border-amber-300 dark:bg-red-900/50 dark:text-red-100 dark:border-amber-700",
   }; */
 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
@@ -329,7 +332,9 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
            
             {/* <span className="text-2xl">🎁</span> */}
-<CalendarLogoBronze width={40} height={40} />
+{data.category?.identifier === '1' && <CalendarLogoBronze width={40} height={40} />}
+{data.category?.identifier ==='2' && <CalendarLogoSilver width={40} height={40} />}
+{data.category?.identifier ==='3' && <CalendarLogoGold width={40} height={40} />}
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
               </div>
 

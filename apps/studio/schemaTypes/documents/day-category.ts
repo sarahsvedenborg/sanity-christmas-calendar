@@ -20,6 +20,13 @@ export const dayCategory = defineType({
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category title is required"),
     }),
+     defineField({
+      name: "identifier",
+      type: "string",
+      title: "Identifier",
+      group: GROUP.MAIN_CONTENT,
+      validation: (Rule) => Rule.required().error("A category identifier is required"),
+    }),
     defineField({
       name: "description",
       title: "Beskrivelse",

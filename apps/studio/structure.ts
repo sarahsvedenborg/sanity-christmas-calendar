@@ -140,6 +140,21 @@ export const structure = (
         list: { type: "calendarDay", title: "Kalenderluker", icon: CalendarDays },
         context,
       }), 
+      S.listItem()
+        .title("Kalenderluker per kategori")
+        .icon(TagIcon)
+        .child(
+          S.documentTypeList("dayCategory")
+            .title("Kalenderkategorier")
+            .child((categoryId) =>
+              S.documentList()
+                .schemaType("calendarDay")
+                .title("Kalenderluker")
+                .filter("defined(category._ref) && category._ref == $categoryId")
+                .params({ categoryId })
+                .defaultOrdering([{ field: "dayNumber", direction: "asc" }])
+            )
+        ),
       /*   createList({
         S,
         type: "christmasCalendar",

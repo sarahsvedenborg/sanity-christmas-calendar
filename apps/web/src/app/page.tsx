@@ -60,6 +60,8 @@ async function fetchChristmasCalendarData() {
   });
 }
 
+export const revalidate = 60;
+
 export async function generateMetadata() {
   const { data: calendarData } = await fetchChristmasCalendarData();
 

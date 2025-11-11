@@ -1,8 +1,7 @@
 "use client";
 
-import { cn } from "@workspace/ui/lib/utils";
 import { Sparkles } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { RichText } from "./elements/rich-text";
 
@@ -31,30 +30,23 @@ const SPARKLES: Sparkle[] = [
 ];
 
 export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const sparkles = useMemo(() => SPARKLES, []);
 
-  const openEnvelope = () => {
-    setIsOpen(true);
-  };
-
-  const resetEnvelope = () => {
-    setIsOpen(false);
-    setShowConfetti(false);
-  };
-
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      openEnvelope();
-    }, 300);
+      setIsOpen(true);
+    }, 400);
 
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      setShowConfetti(false);
+      return;
+    }
 
     setShowConfetti(true);
     const timer = window.setTimeout(() => setShowConfetti(false), 2400);
@@ -63,180 +55,196 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
 
   return (
     <div
-      ref={containerRef}
-      className="relative mb-16 overflow-hidden rounded-3xl border-2 border-amber-300/60 bg-gradient-to-br from-white/96 via-amber-50/85 to-white/96 p-8 text-center shadow-2xl backdrop-blur-md dark:border-amber-700/60 dark:from-green-950/90 dark:via-green-900/80 dark:to-green-950/90"
+      className="relative mb-16 overflow-hidden rounded-3xl border-2 border-amber-300/60 bg-gradient-to-br from-white/96 via-amber-50/85 to-white/96 p-10 text-center shadow-2xl backdrop-blur-md dark:border-amber-700/60 dark:from-green-950/90 dark:via-green-900/80 dark:to-green-950/90"
       style={{ borderColor: "#D4AF37" }}
     >
-  <div className="envlope-wrapper">
-    <div id="envelope" className="close">
-        <div className="front flap"></div>
-        <div className="front pocket"></div>
-        <div className="letter">
-            <div className="words line1"></div>
-            <div className="words line2"></div>
-            <div className="words line3"></div>
-            <div className="words line4"></div>
+      <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen">
+        {sparkles.map((sparkle, index) => (
+          <span
+            key={index}
+            className="absolute inline-block animate-[float_11s_ease-in-out_infinite] text-amber-300/60 blur-[0.5px] dark:text-amber-200/60"
+            style={{
+              left: `${sparkle.left}%`,
+              top: `${sparkle.top}%`,
+              animationDelay: `${sparkle.delay}s`,
+              fontSize: `${sparkle.size}px`,
+            }}
+          >
+            ✨
+          </span>
+        ))}
+      </div>
+
+      <div className="relative mx-auto flex max-w-xl flex-col items-center gap-6">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.45em] text-amber-600 dark:text-amber-200 md:text-sm">
+          <Sparkles className="size-4 animate-pulse" />
+          Julebrev
+          <Sparkles className="size-4 animate-pulse" />
         </div>
-        <div className="hearts">
-            <div className="heart a1"></div>
-            <div className="heart a2"></div>
-            <div className="heart a3"></div>
+
+        <div
+          aria-live="polite"
+          className={`envelope-scene ${isOpen ? "open" : "closed"}`}
+          onClick={() => setIsOpen(true)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setIsOpen(true);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
+          <div className="envelope">
+            <div className="envelope-shadow" />
+            <div className="envelope-pocket" />
+            <div className="envelope-flap" />
+            <div className="envelope-letter">
+              <div className="envelope-letter-inner">
+                <RichText className="text-center text-base md:text-lg" richText={breakContent} />
+              </div>
+            </div>
+            <div className="envelope-hearts" aria-hidden>
+              <span className="heart heart-a1" />
+              <span className="heart heart-a2" />
+              <span className="heart heart-a3" />
+            </div>
+          </div>
+
+          {showConfetti && (
+            <div className="envelope-confetti" aria-hidden>
+              <div className="envelope-confetti-layer envelope-confetti-layer-primary" />
+              <div className="envelope-confetti-layer envelope-confetti-layer-blur" />
+            </div>
+          )}
         </div>
-    </div>
-</div>
-<div className="reset">
-    <button id="open" className="open">Open</button>
-    <button id="reset" className="reset">Reset</button>
-</div>
+      </div>
 
       <style jsx>{`
-        .envelope-wrapper {
-          --env-width: 280px;
-          --env-height: 180px;
-          --env-radius: 14px;
-          --heart-size: 46px;
-          --color-env: #0077b2;
-          --color-env-2: #00669c;
-          --color-flap: #00527e;
-          --color-front: #0099ad;
-          --color-back: #0b2447;
-          --color-heart: #d00000;
-          perspective: 1400px;
-          padding: 36px 0 16px;
-          width: var(--env-width);
-          height: 220px;
+        .envelope-scene {
+          width: 320px;
+          height: 240px;
           position: relative;
+          perspective: 1400px;
+          cursor: pointer;
         }
 
         .envelope {
+          --env-border: 16px;
+          --env-width: 320px;
+          --env-height: 200px;
+          --env-pocket: linear-gradient(135deg, #0f766e 0%, #0b4f4b 100%);
+          --env-flap: linear-gradient(135deg, #0b3948 0%, #073541 100%);
+          --env-letter: linear-gradient(135deg, #fff7e1 0%, #ffe6b9 100%);
           position: relative;
-          width: 100%;
-          height: 100%;
+          width: var(--env-width);
+          height: var(--env-height);
+          margin: 0 auto;
           transform-style: preserve-3d;
         }
 
-        .envelope__shadow {
+        .envelope::after {
+          content: "";
           position: absolute;
-          bottom: 16px;
+          bottom: -26px;
           left: 50%;
-          width: 140%;
-          height: 28px;
+          width: 160%;
+          height: 32px;
           transform: translateX(-50%);
           background: radial-gradient(
             ellipse at center,
-            rgba(0, 0, 0, 0.22) 0%,
-            rgba(0, 0, 0, 0.05) 42%,
-            transparent 72%
+            rgba(0, 0, 0, 0.24) 0%,
+            rgba(0, 0, 0, 0.04) 45%,
+            transparent 75%
           );
           filter: blur(2px);
-          opacity: 0.75;
+          opacity: 0.6;
         }
 
-        .envelope__back {
+        .envelope-pocket {
           position: absolute;
-          bottom: 28px;
-          left: 50%;
-          width: calc(var(--env-width) - 30px);
-          height: 160px;
-          transform: translateX(-50%);
-          border-radius: 16px;
-          background: linear-gradient(135deg, #0f4c75 0%, var(--color-back) 100%);
-          box-shadow:
-            0 20px 38px rgba(11, 36, 71, 0.32),
-            inset 0 0 18px rgba(255, 255, 255, 0.06);
-          border: 2px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .envelope__front {
-          position: absolute;
-          bottom: 28px;
-          left: 50%;
-          width: calc(var(--env-width) - 30px);
-          height: 160px;
-          transform: translateX(-50%);
-          overflow: hidden;
-          border-radius: 16px;
-          background: linear-gradient(135deg, var(--color-front) 0%, #0b7285 95%);
-          clip-path: polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
-          border: 2px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .envelope__flap {
-          position: absolute;
-          bottom: 28px;
-          left: 50%;
-          width: calc(var(--env-width) - 30px);
-          height: 160px;
-          transform-origin: bottom center;
-          transform: translateX(-50%) rotateX(0deg);
-          transform-style: preserve-3d;
-          transition: transform 1.05s cubic-bezier(0.2, 1, 0.22, 1);
-          border-radius: 16px;
+          inset: 0;
+          border-radius: var(--env-border);
+          background: var(--env-pocket);
           clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
-          background: linear-gradient(135deg, var(--color-back) 0%, var(--color-flap) 90%);
-          box-shadow:
-            0 18px 30px rgba(11, 36, 71, 0.35),
-            inset 0 0 16px rgba(255, 255, 255, 0.12);
-          pointer-events: none;
         }
 
-        .envelope__card {
+        .envelope-flap {
           position: absolute;
-          bottom: 28px;
-          left: 50%;
-          width: calc(var(--env-width) - 55px);
-          height: 140px;
-          transform: translate(-50%, 0) translateZ(1px);
-          border-radius: var(--env-radius);
-          background: linear-gradient(135deg, #fff7e1 0%, #ffe9c6 100%);
-          box-shadow:
-            0 12px 28px rgba(148, 87, 35, 0.25),
-            inset 0 0 14px rgba(255, 255, 255, 0.35);
-          border: 1px solid rgba(217, 119, 6, 0.22);
-          transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, visibility 0.4s ease;
+          inset: 0;
+          border-radius: var(--env-border);
+          background: var(--env-flap);
+          clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 100%, 0 100%);
           transform-origin: bottom center;
-          opacity: 0;
-          visibility: hidden;
-          will-change: transform, opacity;
-          overflow: hidden;
+          transform: rotateX(0deg);
+          transform-style: preserve-3d;
+          transition: transform 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+          z-index: 3;
         }
 
-        .envelope__card-inner {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          padding: 22px 18px;
+        .envelope-letter {
+          position: absolute;
+          bottom: 12px;
+          left: 50%;
+          width: calc(var(--env-width) - 64px);
+          height: calc(var(--env-height) - 80px);
+          transform: translateX(-50%) translateZ(1px) translateY(0);
+          border-radius: calc(var(--env-border) - 4px);
+          background: var(--env-letter);
+          box-shadow:
+            0 16px 32px rgba(94, 52, 16, 0.25),
+            inset 0 0 16px rgba(255, 255, 255, 0.4);
+          border: 1px solid rgba(217, 119, 6, 0.25);
+          transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+          opacity: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #0f4c75;
-          font-weight: 600;
+          padding: 24px;
+          text-align: center;
+          z-index: 2;
         }
 
-        .envelope-wrapper.open .envelope__flap {
-          transform: translateX(-50%) rotateX(-152deg);
+        .envelope-letter-inner {
+          max-height: 100%;
+          overflow-y: auto;
         }
 
-        .envelope-wrapper.open .envelope__card {
+        .envelope-shadow {
+          position: absolute;
+          inset: 0;
+          border-radius: var(--env-border);
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.08));
+          opacity: 0.3;
+        }
+
+        .envelope.open .envelope-flap,
+        .open .envelope-flap {
+          transform: rotateX(-155deg);
+        }
+
+        .envelope.open .envelope-letter,
+        .open .envelope-letter {
           opacity: 1;
-          visibility: visible;
-          transform: translate(-50%, calc(-1 * var(--env-height) / 1.4)) translateZ(22px);
+          transform: translateX(-50%) translateZ(18px) translateY(calc(-1 * var(--env-height) / 1.45));
         }
 
-        .envelope-wrapper .hearts {
+        .envelope-hearts {
           position: absolute;
           top: 55%;
           left: 0;
           right: 0;
-          z-index: 3;
+          display: flex;
+          justify-content: center;
+          gap: 20px;
           pointer-events: none;
+          z-index: 4;
         }
 
         .heart {
-          position: absolute;
-          bottom: 0;
-          width: var(--heart-size);
-          height: var(--heart-size);
+          position: relative;
+          width: 44px;
+          height: 44px;
           opacity: 0;
           transform: scale(0.6);
         }
@@ -247,95 +255,90 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
           position: absolute;
           width: 50%;
           height: 80%;
-          background: var(--color-heart);
+          background: #f97316;
           border-radius: 50%;
-          transform-origin: center;
           top: 0;
         }
 
         .heart::before {
-          left: 0;
-          transform: translateX(50%) rotate(-45deg);
+          left: 50%;
+          transform: translateX(-100%) rotate(-45deg);
         }
 
         .heart::after {
-          right: 0;
-          transform: translateX(-50%) rotate(45deg);
+          right: 50%;
+          transform: translateX(100%) rotate(45deg);
         }
 
-        .envelope-wrapper.open .heart {
-          opacity: 1;
+        .open .heart {
+          animation: float-up 4s ease-in forwards, sway 2.2s ease-in-out infinite alternate;
         }
 
-        .envelope-wrapper.open .heart--a1 {
-          left: 22%;
-          animation: slideUp 4s linear forwards, sway 2s ease-in-out 4 alternate;
+        .open .heart-a1 {
+          animation-delay: 0.5s;
         }
 
-        .envelope-wrapper.open .heart--a2 {
-          left: 55%;
-          transform: scale(0.9);
-          animation: slideUp 5s linear forwards, sway 3.5s ease-in-out 3 alternate;
+        .open .heart-a2 {
+          animation-delay: 0.8s;
+          animation-duration: 4.6s;
         }
 
-        .envelope-wrapper.open .heart--a3 {
-          left: 10%;
-          transform: scale(0.75);
-          animation: slideUp 6.5s linear forwards, sway 2.5s ease-in-out 4 alternate;
+        .open .heart-a3 {
+          animation-delay: 1s;
+          animation-duration: 5s;
         }
 
         .envelope-confetti {
           position: absolute;
           inset: 0;
           pointer-events: none;
-          overflow: visible;
           z-index: 5;
         }
 
-        .envelope-confetti__layer {
+        .envelope-confetti-layer {
           position: absolute;
           inset: 0;
           animation: confetti-burst 2.4s ease-out forwards;
           background-repeat: no-repeat;
         }
 
-        .envelope-confetti__layer--primary {
+        .envelope-confetti-layer-primary {
           background-image:
-            radial-gradient(circle at 10% 20%, rgba(255, 183, 77, 0.65) 0, transparent 42%),
-            radial-gradient(circle at 80% 16%, rgba(255, 255, 255, 0.65) 0, transparent 45%),
-            radial-gradient(circle at 16% 80%, rgba(217, 119, 6, 0.45) 0, transparent 36%),
-            radial-gradient(circle at 90% 76%, rgba(244, 114, 182, 0.45) 0, transparent 48%);
+            radial-gradient(circle at 12% 22%, rgba(255, 183, 77, 0.65) 0, transparent 44%),
+            radial-gradient(circle at 78% 14%, rgba(255, 255, 255, 0.65) 0, transparent 48%),
+            radial-gradient(circle at 20% 80%, rgba(217, 119, 6, 0.45) 0, transparent 38%),
+            radial-gradient(circle at 90% 78%, rgba(244, 114, 182, 0.45) 0, transparent 50%);
         }
 
-        .envelope-confetti__layer--blur {
-          filter: blur(6px);
+        .envelope-confetti-layer-blur {
+          filter: blur(5px);
           background-image:
-            radial-gradient(circle at 15% 18%, rgba(255, 213, 128, 0.55) 0, transparent 44%),
-            radial-gradient(circle at 74% 12%, rgba(255, 255, 255, 0.55) 0, transparent 46%),
-            radial-gradient(circle at 22% 78%, rgba(217, 70, 239, 0.35) 0, transparent 40%),
-            radial-gradient(circle at 88% 82%, rgba(56, 189, 248, 0.35) 0, transparent 50%);
+            radial-gradient(circle at 18% 18%, rgba(255, 213, 128, 0.55) 0, transparent 46%),
+            radial-gradient(circle at 72% 12%, rgba(255, 255, 255, 0.55) 0, transparent 46%),
+            radial-gradient(circle at 24% 76%, rgba(217, 70, 239, 0.35) 0, transparent 40%),
+            radial-gradient(circle at 88% 82%, rgba(56, 189, 248, 0.35) 0, transparent 52%);
         }
 
-        @keyframes slideUp {
+        @keyframes float-up {
           0% {
-            top: 0;
             opacity: 0;
+            transform: translateY(0) scale(0.6);
           }
-          15% {
+          20% {
             opacity: 1;
           }
           100% {
-            top: -520px;
             opacity: 0;
+            transform: translateY(-260px) scale(1);
           }
         }
 
         @keyframes sway {
           0% {
-            margin-left: 0;
+            transform: translateX(0);
           }
           100% {
-            margin-left: 50px;
+            transform: translateX(40px);
           }
         }
 

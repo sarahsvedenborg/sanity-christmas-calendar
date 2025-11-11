@@ -20,6 +20,7 @@ type ChristmasCalendarProps = {
   data: CalendarData;
 };
 
+
 export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysUntilStart, setDaysUntilStart] = useState<number | null>(null);
@@ -164,9 +165,8 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
        
             {daysUntilStart !== null && daysUntilStart > 0 && (
+              <>
             <Countdown />
-            )}
-
               {data.description && (<>
               {/* <p className="mb-8 text-lg text-white/90 max-w-3xl mx-auto text-left md:text-xl">
                 {data.description}
@@ -180,6 +180,10 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               </div>
               </>
             )} 
+            </>
+            )}
+
+            
 
             {/* Cover Image */}
             {data.coverImage && (

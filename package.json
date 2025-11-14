@@ -6,6 +6,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "dev:web": "cd apps/web && pnpm dev",
+    "build:web": "cd apps/web && pnpm build",
+    "start:web": "cd apps/web && pnpm start",
     "lint": "npx ultracite check",
     "format": "npx ultracite fix",
     "check-types": "turbo check-types"

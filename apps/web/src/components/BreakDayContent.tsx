@@ -3,7 +3,29 @@
 import { Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import type { SanityImageProps } from "@/types";
+
 import { RichText } from "./elements/rich-text";
+import { SanityImage } from "./elements/sanity-image";
+
+type PortableTextNode = Record<string, unknown>;
+
+type PortableTextImageBlock = PortableTextNode & {
+  _type: "image";
+  id: string;
+  caption?: string;
+};
+
+function isPortableImageBlock(
+  node: PortableTextNode
+): node is PortableTextImageBlock {
+  return (
+    typeof node === "object" &&
+    node !== null &&
+    node._type === "image" &&
+    typeof node.id === "string"
+  );
+}
 
 type BreakDayContentProps = {
   breakContent: unknown;
@@ -33,6 +55,18 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const sparkles = useMemo(() => SPARKLES, []);
+  const portableNodes = useMemo<PortableTextNode[]>(
+    () => (Array.isArray(breakContent) ? (breakContent as PortableTextNode[]) : []),
+    [breakContent]
+  );
+  const imageBlocks = useMemo(
+    () => portableNodes.filter(isPortableImageBlock),
+    [portableNodes]
+  );
+
+  const isMemeOnly =
+    portableNodes.length > 0 && imageBlocks.length === portableNodes.length;
+  const featuredMeme = isMemeOnly ? imageBlocks[0] : null;
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -75,12 +109,48 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
         ))}
       </div>
 
-      <div className="relative mx-auto flex max-w-xl flex-col items-center gap-6">
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-4 sm:px-6">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.45em] text-amber-600 dark:text-amber-200 md:text-sm">
           <Sparkles className="size-4 animate-pulse" />
           Julebrev
           <Sparkles className="size-4 animate-pulse" />
         </div>
+
+        {isMemeOnly && featuredMeme ? (
+          <div className="relative w-full max-w-4xl overflow-visible">
+            <div className="pointer-events-none absolute -left-10 top-10 z-20 -rotate-6 rounded-sm bg-amber-200/90 px-5 py-2 text-sm font-black uppercase tracking-[0.4em] text-amber-900 shadow-lg">
+              lol
+            </div>
+            <div className="pointer-events-none absolute -right-6 bottom-6 z-20 rotate-3 rounded-sm bg-slate-200/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-800 shadow">
+              pause
+            </div>
+            <div className="relative overflow-visible rounded-[48px] border-4 border-white/70 bg-white/90 p-6 shadow-[0_30px_60px_rgba(2,6,23,0.35)] dark:border-amber-200/60 dark:bg-green-950/70">
+              <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.25)_0%,_transparent_65%)]" />
+              <div className="meme-polaroid relative z-10 overflow-hidden rounded-[36px] bg-white">
+                <SanityImage
+                  alt={featuredMeme.caption ?? "Break day meme"}
+                  className="block h-auto w-full object-cover"
+                  height={1300}
+                  image={featuredMeme as unknown as SanityImageProps}
+                  width={2000}
+                />
+              </div>
+            </div>
+            <div className="mt-6 text-center">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.5em] text-amber-500">
+                Dagens meme-drop
+              </p>
+              <p className="mt-2 text-lg font-semibold text-green-950 dark:text-amber-100">
+                {featuredMeme.caption ?? "Vi tar en pause med litt latter 🤭"}
+              </p>
+              <p className="mt-1 text-sm text-green-900/70 dark:text-amber-200/70">
+                Konvolutten spretter opp, og denne dukker frem 📸
+              </p>
+            </div>
+          </div>
+        ) : (
+          <RichText className="text-center text-base md:text-lg" richText={breakContent} />
+        )}
 
         <div
           aria-live="polite"
@@ -95,7 +165,7 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
           role="button"
           tabIndex={0}
         >
-          <div className="envelope">
+       {/*    <div className="envelope">
             <div className="envelope-shadow" />
             <div className="envelope-pocket" />
             <div className="envelope-flap" />
@@ -109,7 +179,7 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
               <span className="heart heart-a2" />
               <span className="heart heart-a3" />
             </div>
-          </div>
+          </div> */}
 
           {showConfetti && (
             <div className="envelope-confetti" aria-hidden>
@@ -121,6 +191,28 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
       </div>
 
       <style jsx>{`
+        .meme-polaroid {
+          animation: meme-pop 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow:
+            0 8px 18px rgba(15, 118, 110, 0.18),
+            inset 0 0 18px rgba(255, 255, 255, 0.35);
+        }
+
+        @keyframes meme-pop {
+          0% {
+            opacity: 0;
+            transform: scale(0.85) rotate(-2deg);
+          }
+          60% {
+            opacity: 1;
+            transform: scale(1.03) rotate(1deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+
         .envelope-scene {
           width: 320px;
           height: 240px;

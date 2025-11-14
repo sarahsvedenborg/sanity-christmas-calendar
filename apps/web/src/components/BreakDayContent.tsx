@@ -82,6 +82,8 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
           <Sparkles className="size-4 animate-pulse" />
         </div>
 
+         <RichText className="text-center text-base md:text-lg" richText={breakContent} />
+
         <div
           aria-live="polite"
           className={`envelope-scene ${isOpen ? "open" : "closed"}`}
@@ -95,7 +97,7 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
           role="button"
           tabIndex={0}
         >
-          <div className="envelope">
+       {/*    <div className="envelope">
             <div className="envelope-shadow" />
             <div className="envelope-pocket" />
             <div className="envelope-flap" />
@@ -109,7 +111,7 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
               <span className="heart heart-a2" />
               <span className="heart heart-a3" />
             </div>
-          </div>
+          </div> */}
 
           {showConfetti && (
             <div className="envelope-confetti" aria-hidden>

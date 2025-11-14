@@ -147,6 +147,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
             }}>
               🎄 {data.title}🎄
             </h1> */}
+          
               <h1 className="mb-4 text-balance font-bold text-5xl line-height-1 tracking-tight drop-shadow-lg md:text-7xl" style={{ 
               color: '#B91C1C',
               textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'

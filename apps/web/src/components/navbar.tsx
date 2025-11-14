@@ -17,7 +17,7 @@ import { SanityButtons } from "./elements/sanity-buttons";
 import { SanityIcon } from "./elements/sanity-icon";
 import { Logo } from "./logo";
 import { ModeToggle } from "./mode-toggle";
-import { CalendarLogo } from "./CalendarLogo";
+import { CalendarLogo } from "../logos/CalendarLogo";
 
 // Type helpers using utility types
 type NavigationData = {

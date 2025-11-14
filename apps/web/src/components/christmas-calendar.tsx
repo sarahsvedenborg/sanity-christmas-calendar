@@ -9,10 +9,10 @@ import type { QueryChristmasCalendarDataResult } from "@/lib/sanity/sanity.types
 
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
-import { CalendarLogo } from "./CalendarLogo";
-import { CalendarLogoGold } from "./CalendarLogoGold";
-import { CalendarLogoSilver } from "./CalendarLogoSilver";
-import { CalendarLogoBronze } from "./CalendarLogoBronze";
+import { CalendarLogo } from "../logos/CalendarLogo";
+import { CalendarLogoGold } from "../logos/CalendarLogoGold";
+import { CalendarLogoSilver } from "../logos/CalendarLogoSilver";
+import { CalendarLogoBronze } from "../logos/CalendarLogoBronze";
 
 type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 

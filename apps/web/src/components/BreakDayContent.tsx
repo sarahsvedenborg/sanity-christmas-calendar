@@ -89,7 +89,8 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
 
   return (
     <div
-      className="relative mb-16 overflow-hidden rounded-3xl border-2 border-amber-300/60 bg-gradient-to-br from-white/96 via-amber-50/85 to-white/96 p-10 text-center shadow-2xl backdrop-blur-md dark:border-amber-700/60 dark:from-green-950/90 dark:via-green-900/80 dark:to-green-950/90"
+     /*  className="relative mb-16 overflow-hidden rounded-3xl border-2 border-amber-300/60 bg-gradient-to-br from-white/96 via-amber-50/85 to-white/96 p-10 text-center shadow-2xl backdrop-blur-md dark:border-amber-700/60 dark:from-green-950/90 dark:via-green-900/80 dark:to-green-950/90" */
+      className="relative mb-16 overflow-hidden rounded-3xl  p-10 text-center shadow-2xl  dark:border-amber-700/60 dark:from-green-950/90 dark:via-green-900/80 dark:to-green-950/90"
       style={{ borderColor: "#D4AF37" }}
     >
       <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen">
@@ -110,19 +111,16 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-4 sm:px-6">
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.45em] text-amber-600 dark:text-amber-200 md:text-sm">
+       {/*  <div className="relative flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.45em] text-amber-600 dark:text-amber-200 md:text-sm">
           <Sparkles className="size-4 animate-pulse" />
           Julebrev
           <Sparkles className="size-4 animate-pulse" />
-        </div>
+        </div> */}
 
         {isMemeOnly && featuredMeme ? (
           <div className="relative w-full max-w-4xl overflow-visible">
             <div className="pointer-events-none absolute -left-10 top-10 z-20 -rotate-6 rounded-sm bg-amber-200/90 px-5 py-2 text-sm font-black uppercase tracking-[0.4em] text-amber-900 shadow-lg">
               lol
-            </div>
-            <div className="pointer-events-none absolute -right-6 bottom-6 z-20 rotate-3 rounded-sm bg-slate-200/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-800 shadow">
-              pause
             </div>
             <div className="relative overflow-visible rounded-[48px] border-4 border-white/70 bg-white/90 p-6 shadow-[0_30px_60px_rgba(2,6,23,0.35)] dark:border-amber-200/60 dark:bg-green-950/70">
               <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.25)_0%,_transparent_65%)]" />
@@ -143,9 +141,9 @@ export const BreakDayContent = ({ breakContent }: BreakDayContentProps) => {
               <p className="mt-2 text-lg font-semibold text-green-950 dark:text-amber-100">
                 {featuredMeme.caption ?? "Vi tar en pause med litt latter 🤭"}
               </p>
-              <p className="mt-1 text-sm text-green-900/70 dark:text-amber-200/70">
+             {/*  <p className="mt-1 text-sm text-green-900/70 dark:text-amber-200/70">
                 Konvolutten spretter opp, og denne dukker frem 📸
-              </p>
+              </p> */}
             </div>
           </div>
         ) : (

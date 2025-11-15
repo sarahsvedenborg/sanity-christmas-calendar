@@ -1,5 +1,12 @@
+import type { ComponentType } from "react";
+
 import { UserRound } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
+
+import { TaskCompletionStatusInput } from "../../components/task-completion-status-input";
+
+const taskCompletionStatusInput =
+  TaskCompletionStatusInput as unknown as ComponentType<any>;
 
 export const user = defineType({
   name: "user",
@@ -20,6 +27,56 @@ export const user = defineType({
       type: "string",
       validation: (rule) =>
         rule.required().email().error("Provide a valid email address."),
+    }),
+    defineField({
+      name: "taskCompletionStatus",
+      title: "Task completion status",
+      description:
+        "Keep track of each calendar task the user has completed. Toggle the switch once the day is done.",
+      type: "array",
+      readOnly: false,
+      of: [
+        defineArrayMember({
+          name: "taskStatus",
+          title: "Task status",
+          type: "object",
+          fields: [
+            defineField({
+              name: "calendarDay",
+              title: "Calendar day",
+              type: "reference",
+              to: [{ type: "calendarDay" }],
+              readOnly: true,
+            }),
+            defineField({
+              name: "completed",
+              title: "Completed",
+              type: "boolean",
+              initialValue: false,
+            }),
+          ],
+        }),
+      ],
+      initialValue: async (_params, { getClient }) => {
+        const client = getClient({ apiVersion: "2025-01-01" });
+        const calendarDays =
+          (await client.fetch<{ _id: string }[]>(
+            '*[_type == "calendarDay"] | order(dayNumber asc){ _id }'
+          )) ?? [];
+
+        return calendarDays.map((day) => ({
+          _type: "taskStatus",
+          _key: day._id,
+          calendarDay: {
+            _type: "reference",
+            _ref: day._id,
+          },
+          completed: false,
+        }));
+      },
+      components: {
+        input: taskCompletionStatusInput,
+      },
     }),
   ],
   preview: {

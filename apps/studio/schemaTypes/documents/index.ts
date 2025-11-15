@@ -13,6 +13,7 @@ import { navbar } from "./navbar";
 import { page } from "./page";
 import { redirect } from "./redirect";
 import { settings } from "./settings";
+import { user } from "./user";
 
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
@@ -26,6 +27,7 @@ export const documents = [
   dayCategory,
   definition,
   answers,
+  user,
   ...singletons,
   redirect,
 ];

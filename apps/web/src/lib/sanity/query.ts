@@ -613,3 +613,23 @@ export const queryCalendarDayData = defineQuery(`
 export const queryCalendarDayPaths = defineQuery(`
   *[_type == "calendarDay" && defined(slug.current)].slug.current
 `);
+
+export const queryUserProgressByEmail = defineQuery(`
+  *[_type == "user" && email == $email][0]{
+    name,
+    email,
+    taskCompletionStatus[]{
+      completed,
+      calendarDay->{
+        _id,
+        dayNumber,
+        title,
+        "slug": slug.current,
+        "category": category->{
+          _id,
+          title
+        }
+      }
+    }
+  }
+`);

@@ -11,13 +11,13 @@ import type { QueryCalendarDayDataResult } from "@/lib/sanity/sanity.types";
 import { RichText } from "./elements/rich-text";
 import { SanityImage } from "./elements/sanity-image";
 import { BreakDayContent } from "./BreakDayContent";
-import { CalendarLogoBronze } from "./CalendarLogoBronze";
-import { CalendarLogoSilver } from "./CalendarLogoSilver";
-import { CalendarLogoGold } from "./CalendarLogoGold";
+import { CalendarLogoBronze } from "../logos/CalendarLogoBronze";
+import { CalendarLogoSilver } from "../logos/CalendarLogoSilver";
+import { CalendarLogoGold } from "../logos/CalendarLogoGold";
 import { Snowflakes } from "./elements/snowflakes";
-import { LogoBronzeMini } from "./LogoBronzeMini";
-import { LogoSilverMini } from "./LogoSilverMini";
-import { LogoGoldMini } from "./LogoGoldMini";
+import { LogoBronzeMini } from "../logos/LogoBronzeMini";
+import { LogoSilverMini } from "../logos/LogoSilverMini";
+import { LogoGoldMini } from "../logos/LogoGoldMini";
 
 type CalendarDayData = NonNullable<QueryCalendarDayDataResult>;
 
@@ -168,23 +168,6 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
             </ul>
           </div>
         )}
-
-      {/*   {tech.hint && (
-          <div
-            className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
-            style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
-          >
-            <div className="flex items-start gap-2">
-              <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
-              <div>
-                <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
-                  Hint
-                </h4>
-                <p className="text-green-900 dark:text-amber-200">{tech.hint}</p>
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     );
   };
@@ -295,23 +278,6 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
             </ul>
           </div>
         )}
-
-      {/*   {design.hint && (
-          <div
-            className="rounded-lg border-2 border-amber-300 bg-amber-200/80 p-4 dark:border-amber-700 dark:bg-amber-950/50"
-            style={{ borderColor: "#D4AF37", backgroundColor: "#F5DEB3" }}
-          >
-            <div className="flex items-start gap-2">
-              <Lightbulb className="mt-1 size-5 text-green-950 dark:text-amber-200" />
-              <div>
-                <h4 className="mb-1 font-semibold text-green-950 dark:text-amber-100">
-                  Hint
-                </h4>
-                <p className="text-green-900 dark:text-amber-200">{design.hint}</p>
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     );
   };
@@ -338,12 +304,15 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
            <CalendarLogoBronze width={40} height={40} />
              <span className="font-bold text-white text-lg">Uke 1: </span>
               </div> */}
+              
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-           
+          {(data as any)?.isBreak &&  <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/80 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
+            Pausedag
+          </div>}
             {/* <span className="text-2xl">🎁</span> */}
-{category?.identifier === '1' && <LogoBronzeMini width={30} height={30} />}
-{category?.identifier ==='2' && <LogoSilverMini width={30} height={30} />}
-{category?.identifier ==='3' && <LogoGoldMini width={30} height={30} />}
+{category?.identifier === '1' && <CalendarLogoBronze width={30} height={30} />}
+{category?.identifier ==='2' && <CalendarLogoSilver width={30} height={30} />}
+{category?.identifier ==='3' && <CalendarLogoGold width={30} height={30} />}
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
               </div>
 

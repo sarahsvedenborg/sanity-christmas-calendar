@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-// import Snowflakes from "@/components/elements/snowflakes";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryUserProgressByEmail } from "@/lib/sanity/query";
 
@@ -24,8 +23,9 @@ type UserProgress = {
   taskCompletionStatus?: TaskStatus[];
 } | null;
 
-// const HARD_CODED_EMAIL = "progress-demo@example.com";
-const HARD_CODED_EMAIL = "stian.svedenborg@test.no";
+ //const HARD_CODED_EMAIL = "progress-demo@example.com";
+//const HARD_CODED_EMAIL = "stian.svedenborg@test.no";
+const HARD_CODED_EMAIL = "sarah.svedenborg@test.no";
 
 async function fetchProgress(): Promise<UserProgress> {
   const response = await sanityFetch({
@@ -47,6 +47,7 @@ export const revalidate = 60;
 
 export default async function ProgressionPage() {
   const progress = await fetchProgress();
+  const isMissingUser = !progress;
   const tasks =
     progress?.taskCompletionStatus?.filter(
       (status): status is Required<TaskStatus> &
@@ -61,9 +62,7 @@ export default async function ProgressionPage() {
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 py-16 text-white">
-      <div className="pointer-events-none fixed inset-0 opacity-60">
-   {/*      <Snowflakes /> */}
-      </div>
+      <div className="pointer-events-none fixed inset-0 opacity-60" />
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-4">
         <header className="space-y-4 text-center">
           <p className="text-sm uppercase tracking-[0.4em] text-amber-200">
@@ -85,101 +84,131 @@ export default async function ProgressionPage() {
           </p>
         </header>
 
-        <section className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
-          <div className="grid gap-6 md:grid-cols-3">
-            <div>
-              <p className="text-sm uppercase tracking-wide text-white/60">
-                Fullført
-              </p>
-              <p className="text-4xl font-semibold text-white">
-                {completedTasks}
-                <span className="text-lg text-white/70"> / {totalTasks}</span>
-              </p>
-            </div>
-            <div>
-              <p className="text-sm uppercase tracking-wide text-white/60">
-                Fremdrift
-              </p>
-              <p className="text-4xl font-semibold text-white">{percent}%</p>
-            </div>
-            <div>
-              <p className="text-sm uppercase tracking-wide text-white/60">
-                Neste steg
-              </p>
-              <p className="text-lg text-white">
-                {tasks.find((task) => !task.completed)?.calendarDay?.title ??
-                  "Alle oppgaver fullført 🎉"}
-              </p>
-            </div>
-          </div>
-          <div className="mt-6 h-3 w-full overflow-hidden rounded-full bg-white/20">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <div>
-            <h2 className="text-2xl font-semibold">Oversikt per dag</h2>
-            <p className="text-white/70">
-              Klikk på en dag for å åpne oppgaven i kalenderen.
+        {isMissingUser ? (
+          <section className="rounded-3xl border border-white/10 bg-white/10 p-10 text-center shadow-2xl backdrop-blur">
+            <p className="text-xl font-semibold text-white">
+              Denne e-postadressen er ikke registrert enda.
             </p>
-          </div>
-
-          {tasks.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/70">
-              Ingen oppgaver funnet. Legg til kalenderluker i Sanity og knytt
-              dem til brukeren.
+            <p className="mt-2 text-white/70">
+              Trykk på knappen under for å gå til registreringsskjemaet og
+              komme i gang.
+            </p>
+            <div className="mt-6">
+              <Link
+                className="inline-flex items-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Gå til registrering
+              </Link>
             </div>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {tasks.map((task) => {
-                const { calendarDay } = task;
-                const isComplete = Boolean(task.completed);
-                const href = calendarDay.slug ? `/${calendarDay.slug}` : "#";
-                const isClickable = Boolean(calendarDay.slug);
+          </section>
+        ) : (
+          <>
+            <section className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
+              <div className="grid gap-6 md:grid-cols-3">
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-white/60">
+                    Fullført
+                  </p>
+                  <p className="text-4xl font-semibold text-white">
+                    {completedTasks}
+                    <span className="text-lg text-white/70">
+                      {" "}
+                      / {totalTasks}
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-white/60">
+                    Fremdrift
+                  </p>
+                  <p className="text-4xl font-semibold text-white">
+                    {percent}%
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-wide text-white/60">
+                    Neste steg
+                  </p>
+                  <p className="text-lg text-white">
+                    {tasks.find((task) => !task.completed)?.calendarDay
+                      ?.title ?? "Alle oppgaver fullført 🎉"}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 h-3 w-full overflow-hidden rounded-full bg-white/20">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500"
+                  style={{ width: `${percent}%` }}
+                />
+              </div>
+            </section>
 
-                return (
-                  <Link
-                    key={calendarDay._id}
-                    aria-disabled={!isClickable}
-                    className={`group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-amber-300/60 hover:bg-white/10 ${
-                      !isClickable ? "pointer-events-none opacity-70" : ""
-                    }`}
-                    href={href}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <p className="text-sm uppercase tracking-wide text-white/60">
-                          Dag {calendarDay.dayNumber ?? "?"}
-                        </p>
-                        <p className="text-lg font-semibold text-white">
-                          {calendarDay.title ?? "Uten tittel"}
-                        </p>
-                        {calendarDay.category?.title ? (
-                          <p className="text-sm text-white/60">
-                            {calendarDay.category.title}
-                          </p>
-                        ) : null}
-                      </div>
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                          isComplete
-                            ? "bg-emerald-400/20 text-emerald-200"
-                            : "bg-white/10 text-white/80"
+            <section className="space-y-4">
+              <div>
+                <h2 className="text-2xl font-semibold">Oversikt per dag</h2>
+                <p className="text-white/70">
+                  Klikk på en dag for å åpne oppgaven i kalenderen.
+                </p>
+              </div>
+
+              {tasks.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center text-white/70">
+                  Ingen oppgaver funnet. Legg til kalenderluker i Sanity og knytt
+                  dem til brukeren.
+                </div>
+              ) : (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {tasks.map((task) => {
+                    const { calendarDay } = task;
+                    const isComplete = Boolean(task.completed);
+                    const href = calendarDay.slug ? `/${calendarDay.slug}` : "#";
+                    const isClickable = Boolean(calendarDay.slug);
+
+                    return (
+                      <Link
+                        key={calendarDay._id}
+                        aria-disabled={!isClickable}
+                        className={`group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-amber-300/60 hover:bg-white/10 ${
+                          !isClickable ? "pointer-events-none opacity-70" : ""
                         }`}
+                        href={href}
                       >
-                        {isComplete ? "Ferdig" : "Ikke ferdig"}
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </section>
+                        <div className="flex items-start justify-between">
+                          <div className="space-y-1">
+                            <p className="text-sm uppercase tracking-wide text-white/60">
+                              Dag {calendarDay.dayNumber ?? "?"}
+                            </p>
+                            <p className="text-lg font-semibold text-white">
+                              {calendarDay.title ?? "Uten tittel"}
+                            </p>
+                            {calendarDay.category?.title ? (
+                              <p className="text-sm text-white/60">
+                                {calendarDay.category.title}
+                              </p>
+                            ) : null}
+                          </div>
+                          <span
+                            className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                              isComplete
+                                ? "bg-emerald-400/20 text-emerald-200"
+                                : "bg-white/10 text-white/80"
+                            }`}
+                          >
+                            {isComplete ? "Ferdig" : "Ikke ferdig"}
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          </>
+        )}
+
       </div>
     </main>
   );

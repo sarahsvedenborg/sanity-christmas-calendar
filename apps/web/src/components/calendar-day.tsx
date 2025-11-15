@@ -306,13 +306,13 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               </div> */}
               
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-            <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/80 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
+          {(data as any)?.isBreak &&  <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/80 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
             Pausedag
-          </div>
+          </div>}
             {/* <span className="text-2xl">🎁</span> */}
 {category?.identifier === '1' && <CalendarLogoBronze width={30} height={30} />}
-{category?.identifier ==='2' && <LogoSilverMini width={30} height={30} />}
-{category?.identifier ==='3' && <LogoGoldMini width={30} height={30} />}
+{category?.identifier ==='2' && <CalendarLogoSilver width={30} height={30} />}
+{category?.identifier ==='3' && <CalendarLogoGold width={30} height={30} />}
             <span className="font-bold text-white text-lg">Dag {data.dayNumber}</span>
               </div>
 

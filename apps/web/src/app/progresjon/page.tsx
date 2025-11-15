@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryUserProgressByEmail } from "@/lib/sanity/query";
+import { Snowflakes } from "@/components/elements/snowflakes";
 
 type TaskStatus = {
   completed?: boolean;
@@ -23,11 +24,16 @@ type UserProgress = {
   taskCompletionStatus?: TaskStatus[];
 } | null;
 
- //const HARD_CODED_EMAIL = "progress-demo@example.com";
-//const HARD_CODED_EMAIL = "stian.svedenborg@test.no";
-const HARD_CODED_EMAIL = "sarah.svedenborg@test.no";
+const HARD_CODED_EMAIL = "stian.svedenborg@test.no";
+//const HARD_CODED_EMAIL = "sarah.svedenborg@test.no";
+//const HARD_CODED_EMAIL = "test@test.no";
+// const HARD_CODED_EMAIL = process.env.PROGRESJON_EMAIL ?? "";
 
 async function fetchProgress(): Promise<UserProgress> {
+  if (!HARD_CODED_EMAIL) {
+    return null;
+  }
+
   const response = await sanityFetch({
     query: queryUserProgressByEmail,
     params: { email: HARD_CODED_EMAIL },
@@ -47,7 +53,8 @@ export const revalidate = 60;
 
 export default async function ProgressionPage() {
   const progress = await fetchProgress();
-  const isMissingUser = !progress;
+  const hasEmail = Boolean(HARD_CODED_EMAIL);
+  const isMissingUser = hasEmail && !progress;
   const tasks =
     progress?.taskCompletionStatus?.filter(
       (status): status is Required<TaskStatus> &
@@ -63,6 +70,9 @@ export default async function ProgressionPage() {
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 py-16 text-white">
       <div className="pointer-events-none fixed inset-0 opacity-60" />
+    {/*    <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <Snowflakes />
+      </div> */}
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-4">
         <header className="space-y-4 text-center">
           <p className="text-sm uppercase tracking-[0.4em] text-amber-200">
@@ -71,28 +81,57 @@ export default async function ProgressionPage() {
           <h1 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">
             Din julekalender-progresjon
           </h1>
-          <p className="text-white/80">
-            Viser status for{" "}
-            <span className="font-semibold text-white">
-              {progress?.name ?? "Ukjent deltaker"}
-            </span>{" "}
-            (
-            <span className="font-mono text-amber-200">
-              {progress?.email ?? HARD_CODED_EMAIL}
-            </span>
-            )
-          </p>
+            {hasEmail ? (
+              <p className="text-white/80">
+                Viser status for{" "}
+                <span className="font-semibold text-white">
+                  {progress?.name ?? "Ukjent deltaker"}
+                </span>{" "}
+                (
+                <span className="font-mono text-amber-200">
+                  {progress?.email ?? HARD_CODED_EMAIL}
+                </span>
+                )
+              </p>
+            ) : (
+              <p className="text-white/80">
+                Angi e-postadresse ved innlogging for å vise progresjonen din.
+              </p>
+            )}
         </header>
 
-        {isMissingUser ? (
+        {!hasEmail ? (
+          <section className="rounded-3xl border border-white/10 bg-white/10 p-10 text-center shadow-2xl backdrop-blur">
+            <p className="text-xl font-semibold text-white">
+              Du er ikke logget inn.
+            </p>
+            <p className="mt-2 text-white/70">
+              Logg inn for å se fremdriften din i julekalenderen.
+            </p>
+            <p className="mt-2 text-white/70">
+              Kun <strong>Sopra Steria</strong>-brukere kan logge inn for å se progresjonen sin.
+            </p>
+             <p className="mt-2 text-white/70 max-w-lg mx-auto">
+              Dersom du ikke jobber i Sopra Steria er du hjertelig velkommen til å følge julekalenderen, men du må selv holde styr på egen progresjon.
+            </p>
+            <div className="mt-6">
+              <Link
+                className="inline-flex items-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
+                href="/login"
+              >
+                Gå til innlogging
+              </Link>
+            </div>
+          </section>
+        ) : isMissingUser ? (
           <section className="rounded-3xl border border-white/10 bg-white/10 p-10 text-center shadow-2xl backdrop-blur">
             <p className="text-xl font-semibold text-white">
               Denne e-postadressen er ikke registrert enda.
             </p>
-            <p className="mt-2 text-white/70">
-              Trykk på knappen under for å gå til registreringsskjemaet og
-              komme i gang.
+            <p className="mt-2 text-white/70 max-w-lg mx-auto">
+              Trykk på knappen under for å gå til registreringsskjemaet og få muligheten til å tracke progresjonen din og være med i trekningen av kule Sanitypremier.
             </p>
+            
             <div className="mt-6">
               <Link
                 className="inline-flex items-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
@@ -103,6 +142,9 @@ export default async function ProgressionPage() {
                 Gå til registrering
               </Link>
             </div>
+             <p className="mt-4 text-white/70 max-w-lg mx-auto ">
+            Dersom du allerede har regisrert seg, kontakt Sarah Svedenoborg i Sopra Steria.
+            </p>
           </section>
         ) : (
           <>

@@ -20,264 +20,39 @@ type ChristmasCalendarProps = {
   data: CalendarData;
 };
 
+function getDayEmoji(dayNumber: number): string {
+  const emojis = [
+    "🎄", // Day 1
+    "🎁", // Day 2
+    "❄️", // Day 3
+    "🦌", // Day 4
+    "⛄", // Day 5
+    "🕯️", // Day 6
+    "🎅", // Day 7
+    "🌟", // Day 8
+    "🎆", // Day 9
+    "🔔", // Day 10
+    "🎉", // Day 11
+    "☃️", // Day 12
+    "🛷", // Day 13
+    "🎪", // Day 14
+    "🎈", // Day 15
+    "🎀", // Day 16
+    "🍪", // Day 17
+    "🎁", // Day 18
+    "🎊", // Day 19
+    "🎁", // Day 20
+    "🎋", // Day 21
+    "🎄", // Day 22
+    "⭐", // Day 23
+    "🎁", // Day 24
+  ];
+  return emojis[(dayNumber - 1) % 24] || "🎄";
+}
 
-export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [daysUntilStart, setDaysUntilStart] = useState<number | null>(null);
-
-  useEffect(() => {
-    setCurrentDate(new Date());
-    if (data.startDate) {
-      const start = new Date(data.startDate);
-      const today = new Date();
-      const diff = Math.ceil((start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-      setDaysUntilStart(diff);
-    }
-  }, [data.startDate]);
-
-  const days = data.days || [];
-  const startDate = data.startDate ? new Date(data.startDate) : null;
-
-  // Group days by category
-  const groupedDays = days.reduce((acc, day) => {
-    if (!day) return acc;
-    
-    // Handle days without categories
-    if (!(day as any).category) {
-      const uncategorizedId = 'uncategorized';
-      if (!acc[uncategorizedId]) {
-        acc[uncategorizedId] = {
-          category: { _id: uncategorizedId, title: 'Other Days', description: null },
-          days: [],
-        };
-      }
-      acc[uncategorizedId].days.push(day);
-      return acc;
-    }
-    
-    const categoryId = (day as any).category._id;
-    if (!acc[categoryId]) {
-      acc[categoryId] = {
-        category: (day as any).category,
-        days: [],
-      };
-    }
-    acc[categoryId].days.push(day);
-    return acc;
-  }, {} as Record<string, { category: { _id: string; title: string; description: string | null }; days: typeof days }>);
-
-  // Get all categories and assign colors
-  const categories = Object.values(groupedDays);
-  const categoryColors: string[] = ['#CD7F32', '#C0C0C0', '#FFD700']; // Bronze, Silver, Gold
-  const categoryColorMap = new Map<string, string>();
-  categories.forEach((group, index) => {
-    const color = categoryColors[index % categoryColors.length] || '#D4AF37';
-    categoryColorMap.set(group.category._id, color);
-  });
-
-
-  const getLogo = (index: number) => {
-    switch (index) {
-      case 0:
-        return <CalendarLogoBronze width={100} height={100} />;
-      case 1:
-        return <CalendarLogoSilver width={100} height={100} />;
-      case 2:
-        return <CalendarLogoGold width={100} height={100} />;
-    }
-    return <CalendarLogo width={100} height={100} />;
-  };
-
-  const Countdown = () => {
-   return(  <div className="mb-20 mt-20 flex flex-col items-center gap-4">
-                <div className="flex items-center gap-3 text-white">
-                      <div className="relative">
-                            <div className="absolute inset-0 animate-ping rounded-full bg-yellow-800 opacity-20"></div> 
-                  <div className="flex flex-col items-center">
-                    <span className="text-7xl font-bold leading-none" style={{ color: '#D4AF37' }}>
-                      {daysUntilStart}
-                    </span>
-                   
-                    <span className="text-sm uppercase tracking-wider text-white/80">
-                      {daysUntilStart === 1 ? 'dag igjen' : 'dager igjen'}
-                    </span>
-                     </div>
-                  </div>
-                </div>
-              {/*   <p className="text-center text-xl font-semibold text-white/90">
-                  {daysUntilStart === 1
-                    ? "Starter i morgen! 🎉"
-                    : "til kalenderen starter..."}
-                </p> */}
-              </div>)
-  };
-
+const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }: { day: any, isBreak: boolean, isAvailable: boolean, dayEmoji: string, categoryColor: string }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
-      {/* Snowflake animation background */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <Snowflakes />
-      </div>
-
-
-      {/* Hero Section */}
-      <section className="relative py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            {/* Calendar Icon */}
-            <div className="mb-8 flex justify-center">
-              <div className="relative">
-           {/*      <div className="absolute inset-0 animate-ping rounded-full bg-green-600 opacity-20"></div> */}
-
-              {/*   <div className="relative flex size-32 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-2xl">
-                  <Sparkles className="size-16 text-white" />
-
-                </div> */}
-                 {/*  <div className="relative flex size-32 items-center justify-center rounded-full  ">
-               
-    <CalendarLogo />
-                </div> */}
-              </div>
-            </div>
-          
-
-          {/*   <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
-              color: '#B91C1C',
-              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
-            }}>
-              🎄 {data.title}🎄
-            </h1> */}
-          
-              <h1 className="mb-4 text-balance font-bold text-5xl line-height-1 tracking-tight drop-shadow-lg md:text-7xl" style={{ 
-              color: '#B91C1C',
-              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
-            }}>
-              Sanity julekalender <br />
-              - Velkommen 🎄
-            </h1> 
-
-         {/*      <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg  md:text-7xl" style={{ 
-              color: '#B91C1C',
-              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
-            }}>
-              ssssj...<br />
-              Velkommen til <br/><span className="underline">S</span>arahs <span className="underline">S</span>opra <span className="underline">S</span>teria <span className="underline">S</span>anity <br/>julekalender! 🎄
-            </h1> */}
-
-       
-            {daysUntilStart !== null && daysUntilStart > 0 && (
-              <>
-            <Countdown />
-              {data.description && (<>
-              {/* <p className="mb-8 text-lg text-white/90 max-w-3xl mx-auto text-left md:text-xl">
-                {data.description}
-              </p> */}
-              <div className="mb-8">
-                <RichText
-                  className="mx-auto max-w-xl text-left"
-                  richText={data.introContent}
-                  tone="light"
-                />
-              </div>
-              </>
-            )} 
-            </>
-            )}
-
-            
-
-            {/* Cover Image */}
-            {data.coverImage && (
-              <div className="mb-12 overflow-hidden rounded-3xl shadow-2xl">
-                <SanityImage
-                  alt={data.title}
-                  className="h-auto w-full object-cover"
-                  fetchPriority="high"
-                  height={600}
-                  image={data.coverImage}
-                  loading="eager"
-                  width={1200}
-                />
-              </div>
-            )}
-
-            {/* Introduction Content */}
-         {/*    {data.introContent && data.introContent.length > 0 && (
-              <div className="mb-16 rounded-2xl border-2 border-amber-200/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-                <RichText className="text-left" richText={data.introContent} />
-              </div>
-            )} */}
-          </div>
-        </div>
-      </section>
-
-      {/* Calendar Grid - Grouped by Category */}
-      <section className="relative pb-24">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center font-bold text-3xl text-white md:text-4xl">
-            ✨ Kalenderluker ✨
-          </h2>
-
-          {categories.length > 0 ? (
-            <div className="mx-auto max-w-6xl space-y-12">
-              {categories.map((group, index) => {
-                const categoryColor = categoryColorMap.get(group.category._id) || '#D4AF37';
-           /*      const categoryBgColor = categoryColor === '#CD7F32' 
-                  ? 'rgba(205, 127, 50, 0.5)' // Bronze
-                  : categoryColor === '#C0C0C0'
-                  ? 'rgba(192, 192, 192, 0.9)' // Silver
-                  : 'rgba(255, 215, 0, 0.5)'; // Gold */
-
-                   const categoryBgColor = categoryColor === '#CD7F32' 
-                  ? '#E5B18E' // Bronze
-                  : categoryColor === '#C0C0C0'
-                  ? '#D9D9D9' // Silver
-                  : '#E5C68D'; // Gold 
-
-                  
-
-                return (
-                  <div key={group.category._id} className="space-y-6">
-                    {/* Category Header */}
-                    <div className="flex  gap-4">
-                      {/* CalendarLogo at top left */}
-                     {/*  <div className="flex-shrink-0">
-                        <CalendarLogo width={80} height={80} />
-                      </div> */}
-                      {/* Category Title and Description */}
-                      <div className="flex-1 text-center">
-                        <h3 className="text-2xl font-bold text-white md:text-3xl">
-                          {group.category.title}
-                        </h3>
-                        {group.category.description && (
-                          <p className="mt-2 text-white/80">
-                            {group.category.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Days Grid for this Category */}
-                    <div 
-                      className="rounded-2xl p-6"
-                      style={{ backgroundColor: categoryBgColor }}
-                    >
-                         <div className="mt-[-55px] ml-[-78px] scale-75 sm:mt-[-60px] sm:ml-[-60px] sm:scale-100">
-                        {getLogo(index)}
-                      </div> 
-                      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                        {group.days.map((day) => {
-                          if (!day) return null;
-
-                          const isBreak = (day as any).isBreak || false;
-                          const isAvailable = isBreak || canOpenDay(
-                            day.dayNumber,
-                            startDate
-                          );
-                          const dayEmoji = getDayEmoji(day.dayNumber);
-
-                          return (
-                            <Link
+    <Link
                               className={cn(
                                 "group relative aspect-square rounded-xl transition-all duration-300",
                                 isAvailable
@@ -366,12 +141,135 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                                 )}
                               </div>
                             </Link>
-                          );
-                        })}
+    )
+  }
+
+  const CalendarCategoryGroup = ({ group, index, startDate, categoryBgColor, categoryColor }: { group: any, index: number, startDate: Date | null, categoryBgColor: string, categoryColor: string }) => {
+
+     const getLogo = (index: number) => {
+    switch (index) {
+      case 0:
+        return <CalendarLogoBronze width={100} height={100} />;
+      case 1:
+        return <CalendarLogoSilver width={100} height={100} />;
+      case 2:
+        return <CalendarLogoGold width={100} height={100} />;
+    }
+    return <CalendarLogo width={100} height={100} />;
+  };
+
+return(
+<div className="space-y-6">
+  <div className="flex  gap-4">
+                      {/* Category header */}
+                      <div className="flex-1 text-center">
+                        <h3 className="text-2xl font-bold text-white md:text-3xl">
+                          {group.category.title}
+                        </h3>
+                        {group.category.description && (
+                          <p className="mt-2 text-white/80">
+                            {group.category.description}
+                          </p>
+                        )}
                       </div>
                     </div>
-                  </div>
-                );
+                      {/* Days Grid for this Category */}
+                    <div 
+                      className="rounded-2xl p-6"
+                      style={{ backgroundColor: categoryBgColor }}
+                    >
+                          <div className="mt-[-55px] ml-[-78px] scale-75 sm:mt-[-60px] sm:ml-[-60px] sm:scale-100">
+                        {getLogo(index)}
+                      </div>  
+                    
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+
+                          {group.days.map((day) => {
+                                         if (!day) return null;
+
+                          const isBreak = (day as any).isBreak || false;
+                          const isAvailable = isBreak || canOpenDay(
+                            day.dayNumber,
+                            startDate
+                          );
+                          const dayEmoji = getDayEmoji(day.dayNumber);
+                            return <CalendarDayCard key={day.dayNumber} day={day} isBreak={isBreak} isAvailable={isAvailable} dayEmoji={dayEmoji} categoryColor={categoryColor} />
+                          })}
+                        </div>
+                          </div>
+</div>
+)  
+}
+
+
+export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
+  const startDate = data.startDate ? new Date(data.startDate) : null;
+  const days = data.days || [];
+  
+  if (days.length === 0){
+    return (
+      <div className="text-center text-white/80">
+        <p className="text-xl">🎄 Coming soon! 🎄</p>
+        <p>Calendar days are being prepared...</p>
+      </div>
+    )
+  }
+
+           // Group days by category
+  const groupedDays = days.reduce((acc, day) => {
+    if (!day) return acc;
+    
+    // Handle days without categories
+    if (!(day as any).category) {
+      const uncategorizedId = 'uncategorized';
+      if (!acc[uncategorizedId]) {
+        acc[uncategorizedId] = {
+          category: { _id: uncategorizedId, title: 'Other Days', description: null },
+          days: [],
+        };
+      }
+      acc[uncategorizedId].days.push(day);
+      return acc;
+    }
+    
+    const categoryId = (day as any).category._id;
+    if (!acc[categoryId]) {
+      acc[categoryId] = {
+        category: (day as any).category,
+        days: [],
+      };
+    }
+    acc[categoryId].days.push(day);
+    return acc;
+  }, {} as Record<string, { category: { _id: string; title: string; description: string | null }; days: typeof days }>);
+
+  // Get all categories and assign colors
+  const categories = Object.values(groupedDays);
+  const categoryColors: string[] = ['#CD7F32', '#C0C0C0', '#FFD700']; // Bronze, Silver, Gold
+  const categoryColorMap = new Map<string, string>();
+  categories.forEach((group, index) => {
+    const color = categoryColors[index % categoryColors.length] || '#D4AF37';
+    categoryColorMap.set(group.category._id, color);
+  });
+        
+  return (
+    
+          <section className="relative pb-24 mt-20">
+        <div className="container mx-auto px-4">
+          <h2 className="mb-12 text-center font-bold text-3xl text-white md:text-4xl">
+            ✨ Kalenderluker ✨
+          </h2>
+           {categories.length > 0 ? (
+            <div className="mx-auto max-w-6xl space-y-12">
+              {categories.map((group, index) => {
+                const categoryColor = categoryColorMap.get(group.category._id) || '#D4AF37';
+                   const categoryBgColor = categoryColor === '#CD7F32' 
+                  ? '#E5B18E' // Bronze
+                  : categoryColor === '#C0C0C0'
+                  ? '#D9D9D9' // Silver
+                  : '#E5C68D'; // Gold 
+
+                   return <CalendarCategoryGroup key={group.category._id} group={group} index={index} startDate={startDate} categoryBgColor={categoryBgColor}  categoryColor={categoryColor} />
               })}
             </div>
           ) : (
@@ -481,50 +379,11 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
               })}
             </div>
           )}
-
-          {/* Empty state if no days */}
-          {days.length === 0 && (
-            <div className="text-center text-white/80">
-              <p className="text-xl">🎄 Coming soon! 🎄</p>
-              <p>Calendar days are being prepared...</p>
-            </div>
-          )}
-        </div>
-      </section>
-    </div>
+          </div>
+          </section>
   );
 }
 
-// Fun emojis for different days
-function getDayEmoji(dayNumber: number): string {
-  const emojis = [
-    "🎄", // Day 1
-    "🎁", // Day 2
-    "❄️", // Day 3
-    "🦌", // Day 4
-    "⛄", // Day 5
-    "🕯️", // Day 6
-    "🎅", // Day 7
-    "🌟", // Day 8
-    "🎆", // Day 9
-    "🔔", // Day 10
-    "🎉", // Day 11
-    "☃️", // Day 12
-    "🛷", // Day 13
-    "🎪", // Day 14
-    "🎈", // Day 15
-    "🎀", // Day 16
-    "🍪", // Day 17
-    "🎁", // Day 18
-    "🎊", // Day 19
-    "🎁", // Day 20
-    "🎋", // Day 21
-    "🎄", // Day 22
-    "⭐", // Day 23
-    "🎁", // Day 24
-  ];
-  return emojis[(dayNumber - 1) % 24] || "🎄";
-}
 
 // Check if a day can be opened
 function canOpenDay(dayNumber: number, startDate: Date | null): boolean {
@@ -539,32 +398,3 @@ function canOpenDay(dayNumber: number, startDate: Date | null): boolean {
 
   return today >= dayDate;
 }
-
-// Snowflake animation component
-function Snowflakes() {
-  return (
-    <>
-      {Array.from({ length: 50 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute animate-snowfall"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animationDuration: `${10 + Math.random() * 20}s`,
-          }}
-        >
-          <div
-            className="text-white/50"
-            style={{
-              fontSize: `${10 + Math.random() * 20}px`,
-            }}
-          >
-            ❄️
-          </div>
-        </div>
-      ))}
-    </>
-  );
-}
-

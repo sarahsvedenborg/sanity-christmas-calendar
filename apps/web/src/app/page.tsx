@@ -53,6 +53,8 @@ import {
   queryChristmasCalendarPaths,
 } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
+import { Snowflakes } from "@/components/Snowflakes";
+import { Countdown } from "@/components/Countdown";
 
 async function fetchChristmasCalendarData() {
   return await sanityFetch({
@@ -102,7 +104,25 @@ export default async function CalendarPage() {
   }
 
   return (
-    <main className="">
+    <main className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <Snowflakes />
+      </div>
+      <section className="relative pt-16 pb-1 md:pt-24 md:pb-2">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
+              color: '#B91C1C',
+              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
+            }}>
+              {calendarData.title} 🎄 
+                       {/*       ssssj...<br />
+              Velkommen til <br/><span className="underline">S</span>arahs <span className="underline">S</span>opra <span className="underline">S</span>teria <span className="underline">S</span>anity <br/>julekalender! 🎄 */}
+            </h1>
+          </div>
+        </div>
+      </section>
+      <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
       <ChristmasCalendar data={calendarData} />
     </main>
   );

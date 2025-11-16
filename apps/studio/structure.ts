@@ -3,6 +3,7 @@ import {
   BookMarked,
   Calendar,
   CalendarDays,
+  CheckSquare,
   CogIcon,
   File,
   FileText,
@@ -21,6 +22,7 @@ import type {
   StructureResolverContext,
 } from "sanity/structure";
 
+import { BulkTaskProgressEditor } from "./components/bulk-task-progress-editor";
 import { createSlugBasedStructure } from "./components/nested-pages-structure";
 import type { SchemaType, SingletonType } from "./schemaTypes";
 import { getTitleCase } from "./utils/helper";
@@ -176,15 +178,21 @@ export const structure = (
       createList({
         S,
         type: "answers",
-        title: "Svar",
+        title: "Deltakeres nettsider",
         icon: MessageCircle,
       }),
        createList({
-        S,
-        type: "user",
-        title: "Delatkere",
-        icon: User,
-      }),
+         S,
+         type: "user",
+         title: "Delatkere",
+         icon: User,
+       }),
+      S.listItem()
+        .title("Bulk Rediger Progressjon")
+        .icon(CheckSquare)
+        .child(
+          S.component(BulkTaskProgressEditor).title("Bulk Task Progress Editor")
+        ),
    /*    S.divider(),
       S.listItem()
         .title("Site Configuration")

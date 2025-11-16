@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Button, Card, Flex, Heading, Spinner, Stack, Switch, Text, useToast } from "@sanity/ui";
+import { RefreshCw } from "lucide-react";
 import type { ComponentType } from "react";
 import { useClient } from "sanity";
 
@@ -18,6 +19,10 @@ type TaskStatus = {
   _type?: "taskStatus";
   completed?: boolean;
   calendarDay?: {
+    _id: string;
+    title: string;
+    dayNumber?: number;
+  } | {
     _type: "reference";
     _ref: string;
   };
@@ -67,50 +72,69 @@ export function BulkTaskProgressEditor() {
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    let isMounted = true;
-    async function fetchData() {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const [usersResult, calendarResult] = await Promise.all([
-          client.fetch<User[]>(USERS_QUERY),
-          client.fetch<{ days?: CalendarDay[] }>(CALENDAR_DAYS_QUERY),
-        ]);
+      const [usersResult, calendarResult] = await Promise.all([
+        client.fetch<User[]>(USERS_QUERY),
+        client.fetch<{ days?: CalendarDay[] }>(CALENDAR_DAYS_QUERY),
+      ]);
 
-        if (!isMounted) return;
-
-        setUsers(usersResult ?? []);
-        setCalendarDays(
-          (calendarResult?.days ?? []).sort(
-            (a, b) => (a.dayNumber ?? 0) - (b.dayNumber ?? 0)
-          )
-        );
-      } catch (fetchError) {
-        if (!isMounted) return;
-        const message =
-          fetchError instanceof Error
-            ? fetchError.message
-            : "Failed to fetch data";
-        setError(message);
-        toast.push({
-          status: "error",
-          title: "Error",
-          description: message,
-        });
-      } finally {
-        if (isMounted) {
-          setLoading(false);
+      // Deduplicate users by email (keep the most recent one if duplicates exist)
+      // This ensures each user appears only once, even if there are multiple documents with the same email
+      const uniqueUsersMap = new Map<string, User>();
+      (usersResult ?? []).forEach((user) => {
+        const email = user.email?.toLowerCase().trim() || "";
+        if (!email) return; // Skip users without email
+        
+        const existing = uniqueUsersMap.get(email);
+        // Keep the user with the most recent _rev if duplicates by email
+        if (!existing || (user._rev && existing._rev && user._rev > existing._rev)) {
+          uniqueUsersMap.set(email, user);
         }
-      }
-    }
+      });
+      const deduplicatedUsers = Array.from(uniqueUsersMap.values()).sort((a, b) => 
+        (a.name || "").localeCompare(b.name || "")
+      );
 
-    fetchData();
-    return () => {
-      isMounted = false;
-    };
+      setUsers(deduplicatedUsers);
+      setCalendarDays(
+        (calendarResult?.days ?? []).sort(
+          (a, b) => (a.dayNumber ?? 0) - (b.dayNumber ?? 0)
+        )
+      );
+    } catch (fetchError) {
+      const message =
+        fetchError instanceof Error
+          ? fetchError.message
+          : "Failed to fetch data";
+      setError(message);
+      toast.push({
+        status: "error",
+        title: "Error",
+        description: message,
+      });
+    } finally {
+      setLoading(false);
+    }
   }, [client, toast]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Refresh when window regains focus (user might have edited in another tab)
+  useEffect(() => {
+    const handleFocus = () => {
+      fetchData();
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [fetchData]);
 
   const getTaskStatus = useCallback(
     (userId: string, taskId: string): boolean => {
@@ -124,9 +148,19 @@ export function BulkTaskProgressEditor() {
       const user = users.find((u) => u._id === userId);
       if (!user?.taskCompletionStatus) return false;
 
-      const status = user.taskCompletionStatus.find(
-        (ts) => ts.calendarDay?._ref === taskId
-      );
+      // calendarDay is dereferenced in the query, so it has _id, not _ref
+      const status = user.taskCompletionStatus.find((ts) => {
+        if (!ts.calendarDay) return false;
+        // Handle dereferenced object
+        if ("_id" in ts.calendarDay) {
+          return ts.calendarDay._id === taskId;
+        }
+        // Handle reference object (shouldn't happen with current query, but for safety)
+        if ("_ref" in ts.calendarDay) {
+          return ts.calendarDay._ref === taskId;
+        }
+        return false;
+      });
       return status?.completed ?? false;
     },
     [users, pendingChanges]
@@ -166,21 +200,40 @@ export function BulkTaskProgressEditor() {
           const currentStatuses = user.taskCompletionStatus ?? [];
 
           // Apply pending changes
-          const updatedStatuses = currentStatuses.map((status) => {
-            const taskId = status.calendarDay?._ref;
-            if (!taskId || !taskChanges.has(taskId)) return status;
+          // Helper to get task ID from either dereferenced (_id) or reference (_ref)
+          const getTaskId = (calendarDay: TaskStatus["calendarDay"]): string | undefined => {
+            if (!calendarDay) return undefined;
+            if ("_id" in calendarDay) return calendarDay._id;
+            if ("_ref" in calendarDay) return calendarDay._ref;
+            return undefined;
+          };
 
-            return {
-              ...status,
-              completed: taskChanges.get(taskId) ?? status.completed ?? false,
+          const updatedStatuses = currentStatuses.map((status) => {
+            const taskId = getTaskId(status.calendarDay);
+            if (!taskId) return status;
+            
+            // Convert to reference format for saving
+            const referenceStatus = {
+              _key: status._key || taskId,
+              _type: "taskStatus" as const,
+              calendarDay: {
+                _type: "reference" as const,
+                _ref: taskId,
+              },
+              completed: taskChanges.has(taskId) 
+                ? taskChanges.get(taskId) ?? status.completed ?? false
+                : status.completed ?? false,
             };
+
+            return referenceStatus;
           });
 
           // Add new statuses for tasks that weren't in the array
           taskChanges.forEach((completed, taskId) => {
-            const exists = updatedStatuses.some(
-              (s) => s.calendarDay?._ref === taskId
-            );
+            const exists = updatedStatuses.some((s) => {
+              const existingTaskId = getTaskId(s.calendarDay);
+              return existingTaskId === taskId;
+            });
             if (!exists) {
               updatedStatuses.push({
                 _type: "taskStatus",
@@ -340,15 +393,25 @@ export function BulkTaskProgressEditor() {
               saved in batch when you click "Save Changes".
             </Text>
           </Stack>
-          {hasChanges && (
+          <Flex gap={2}>
             <Button
-              text="Save Changes"
-              tone="primary"
-              onClick={handleSave}
-              disabled={saving}
-              loading={saving}
+              icon={RefreshCw}
+              text="Refresh"
+              mode="ghost"
+              onClick={fetchData}
+              disabled={loading}
+              tone="default"
             />
-          )}
+            {hasChanges && (
+              <Button
+                text="Save Changes"
+                tone="primary"
+                onClick={handleSave}
+                disabled={saving}
+                loading={saving}
+              />
+            )}
+          </Flex>
         </Flex>
 
         <Card padding={2} radius={2} shadow={1} style={{ overflowX: "auto" }}>

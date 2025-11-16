@@ -4,6 +4,8 @@ import { queryAnswersData } from "@/lib/sanity/query";
 import { RichText } from "@/components/elements/rich-text";
 import { Snowflakes } from "@/components/elements/snowflakes";
 
+export const revalidate = 10;
+
 export default async function BesvarelserPage() {
   const { data } = await sanityFetch({
     query: queryAnswersData,

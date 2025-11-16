@@ -2,7 +2,7 @@ import type { SanityImageSource } from "@sanity/asset-utils";
 import createImageUrlBuilder from "@sanity/image-url";
 import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, projectId, studioUrl } from "../../config";
+import { apiVersion, dataset, projectId, studioUrl, token } from "../../config";
 
 export const client = createClient({
   projectId,
@@ -15,6 +15,7 @@ export const client = createClient({
     studioUrl,
     enabled: process.env.NEXT_PUBLIC_VERCEL_ENV === "preview",
   },
+  token,
 });
 
 const imageBuilder = createImageUrlBuilder({

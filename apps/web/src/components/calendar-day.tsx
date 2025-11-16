@@ -297,19 +297,14 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
       </div>
 
       <div className="container relative mx-auto max-w-6xl px-4 py-16">
-        {/* Header */}
         
-        <div className="mb-12 text-center">
-           {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-           <CalendarLogoBronze width={40} height={40} />
-             <span className="font-bold text-white text-lg">Uke 1: </span>
-              </div> */}
-              
+        {/* Header */}
+{/*         <div className="mb-12 text-center">              
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
           {(data as any)?.isBreak &&  <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/80 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
             Pausedag
           </div>}
-            {/* <span className="text-2xl">🎁</span> */}
+        
 {category?.identifier === '1' && <CalendarLogoBronze width={30} height={30} />}
 {category?.identifier ==='2' && <CalendarLogoSilver width={30} height={30} />}
 {category?.identifier ==='3' && <CalendarLogoGold width={30} height={30} />}
@@ -322,22 +317,6 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
           }}>
             {data.title}
           </h1>
-{/* 
-          {data.description && (
-            <p className="mx-auto max-w-2xl text-lg text-white/90">
-              {data.description}
-            </p>
-          )} */}
-
-         {/*  {data.reward && (
-            <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
-              <p className="flex items-center gap-2 font-bold text-green-950">
-                <span className="text-2xl">🎁</span>
-                <span>Reward: {data.reward}</span>
-              </p>
-            </div>
-          )} */}
-
           {data.icon && (
             <div className="mt-8 flex justify-center">
               <SanityImage
@@ -348,7 +327,7 @@ export function CalendarDay({ data, calendarSlug }: CalendarDayProps) {
               />
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Break Day Content */}
         {(data as any).isBreak && (data as any).breakContent && (data as any).breakContent.length > 0 && (

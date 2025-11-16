@@ -73,8 +73,8 @@ export default async function CalendarPage() {
           </div>
         </div>
       </section>
-      <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
-      <ChristmasCalendar data={calendarData} />
+       <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
+       <ChristmasCalendar data={calendarData} /> 
     </main>
   );
 }

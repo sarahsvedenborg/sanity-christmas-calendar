@@ -14,7 +14,7 @@ export const Countdown = ({startDate, intro}: {startDate: number, intro: any}) =
             const diff = Math.ceil((start.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
             setDaysUntilStart(diff);
         }
-    }, [startDate, currentDate]);
+    }, [startDate]);
 
     if (daysUntilStart === null || daysUntilStart < 0) {
         return null;  

@@ -593,6 +593,10 @@ export const queryChristmasCalendarPaths = defineQuery(`
   *[_type == "christmasCalendar" && defined(slug.current)].slug.current
 `);
 
+/* export const queryCalendarDayPaths = defineQuery(`
+  *[_type == "calendarDay" && defined(slug.current)].slug.current
+`); */
+
 export const queryCalendarDayData = defineQuery(`
   *[_type == "calendarDay" && slug.current == $slug][0]{
     ...,

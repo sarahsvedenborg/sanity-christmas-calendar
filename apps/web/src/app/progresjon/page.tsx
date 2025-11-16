@@ -49,7 +49,7 @@ function formatPercent(completed: number, total: number) {
   return Math.round((completed / total) * 100);
 }
 
-export const revalidate = 60;
+export const revalidate = 10;
 
 export default async function ProgressionPage() {
   const progress = await fetchProgress();

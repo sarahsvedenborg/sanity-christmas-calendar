@@ -117,6 +117,15 @@ export default async function CalendarDayPage({
         {(dayData as any).isBreak && (dayData as any).breakContent && (dayData as any).breakContent.length > 0 ? (
           <BreakDayContent breakContent={(dayData as any).breakContent} />
         ): <DayLesson data={dayData} />}
+         {/* Conclusion */}
+        {dayData.conclusion && dayData.conclusion.length > 0 && (
+          <div className="mt-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              🎯 Konklusjon
+            </h2>
+            <RichText richText={dayData.conclusion} />
+          </div>
+        )}
          {/* Day Navigation */}
         <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           {previousDay?.slug ? (

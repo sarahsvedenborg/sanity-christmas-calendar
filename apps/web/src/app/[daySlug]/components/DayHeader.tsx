@@ -4,7 +4,16 @@ import { CalendarLogoGold } from "@/logos/CalendarLogoGold";
 import { CalendarLogoSilver } from "@/logos/CalendarLogoSilver";
 
 export const DayHeader = ({ dayData }: { dayData: any }) => {
-  return (
+  const getLogo = (identifier: string) => {
+    console.log('identifier', identifier);
+    if (identifier === '1') return <CalendarLogoBronze width={30} height={30} />;
+    if (identifier === '2') return <CalendarLogoSilver width={30} height={30} />;
+    if (identifier === '3') return <CalendarLogoGold width={30} height={30} />;
+    return null;
+  }
+  
+  
+    return (
      <div className="mb-12 text-center">
            {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
            <CalendarLogoBronze width={40} height={40} />
@@ -16,10 +25,7 @@ export const DayHeader = ({ dayData }: { dayData: any }) => {
             Pausedag
           </div>}
             {/* <span className="text-2xl">🎁</span> */}
-{dayData.category?.identifier === '1' && <CalendarLogoBronze width={30} height={30} />}
-{dayData.category?.identifier === '2' && <CalendarLogoSilver width={30} height={30} />}
-{dayData.category?.identifier === '3' && <CalendarLogoGold width={30} height={30} />}
-         
+            {getLogo(dayData.category.identifier)}         
             <span className="font-bold text-white text-lg">Dag {dayData.dayNumber}</span>
               </div>
 
@@ -31,14 +37,14 @@ export const DayHeader = ({ dayData }: { dayData: any }) => {
           </h1>
 
 
-         {/*  {data.reward && (
+           {dayData.reward && (
             <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
               <p className="flex items-center gap-2 font-bold text-green-950">
                 <span className="text-2xl">🎁</span>
-                <span>Reward: {data.reward}</span>
+                <span>Premie: {dayData.reward}</span>
               </p>
             </div>
-          )} */}
+          )} 
 
           {dayData.icon && (
             <div className="mt-8 flex justify-center">

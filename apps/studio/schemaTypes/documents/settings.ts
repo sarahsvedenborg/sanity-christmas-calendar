@@ -86,6 +86,28 @@ export const settings = defineType({
       description: "Primary contact email address for your website",
       validation: (rule) => rule.email(),
     }),
+    defineField({
+      name: "showRegistrationButton",
+      type: "boolean",
+      title: "Show Registration Button",
+      description: "If enabled, shows a registration button instead of the progress/answers links in the header",
+      initialValue: false,
+    }),
+    defineField({
+      name: "registrationUrl",
+      type: "url",
+      title: "Registration URL",
+      description: "External URL for the registration form (opens in new tab)",
+      hidden: ({ parent }) => !parent?.showRegistrationButton,
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as { showRegistrationButton?: boolean };
+          if (parent?.showRegistrationButton && !value) {
+            return "Registration URL is required when registration button is enabled";
+          }
+          return true;
+        }),
+    }),
     socialLinks,
   ],
   preview: {

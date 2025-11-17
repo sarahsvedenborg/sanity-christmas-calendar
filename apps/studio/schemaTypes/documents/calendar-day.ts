@@ -2,7 +2,7 @@ import {
   orderRankField,
   orderRankOrdering,
 } from "@sanity/orderable-document-list";
-import { CalendarDaysIcon } from "lucide-react";
+import { CalendarDaysIcon, Code2, Palette } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { GROUP, GROUPS } from "../../utils/constant";
@@ -14,7 +14,18 @@ export const calendarDay = defineType({
   title: "Kalenderluke",
   type: "document",
   icon: CalendarDaysIcon,
-  groups: GROUPS,
+  groups: [
+      {
+      name: 'tech',
+      icon: Code2,
+      title: "Tech",
+    },
+    {
+      name: 'design',
+      icon: Palette,
+      title: "Design",
+    },
+  ],
   orderings: [orderRankOrdering],
   description:
     "An individual day in the Christmas calendar with both tech and design activities. Each day helps users learn something new about Sanity and Next.js!",
@@ -25,7 +36,7 @@ export const calendarDay = defineType({
       type: "number",
       title: "Nummer på dag",
       description: "Hvilken luke i kalenderen dette er (1-24)",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
       validation: (Rule) => [
         Rule.required().error("Dagnummer er påkrevd"),
         Rule.min(1).error("Dagnummeret må være minst 1"),
@@ -39,7 +50,7 @@ export const calendarDay = defineType({
       title: "Tittel",
       description:
         "Overskriven for dagens oppgave (e.g., 'Set Up Your Sanity Studio')",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A day title is required"),
     }),
     defineField({
@@ -49,14 +60,14 @@ export const calendarDay = defineType({
       rows: 2,
       description:
         "Et kort sammendrag av hva deltakeren kan forvente å lære av dagens luke",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "category",
       title: "Kategori",
       type: "reference",
       to: [{ type: "dayCategory" }],
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category is required"),
     }),
     defineField({
@@ -64,51 +75,42 @@ export const calendarDay = defineType({
       title: "Er pause-dag?",
       type: "boolean",
       description: "Skru på denne hvis denne dagen er en pausedag (har ingen oppgaver)",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
       initialValue: false,
     }),
     defineField({
       name: "breakContent",
       title: "Pause-dag innhold",
       type: "richText",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
       hidden: ({ parent }) => !parent?.isBreak,
     }),
     documentSlugField("calendarDay", {
       title: 'Slug',
       description: '',      
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
     }),
- /*    defineField({
-      name: "icon",
-      title: "Icon",
-      description: "A visual icon representing this day's theme",
-      type: "image",
-      group: GROUP.MAIN_CONTENT,
-      options: {
-        hotspot: true,
-      },
-    }), */
- /*    defineField({
+
+     defineField({
       name: "reward",
       title: "🎁 Reward/Unlock",
       description:
         "What users unlock or earn by completing this day (can be empty for early days)",
       type: "text",
       rows: 1,
-      group: GROUP.MAIN_CONTENT,
-    }), */
+      //group: GROUP.MAIN_CONTENT,
+    }), 
     defineField({
       name: "intro",
       title: "Felles intro",
       type: "richText",
-      group: GROUP.MAIN_CONTENT,
+      // group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: "techActivity",
       title: "💻 Tech-oppgave",
       type: "object",
-      group: GROUP.MAIN_CONTENT,
+      group: 'tech',
       fields: [
         defineField({
           name: "title",
@@ -270,7 +272,7 @@ export const calendarDay = defineType({
       name: "designActivity",
       title: "🎨 Designoppgave",
       type: "object",
-      group: GROUP.MAIN_CONTENT,
+      group: 'design',
       fields: [
         defineField({
           name: "title",
@@ -397,15 +399,15 @@ export const calendarDay = defineType({
       type: "richText",
       group: GROUP.MAIN_CONTENT,
     }), */
-  /*   defineField({
+    defineField({
       name: "conclusion",
       title: "Conclusion",
       description:
         "A summary of what was learned and how it sets up the next day",
       type: "richText",
-      group: GROUP.MAIN_CONTENT,
-    }), */
-    ...seoFields,
+      // group: GROUP.MAIN_CONTENT,
+    }), 
+    // ...seoFields,
   ],
   preview: {
     select: {

@@ -4,6 +4,17 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { client } from "@/lib/sanity/client";
 import { queryCalendarDayData, queryCalendarDayPaths } from "@/lib/sanity/query";
 import { getSEOMetadata } from "@/lib/seo";
+import { Snowflakes } from "@/components/Snowflakes";
+import { SanityImage } from "@/components/elements/sanity-image";
+import { CalendarLogoBronze } from "@/logos/CalendarLogoBronze";
+import { CalendarLogoSilver } from "@/logos/CalendarLogoSilver";
+import { CalendarLogoGold } from "@/logos/CalendarLogoGold";
+import { DayHeader } from "./components/DayHeader";
+import BreakDayContent from "@/components/BreakDayContent";
+import { DayLesson } from "./components/DayLesson";
+import { RichText } from "@/components/elements/rich-text";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export const revalidate = 10;
 
@@ -85,14 +96,69 @@ export default async function CalendarDayPage({
     return notFound();
   }
 
-  // Extract calendar slug from somewhere - we'll need to fetch it or pass it
-  // For now, we can extract it from the slug or fetch from Sanity
-  // This is a placeholder - you may need to adjust based on your slug structure
-  const calendarSlug = "christmas-calendar"; // This should be dynamic
+     const previousDay = (dayData as any).previousDay as
+    | { slug?: string; dayNumber?: number; title?: string }
+    | null
+    | undefined;
+  const nextDay = (dayData as any).nextDay as
+    | { slug?: string; dayNumber?: number; title?: string }
+    | null
+    | undefined;
+
 
   return (
-    <main className="">
-      <CalendarDay calendarSlug={calendarSlug} data={dayData} />
+    <main className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
+      {/* Snowflake animation background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <Snowflakes />
+      </div>
+      <div className="container relative mx-auto max-w-6xl px-4 py-16">
+        <DayHeader dayData={dayData} />
+        {(dayData as any).isBreak && (dayData as any).breakContent && (dayData as any).breakContent.length > 0 ? (
+          <BreakDayContent breakContent={(dayData as any).breakContent} />
+        ): <DayLesson data={dayData} />}
+         {/* Conclusion */}
+        {dayData.conclusion && dayData.conclusion.length > 0 && (
+          <div className="mt-16 rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
+              🎯 Konklusjon
+            </h2>
+            <RichText richText={dayData.conclusion} />
+          </div>
+        )}
+         {/* Day Navigation */}
+        <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {previousDay?.slug ? (
+            <Link
+              className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-200 md:w-auto"
+              href={`/${previousDay.slug}`}
+            >
+              <ArrowLeft className="size-5 transition group-hover:-translate-x-1" />
+              <span className="text-center">
+                Forrige dag{previousDay.dayNumber ? `: ${previousDay.dayNumber}` : ""}{" "}
+                {previousDay.title ? `— ${previousDay.title}` : ""}
+              </span>
+            </Link>
+          ) : (
+            <div className="hidden md:block" />
+          )}
+
+          {nextDay?.slug ? (
+            <Link
+              className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-red-700/90 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-900 md:w-auto"
+              href={`/${nextDay.slug}`}
+            >
+              <span className="text-center">
+                Neste dag{nextDay.dayNumber ? `: ${nextDay.dayNumber}` : ""}{" "}
+                {nextDay.title ? `— ${nextDay.title}` : ""}
+              </span>
+              <ArrowRight className="size-5 transition group-hover:translate-x-1" />
+            </Link>
+          ) : (
+            <div className="hidden md:block" />
+          )}
+        </div>
+      </div>
     </main>
   );
 }

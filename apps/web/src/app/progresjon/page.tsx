@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { auth } from "@/auth";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryUserProgressByEmail } from "@/lib/sanity/query";
 import { Snowflakes } from "@/components/elements/snowflakes";
@@ -24,19 +25,14 @@ type UserProgress = {
   taskCompletionStatus?: TaskStatus[];
 } | null;
 
-const HARD_CODED_EMAIL = "stian.svedenborg@test.no";
-//const HARD_CODED_EMAIL = "sarah.svedenborg@test.no";
-//const HARD_CODED_EMAIL = "test@test.no";
-// const HARD_CODED_EMAIL = process.env.PROGRESJON_EMAIL ?? "";
-
-async function fetchProgress(): Promise<UserProgress> {
-  if (!HARD_CODED_EMAIL) {
+async function fetchProgress(userEmail: string | null | undefined): Promise<UserProgress> {
+  if (!userEmail) {
     return null;
   }
 
   const response = await sanityFetch({
     query: queryUserProgressByEmail,
-    params: { email: HARD_CODED_EMAIL },
+    params: { email: userEmail },
   });
 
   return response.data ?? null;
@@ -52,8 +48,10 @@ function formatPercent(completed: number, total: number) {
 export const revalidate = 10;
 
 export default async function ProgressionPage() {
-  const progress = await fetchProgress();
-  const hasEmail = Boolean(HARD_CODED_EMAIL);
+  const session = await auth();
+  const userEmail = session?.user?.email;
+  const progress = await fetchProgress(userEmail);
+  const hasEmail = Boolean(userEmail);
   const isMissingUser = hasEmail && !progress;
   const tasks =
     progress?.taskCompletionStatus?.filter(
@@ -85,11 +83,11 @@ export default async function ProgressionPage() {
               <p className="text-white/80">
                 Viser status for{" "}
                 <span className="font-semibold text-white">
-                  {progress?.name ?? "Ukjent deltaker"}
+                  {progress?.name ?? session?.user?.name ?? "Ukjent deltaker"}
                 </span>{" "}
                 (
                 <span className="font-mono text-amber-200">
-                  {progress?.email ?? HARD_CODED_EMAIL}
+                  {progress?.email ?? userEmail}
                 </span>
                 )
               </p>
@@ -117,7 +115,7 @@ export default async function ProgressionPage() {
             <div className="mt-6">
               <Link
                 className="inline-flex items-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
-                href="/login"
+                href="/auth/signin"
               >
                 Gå til innlogging
               </Link>
@@ -143,7 +141,7 @@ export default async function ProgressionPage() {
               </Link>
             </div>
              <p className="mt-4 text-white/70 max-w-lg mx-auto ">
-            Dersom du allerede har regisrert seg, kontakt Sarah Svedenoborg i Sopra Steria.
+            Dersom du allerede har regisrert deg, kontakt Sarah Svedenoborg i Sopra Steria.
             </p>
           </section>
         ) : (

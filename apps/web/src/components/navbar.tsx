@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { CalendarLogo } from "../logos/CalendarLogo";
+import { auth, signOut } from "@/auth";
 import { sanityFetch } from "@/lib/sanity/live";
 import { querySettingsData } from "@/lib/sanity/query";
 
 export async function Navbar() {
+  const session = await auth();
   const { data: settings } = await sanityFetch({
     query: querySettingsData,
   });
 
-  // const showRegistrationButton = settings?.showRegistrationButton ?? false;
-  const showRegistrationButton = true;
-  // const registrationUrl = settings?.registrationUrl;
-  const registrationUrl = 'https://vg.no';
+  const showRegistrationButton = settings?.showRegistrationButton ?? false;
+  const registrationUrl = settings?.registrationUrl;
 
   return (
     <header 
@@ -48,12 +48,36 @@ export async function Navbar() {
               >
                 Se besvarelser
               </Link>
-              <Link
-                href="/progresjon"
-                className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
-              >
-                Progresjon
-              </Link>
+              {session ? (
+                <>
+                  <Link
+                    href="/progresjon"
+                    className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+                  >
+                    Progresjon
+                  </Link>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut({ redirectTo: "/" });
+                    }}
+                  >
+                    <button
+                      type="submit"
+                      className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+                    >
+                      Logg ut
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <Link
+                  href="/auth/signin"
+                  className="flex items-center text-sm font-semibold text-white underline underline-offset-4 transition-colors hover:text-amber-200"
+                >
+                  Logg inn
+                </Link>
+              )}
             </>
           )}
         </div>

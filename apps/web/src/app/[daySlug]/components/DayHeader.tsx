@@ -3,12 +3,20 @@ import { CalendarLogoBronze } from "@/logos/CalendarLogoBronze";
 import { CalendarLogoGold } from "@/logos/CalendarLogoGold";
 import { CalendarLogoSilver } from "@/logos/CalendarLogoSilver";
 
+export const stegaClean = (value: any) => {
+  return value.normalize('NFKC') // Normalize Unicode
+  .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width spaces
+  .trim(); // Remove leading/traili
+
+}
+
 export const DayHeader = ({ dayData }: { dayData: any }) => {
+
   const getLogo = (identifier: string) => {
-    console.log('identifier', identifier);
-    if (identifier === '1') return <CalendarLogoBronze width={30} height={30} />;
-    if (identifier === '2') return <CalendarLogoSilver width={30} height={30} />;
-    if (identifier === '3') return <CalendarLogoGold width={30} height={30} />;
+    const cleanIdentifier = stegaClean(identifier);
+    if (cleanIdentifier === '1') return <CalendarLogoBronze width={30} height={30} />;
+    if (cleanIdentifier === '2') return <CalendarLogoSilver width={30} height={30} />;
+    if (cleanIdentifier === '3') return <CalendarLogoGold width={30} height={30} />;
     return null;
   }
   

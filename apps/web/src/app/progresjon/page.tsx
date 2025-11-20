@@ -124,7 +124,7 @@ export default async function ProgressionPage() {
         ) : isMissingUser ? (
           <section className="rounded-3xl border border-white/10 bg-white/10 p-10 text-center shadow-2xl backdrop-blur">
             <p className="text-xl font-semibold text-white">
-              Denne e-postadressen er ikke registrert enda.
+              Denne e-postadressen er ikke registrert i julekalenderen enda.
             </p>
             <p className="mt-2 text-white/70 max-w-lg mx-auto">
               Trykk på knappen under for å gå til registreringsskjemaet og få muligheten til å tracke progresjonen din og være med i trekningen av kule Sanitypremier.

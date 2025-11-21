@@ -22,7 +22,6 @@ export const answers = defineType({
       name: "content",
       title: "Rich Text",
       type: "richText",
-      validation: (rule) => rule.required().error("Content is required"),
     }),
   ],
   preview: {

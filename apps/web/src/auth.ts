@@ -9,6 +9,7 @@ const issuer = tenantId
 
 
 export const authConfig = NextAuth({
+  trustHost: true,
   providers: [
     MicrosoftEntraID({
       clientId: process.env.AUTH_MICROSOFT_ENTRA_ID_CLIENT_ID!,

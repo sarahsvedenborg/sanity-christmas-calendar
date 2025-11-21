@@ -639,3 +639,12 @@ export const queryUserProgressByEmail = defineQuery(`
     }
   }
 `);
+
+export const queryPublicWorkUrls = defineQuery(`
+  *[_type == "user" && acceptSharingWorkPublicly == true && defined(publicworkurl)]{
+    _id,
+    name,
+    email,
+    publicworkurl
+  }
+`);

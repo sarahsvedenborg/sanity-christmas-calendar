@@ -33,7 +33,7 @@ export default async function BesvarelserPage() {
       <div className="relative mx-auto max-w-4xl px-4 py-16">
         <header className="mb-12 text-center">
           <h1 className="text-4xl font-bold text-white">
-           {answers[0].title}
+            Besvarelser
           </h1>
           <p className="mt-3 text-lg text-white/80">
             Utforsk innsendte svar og refleksjoner fra julekalenderen.

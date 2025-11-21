@@ -46,6 +46,7 @@ function formatPercent(completed: number, total: number) {
 }
 
 export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export default async function ProgressionPage() {
   const session = await auth();

@@ -43,7 +43,11 @@ export const DayHeader = ({ dayData }: { dayData: any }) => {
           }}>
             {dayData.title}
           </h1>
-
+{dayData.description && (
+  <p className="mb-4 text-lg text-white/70 max-w-2xl mx-auto dark:text-white/70">
+    {dayData.description}
+  </p>
+)}
 
            {dayData.reward && (
             <div className="mt-6 inline-block rounded-full border-2 border-amber-300 bg-amber-200/90 px-6 py-3 shadow-lg" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>

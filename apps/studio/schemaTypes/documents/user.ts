@@ -29,6 +29,18 @@ export const user = defineType({
         rule.required().email().error("Provide a valid email address."),
     }),
     defineField({
+      name: "acceptSharingWorkPublicly",
+      title: "Accept sharing work publicly",
+      type: "boolean",
+    /*   readOnly: true, */
+      initialValue: false,
+    }),
+    defineField({
+      name: "publicworkurl",
+      title: "Public work URL",
+      type: "url",
+    }),
+    defineField({
       name: "taskCompletionStatus",
       title: "Task completion status",
       description:

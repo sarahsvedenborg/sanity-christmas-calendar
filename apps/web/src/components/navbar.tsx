@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarLogo } from "../logos/CalendarLogo";
+import { LogoGreenNew } from "../logos/LogoGreenNew";
 import { auth, signOut } from "@/auth";
 import { sanityFetch } from "@/lib/sanity/live";
 import { querySettingsData } from "@/lib/sanity/query";
@@ -22,7 +23,8 @@ export async function Navbar() {
           <div className="flex flex-1 items-center justify-center md:justify-start">
             <Link className="flex items-center" href="/">
               <div className="mb-[-60px] scale-75 sm:scale-100">
-                <CalendarLogo width={100} height={100}/>
+               {/*  <CalendarLogo width={100} height={100}/> */}
+                <LogoGreenNew width={100} height={100}/>
               </div>
             </Link>
           </div>

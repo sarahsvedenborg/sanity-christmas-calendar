@@ -29,7 +29,7 @@ export const DayHeader = ({ dayData }: { dayData: any }) => {
               </div> */}
               
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-amber-300 bg-amber-200/20 px-6 py-2 shadow-lg backdrop-blur-sm" style={{ borderColor: '#D4AF37' }}>
-          {(dayData as any)?.isBreak &&  <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/80 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
+          {(dayData as any)?.isBreak &&  <div className="pointer-events-none absolute -right-10 top-[-18px] rotate-6 rounded-sm bg-slate-200/90 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-800 shadow sm:-right-8 sm:top-[-22px]">
             Pausedag
           </div>}
             {/* <span className="text-2xl">🎁</span> */}

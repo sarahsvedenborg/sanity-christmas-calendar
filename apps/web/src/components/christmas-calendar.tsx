@@ -13,6 +13,9 @@ import { CalendarLogo } from "../logos/CalendarLogo";
 import { CalendarLogoGold } from "../logos/CalendarLogoGold";
 import { CalendarLogoSilver } from "../logos/CalendarLogoSilver";
 import { CalendarLogoBronze } from "../logos/CalendarLogoBronze";
+import { LogoGoldNew } from "../logos/LogoGoldNew";
+import { LogoSilverNew } from "../logos/LogoSilverNew";
+import { LogoBronzeNew } from "../logos/LogoBronzeNew";
 
 type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 
@@ -149,11 +152,15 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
      const getLogo = (index: number) => {
     switch (index) {
       case 0:
-        return <CalendarLogoBronze width={100} height={100} />;
+       /*  return <CalendarLogoBronze width={100} height={100} />; */
+        return <LogoBronzeNew width={100} height={100} />;
       case 1:
-        return <CalendarLogoSilver width={100} height={100} />;
+   
+   /*      return <CalendarLogoSilver width={100} height={100} />; */
+        return <LogoSilverNew width={100} height={100} />;
       case 2:
-        return <CalendarLogoGold width={100} height={100} />;
+       /*  return <CalendarLogoGold width={100} height={100} />; */
+        return <LogoGoldNew width={100} height={100} />;
     }
     return <CalendarLogo width={100} height={100} />;
   };

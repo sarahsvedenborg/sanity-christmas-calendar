@@ -126,19 +126,26 @@ export default async function CalendarDayPage({
         </div>
         <div className="container relative mx-auto flex max-w-6xl flex-col items-center justify-center px-4 py-32">
           <div className="rounded-2xl border-2 border-amber-300/60 bg-white/95 p-12 text-center shadow-2xl backdrop-blur dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
-            <div className="mb-6 text-6xl">🔒</div>
+            <div className="mb-6 text-6xl animate-bounce">⏰</div>
             <h1 className="mb-4 text-3xl font-bold text-green-950 dark:text-white">
-              Ikke tilgjengelig ennå
+         {/*      Oi, der gikk du litt for fort! 🏃‍♀️💨 */}
+              Er du litt tidlig ute? 
             </h1>
-            <p className="mb-6 text-lg text-green-900/80 dark:text-white/70">
-              Denne kalenderluken blir tilgjengelig {dayDate ? dayDate.toLocaleDateString("no-NO", {
+            <p className="mb-4 text-lg text-green-900/80 dark:text-white/70">
+              Det er supert at du er spent og ivrig - det liker vi! 😄
+            </p>
+            <p className="mb-4 text-lg text-green-900/80 dark:text-white/70">
+              Men denne kalenderluken låser seg opp <strong>{dayDate ? dayDate.toLocaleDateString("no-NO", {
                 day: "numeric",
                 month: "long",
                 year: "numeric"
-              }) : "snart"}.
+              }) : "snart"}</strong>.
             </p>
-            <p className="mb-8 text-base text-green-900/70 dark:text-white/60">
-              Kom tilbake på rett dag for å se innholdet!
+           {/*  <p className="mb-2 text-base text-green-900/70 dark:text-white/60">
+              Vi vet det er vanskelig å vente, men antisipering er en del av moroa! 🎁
+            </p> */}
+            <p className="mb-8 text-base font-semibold text-amber-600 dark:text-amber-400">
+              Gleder oss til å se deg igjen når luker en åpen! 📅
             </p>
             <Link
               href="/"

@@ -195,7 +195,7 @@ return(
                                          if (!day) return null;
 
                           const isBreak = (day as any).isBreak || false;
-                          const isAvailable = isBreak || canOpenDay(
+                          const isAvailable = canOpenDay(
                             day.dayNumber,
                             startDate
                           );
@@ -286,7 +286,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                 if (!day) return null;
 
                 const isBreak = (day as any).isBreak || false;
-                const isAvailable = isBreak || canOpenDay(
+                const isAvailable = canOpenDay(
                   day.dayNumber,
                   startDate
                 );

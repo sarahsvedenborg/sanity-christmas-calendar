@@ -15,6 +15,7 @@ import { DayLesson } from "./components/DayLesson";
 import { RichText } from "@/components/elements/rich-text";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { auth } from "@/auth";
 
 export const revalidate = 10;
 
@@ -84,7 +85,12 @@ export async function generateStaticParams() {
 // Allow dynamic params for paths not generated at build time
 export const dynamicParams = true;
 
-function canOpenDay(dayNumber: number | undefined, startDate: string | undefined | null): boolean {
+function canOpenDay(dayNumber: number | undefined, startDate: string | undefined | null, hasAdminAccess: boolean): boolean {
+  // If user has admin access (verified server-side), allow all days
+  if (hasAdminAccess) {
+    return true;
+  }
+
   if (!dayNumber || !startDate) return true;
 
   const today = new Date();
@@ -109,9 +115,19 @@ export default async function CalendarDayPage({
     return notFound();
   }
 
+  const session = await auth();
+  const userEmail = session?.user?.email;
+  
+  // Server-side check: determine if user has admin access
+  // This is secure because it's calculated server-side and never exposed to the client
+  const adminEmail = process.env.ADMIN_ACCESS_EMAIL;
+  const hasAdminAccess = Boolean(
+    adminEmail && userEmail && userEmail.toLowerCase() === adminEmail.toLowerCase()
+  );
+
   const startDate = (dayData as any).startDate as string | undefined | null;
   const dayNumber = dayData.dayNumber;
-  const isFutureDay = !canOpenDay(dayNumber, startDate);
+  const isFutureDay = !canOpenDay(dayNumber, startDate, hasAdminAccess);
 
   if (isFutureDay) {
     const dayDate = startDate ? new Date(startDate) : null;

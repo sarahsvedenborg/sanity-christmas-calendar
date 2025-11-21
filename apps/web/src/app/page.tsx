@@ -7,6 +7,7 @@ import {
 import { getSEOMetadata } from "@/lib/seo";
 import { Snowflakes } from "@/components/Snowflakes";
 import { Countdown } from "@/components/Countdown";
+import { auth } from "@/auth";
 
 async function fetchChristmasCalendarData() {
   return await sanityFetch({
@@ -49,6 +50,14 @@ export async function generateMetadata() {
 
 export default async function CalendarPage() {
   const { data: calendarData } = await fetchChristmasCalendarData();
+  const session = await auth();
+  const userEmail = session?.user?.email;
+  
+  // Server-side check: determine if user has admin access
+  const adminEmail = process.env.ADMIN_ACCESS_EMAIL;
+  const hasAdminAccess = Boolean(
+    adminEmail && userEmail && userEmail.toLowerCase() === adminEmail.toLowerCase()
+  );
 
   if (!calendarData) {
     return notFound();
@@ -74,7 +83,7 @@ export default async function CalendarPage() {
         </div>
       </section>
        <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
-       <ChristmasCalendar data={calendarData} /> 
+       <ChristmasCalendar data={calendarData} hasAdminAccess={hasAdminAccess} /> 
     </main>
   );
 }

@@ -603,6 +603,7 @@ export const queryCalendarDayData = defineQuery(`
   *[_type == "calendarDay" && slug.current == $slug][0]{
     ...,
     ${calendarDayFragment},
+    "startDate": *[_type == "christmasCalendar"][0].startDate,
     "previousDay": *[_type == "calendarDay" && dayNumber < ^.dayNumber] | order(dayNumber desc)[0] {
       dayNumber,
       title,

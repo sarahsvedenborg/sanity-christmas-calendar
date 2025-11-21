@@ -84,6 +84,19 @@ export async function generateStaticParams() {
 // Allow dynamic params for paths not generated at build time
 export const dynamicParams = true;
 
+function canOpenDay(dayNumber: number | undefined, startDate: string | undefined | null): boolean {
+  if (!dayNumber || !startDate) return true;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dayDate = new Date(startDate);
+  dayDate.setDate(dayDate.getDate() + dayNumber - 1);
+  dayDate.setHours(0, 0, 0, 0);
+
+  return today >= dayDate;
+}
+
 export default async function CalendarDayPage({
   params,
 }: {
@@ -94,6 +107,49 @@ export default async function CalendarDayPage({
 
   if (!dayData) {
     return notFound();
+  }
+
+  const startDate = (dayData as any).startDate as string | undefined | null;
+  const dayNumber = dayData.dayNumber;
+  const isFutureDay = !canOpenDay(dayNumber, startDate);
+
+  if (isFutureDay) {
+    const dayDate = startDate ? new Date(startDate) : null;
+    if (dayDate && dayNumber) {
+      dayDate.setDate(dayDate.getDate() + dayNumber - 1);
+    }
+
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <Snowflakes />
+        </div>
+        <div className="container relative mx-auto flex max-w-6xl flex-col items-center justify-center px-4 py-32">
+          <div className="rounded-2xl border-2 border-amber-300/60 bg-white/95 p-12 text-center shadow-2xl backdrop-blur dark:border-amber-700/50 dark:bg-green-950/90" style={{ borderColor: '#D4AF37' }}>
+            <div className="mb-6 text-6xl">🔒</div>
+            <h1 className="mb-4 text-3xl font-bold text-green-950 dark:text-white">
+              Ikke tilgjengelig ennå
+            </h1>
+            <p className="mb-6 text-lg text-green-900/80 dark:text-white/70">
+              Denne kalenderluken blir tilgjengelig {dayDate ? dayDate.toLocaleDateString("no-NO", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+              }) : "snart"}.
+            </p>
+            <p className="mb-8 text-base text-green-900/70 dark:text-white/60">
+              Kom tilbake på rett dag for å se innholdet!
+            </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
+            >
+              Tilbake til kalenderen
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
   }
 
      const previousDay = (dayData as any).previousDay as

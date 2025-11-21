@@ -10,6 +10,10 @@ Add these environment variables to your `.env.local` file:
 # NextAuth.js Secret (generate with: openssl rand -base64 32)
 AUTH_SECRET=your-secret-key-here
 
+# NextAuth.js Base URL (for local development)
+# IMPORTANT: Use http (not https) for localhost
+AUTH_URL=http://localhost:3000
+
 # Microsoft Entra ID App Registration Details
 AUTH_MICROSOFT_ENTRA_ID_CLIENT_ID=your-client-id
 AUTH_MICROSOFT_ENTRA_ID_SECRET=your-client-secret

@@ -32,20 +32,20 @@ function ImageModal({ image, isOpen, onClose }: ImageModalProps) {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="bottom"
-        className="max-h-[90vh] w-full max-w-7xl bg-black/95 border-none p-0"
+        className="max-h-[95vh] w-full max-w-7xl bg-black/95 border-none p-0 m-auto "
       >
-        <div className="relative flex h-full w-full flex-col items-center justify-center p-4 md:p-8">
-          <button
+         <button
             onClick={onClose}
-            className="absolute right-4 top-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 md:right-8 md:top-8"
+            className="absolute right-4 top-[-30px] z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 md:right-4 md:top-[-10px]"
             aria-label="Close image"
           >
-            <X className="h-6 w-6" />
+            <X className="h-6 w-6 text-white" />
           </button>
-          <div className="flex max-h-[85vh] w-full flex-col items-center justify-center gap-4 overflow-auto">
+        <div className="relative flex h-full w-full flex-col items-center justify-center p-4 md:p-8">
+          <div className="flex max-h-[90vh] w-full flex-col items-center justify-center gap-4 overflow-auto">
             <SanityImage
               alt={image.caption || "Enlarged image"}
-              className="max-h-[75vh] w-auto max-w-full object-contain"
+              className="max-h-[85vh] w-auto max-w-full object-contain"
               height={2000}
               image={image}
               width={2000}

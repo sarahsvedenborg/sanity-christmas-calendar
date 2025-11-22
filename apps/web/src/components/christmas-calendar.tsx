@@ -124,11 +124,11 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
                                 )}
 
                                 {/* Reward Badge */}
-                                {day.reward && isAvailable && !isBreak && (
+                               {/*  {day.reward && isAvailable && !isBreak && (
                                   <Badge className="border-2 bg-amber-200/90 text-xs text-green-950" style={{ borderColor: categoryColor, backgroundColor: '#F5DEB3' }}>
                                     🎁 {day.reward}
                                   </Badge>
-                                )}
+                                )} */}
 
                                 {/* Locked Icon */}
                                 {!isAvailable && (
@@ -362,13 +362,12 @@ export function ChristmasCalendar({ data, hasAdminAccess }: ChristmasCalendarPro
                           🛑 Break Day
                         </Badge>
                       )}
-
                       {/* Reward Badge */}
-                      {day.reward && isAvailable && !isBreak && (
+                      {/* {day.reward && isAvailable && !isBreak && (
                         <Badge className="border-2 border-amber-300 bg-amber-200/90 text-xs text-green-950" style={{ borderColor: '#D4AF37', backgroundColor: '#F5DEB3' }}>
                           🎁 {day.reward}
                         </Badge>
-                      )}
+                      )} */}
 
                       {/* Locked Icon */}
                       {!isAvailable && (

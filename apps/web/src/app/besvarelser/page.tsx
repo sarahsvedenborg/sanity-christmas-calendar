@@ -20,7 +20,7 @@ export default async function BesvarelserPage() {
     }),
   ]);
 
-  const answers = Array.isArray(answersData) ? answersData : [];
+  const answer = answersData;
   const publicWorkUrls = Array.isArray(publicWorkData) ? publicWorkData : [];
 
   return (
@@ -36,12 +36,12 @@ export default async function BesvarelserPage() {
             Besvarelser
           </h1>
           <p className="mt-3 text-lg text-white/80">
-            Utforsk innsendte svar og refleksjoner fra julekalenderen.
+           {answer.description}
           </p>
         </header>
 
         <div className="space-y-10">
-          {answers.length === 0 && publicWorkUrls.length === 0 ? (
+          {!answer ?  (
             <div className="rounded-2xl border border-amber-300/60 bg-white/90 p-8 text-center shadow-sm backdrop-blur dark:border-amber-700/50 dark:bg-green-950/80">
               <p className="text-lg text-green-900 dark:text-white/70">
                 Det er ingen besvarelser publisert enda. Kom tilbake senere!
@@ -49,23 +49,13 @@ export default async function BesvarelserPage() {
             </div>
           ) : (
             <>
-              {answers.map((answer) => (
-                <article
+              
+                {answer.content && <article
                   key={answer._id}
-                  className="rounded-2xl border border-amber-300/60 bg-white/95 p-8 shadow-md transition hover:-translate-y-1 hover:shadow-xl backdrop-blur dark:border-amber-700/50 dark:bg-green-950/85"
+                  className="rounded-2xl border border-amber-300/60 bg-white/95 p-8 shadow-md transition backdrop-blur dark:border-amber-700/50 dark:bg-green-950/85"
                 >
-                  <header className="mb-6">
-                    <h2 className="text-2xl font-semibold text-green-950 dark:text-white">
-                      {answer.title}
-                    </h2>
-                    {answer.description && (
-                      <p className="mt-2 text-green-900/80 dark:text-white/70">
-                        {answer.description}
-                      </p>
-                    )}
-                  </header>
                   <RichText className="text-left" richText={answer.content} />
-                  <footer className="mt-6 text-right text-xs uppercase tracking-wide text-green-900/60 dark:text-white/40">
+                {/*   <footer className="mt-6 text-right text-xs uppercase tracking-wide text-green-900/60 dark:text-white/40">
                     Sist oppdatert:{" "}
                     {answer._updatedAt
                       ? new Date(answer._updatedAt).toLocaleDateString("no-NO", {
@@ -74,9 +64,9 @@ export default async function BesvarelserPage() {
                           year: "numeric",
                         })
                       : "Ukjent"}
-                  </footer>
-                </article>
-              ))}
+                  </footer> */}
+                </article>}
+             
 
               {publicWorkUrls.length > 0 && (
                 <section className="rounded-2xl border border-amber-300/60 bg-white/95 p-8 shadow-md backdrop-blur dark:border-amber-700/50 dark:bg-green-950/85">
@@ -90,17 +80,18 @@ export default async function BesvarelserPage() {
                   </header>
                   <div className="space-y-4">
                     {publicWorkUrls.map((user) => (
+                      <>
                       <div
                         key={user._id}
-                        className="rounded-lg border border-amber-200/50 bg-white/50 p-4 transition hover:border-amber-300/80 hover:bg-white/70 dark:border-amber-700/30 dark:bg-green-900/30 dark:hover:border-amber-600/50 dark:hover:bg-green-900/50"
+                        className="hidden sm:block rounded-lg border border-amber-200/50 bg-white/90 p-4 transition hover:border-amber-300/80 hover:bg-white dark:border-amber-700/30 dark:bg-green-900/80 dark:hover:border-amber-600/50 dark:hover:bg-green-900/90 "
                       >
-                        <div className="flex items-center justify-between gap-4">
-                          <div>
-                            <h3 className="font-semibold text-green-950 dark:text-white">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-green-950 dark:text-white break-words">
                               {user.name}
                             </h3>
                             {user.email && (
-                              <p className="mt-1 text-sm text-green-900/70 dark:text-white/60">
+                              <p className="mt-1 text-sm text-green-900 dark:text-white/80 break-words">
                                 {user.email}
                               </p>
                             )}
@@ -110,13 +101,27 @@ export default async function BesvarelserPage() {
                               href={user.publicworkurl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="shrink-0 rounded-md bg-amber-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700"
+                              className="shrink-0 rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-amber-700 hover:shadow-md w-full sm:w-auto text-center"
                             >
                               Se arbeid →
                             </Link>
                           )}
                         </div>
                       </div>
+                      <div> 
+                      </div>
+                      <Link
+                              href={user.publicworkurl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block sm:hidden"
+
+                            >
+                                 <h3 className="font-semibold text-green-950 dark:text-white break-words">
+                              {user.name}s arbeid →
+                            </h3>
+                            </Link>
+                      </>
                     ))}
                   </div>
                 </section>

@@ -502,6 +502,10 @@ const calendarDayFragment = /* groq */ `
         ...,
         ${markDefsFragment}
       },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
     },
     codeExamples,
     resources,
@@ -532,6 +536,10 @@ const calendarDayFragment = /* groq */ `
         ...,
         ${markDefsFragment}
       },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
     },
     designExamples[]{
       ...,

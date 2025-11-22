@@ -21,6 +21,7 @@ type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 
 type ChristmasCalendarProps = {
   data: CalendarData;
+  hasAdminAccess?: boolean;
 };
 
 function getDayEmoji(dayNumber: number): string {
@@ -147,7 +148,7 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
     )
   }
 
-  const CalendarCategoryGroup = ({ group, index, startDate, categoryBgColor, categoryColor }: { group: any, index: number, startDate: Date | null, categoryBgColor: string, categoryColor: string }) => {
+  const CalendarCategoryGroup = ({ group, index, startDate, categoryBgColor, categoryColor, hasAdminAccess }: { group: any, index: number, startDate: Date | null, categoryBgColor: string, categoryColor: string, hasAdminAccess?: boolean }) => {
 
      const getLogo = (index: number) => {
     switch (index) {
@@ -195,9 +196,10 @@ return(
                                          if (!day) return null;
 
                           const isBreak = (day as any).isBreak || false;
-                          const isAvailable = isBreak || canOpenDay(
+                          const isAvailable = canOpenDay(
                             day.dayNumber,
-                            startDate
+                            startDate,
+                            hasAdminAccess
                           );
                           const dayEmoji = getDayEmoji(day.dayNumber);
                             return <CalendarDayCard key={day.dayNumber} day={day} isBreak={isBreak} isAvailable={isAvailable} dayEmoji={dayEmoji} categoryColor={categoryColor} />
@@ -209,7 +211,7 @@ return(
 }
 
 
-export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
+export function ChristmasCalendar({ data, hasAdminAccess }: ChristmasCalendarProps) {
   const startDate = data.startDate ? new Date(data.startDate) : null;
   const days = data.days || [];
   
@@ -276,7 +278,7 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                   ? '#D9D9D9' // Silver
                   : '#E5C68D'; // Gold 
 
-                   return <CalendarCategoryGroup key={group.category._id} group={group} index={index} startDate={startDate} categoryBgColor={categoryBgColor}  categoryColor={categoryColor} />
+                   return <CalendarCategoryGroup key={group.category._id} group={group} index={index} startDate={startDate} categoryBgColor={categoryBgColor}  categoryColor={categoryColor} hasAdminAccess={hasAdminAccess} />
               })}
             </div>
           ) : (
@@ -286,9 +288,10 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
                 if (!day) return null;
 
                 const isBreak = (day as any).isBreak || false;
-                const isAvailable = isBreak || canOpenDay(
+                const isAvailable = canOpenDay(
                   day.dayNumber,
-                  startDate
+                  startDate,
+                  hasAdminAccess
                 );
                 const dayEmoji = getDayEmoji(day.dayNumber);
 
@@ -393,7 +396,13 @@ export function ChristmasCalendar({ data }: ChristmasCalendarProps) {
 
 
 // Check if a day can be opened
-function canOpenDay(dayNumber: number, startDate: Date | null): boolean {
+// Note: This is only for UI purposes. Actual content protection happens server-side.
+function canOpenDay(dayNumber: number, startDate: Date | null, hasAdminAccess?: boolean): boolean {
+  // If user has admin access (verified server-side), allow all days
+  if (hasAdminAccess) {
+    return true;
+  }
+
   if (!startDate) return true;
 
   const today = new Date();

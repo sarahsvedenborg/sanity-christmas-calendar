@@ -47,7 +47,7 @@ const markDefsFragment = /* groq */ `
 `;
 
 export const queryAnswersData = defineQuery(`
-  *[_type == "answers"] | order(_updatedAt desc) {
+  *[_type == "answers"][0] {
     _id,
     title,
     description,

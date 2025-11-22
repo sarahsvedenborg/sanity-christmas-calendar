@@ -6,6 +6,12 @@ import {
   type PortableTextBlock,
   type PortableTextReactComponents,
 } from "next-sanity";
+import { useState } from "react";
+import { X } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+} from "@workspace/ui/components/sheet";
 
 import { parseChildrenToSlug } from "@/utils";
 
@@ -13,12 +19,57 @@ import { SanityImage } from "./sanity-image";
 
 type RichTextTone = "default" | "light";
 
+type ImageModalProps = {
+  image: any;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+function ImageModal({ image, isOpen, onClose }: ImageModalProps) {
+  if (!image?.id) return null;
+
+  return (
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent
+        side="bottom"
+        className="max-h-[90vh] w-full max-w-7xl bg-black/95 border-none p-0"
+      >
+        <div className="relative flex h-full w-full flex-col items-center justify-center p-4 md:p-8">
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 z-50 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70 md:right-8 md:top-8"
+            aria-label="Close image"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <div className="flex max-h-[85vh] w-full flex-col items-center justify-center gap-4 overflow-auto">
+            <SanityImage
+              alt={image.caption || "Enlarged image"}
+              className="max-h-[75vh] w-auto max-w-full object-contain"
+              height={2000}
+              image={image}
+              width={2000}
+            />
+            {image.caption && (
+              <figcaption className="text-center text-sm text-white/80 md:text-base">
+                {image.caption}
+              </figcaption>
+            )}
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 function createComponents({
   paragraphClassName,
   listClassName,
+  onImageClick,
 }: {
   paragraphClassName: string;
   listClassName: string;
+  onImageClick: (image: any) => void;
 }): Partial<PortableTextReactComponents> {
   return {
     block: {
@@ -166,12 +217,21 @@ function createComponents({
         }
         return (
           <figure className="my-4">
-            <SanityImage
-              className="h-auto w-full rounded-lg"
-              height={900}
-              image={value}
-              width={1600}
-            />
+            <button
+              type="button"
+              onClick={() => onImageClick(value)}
+              className="group relative w-full cursor-zoom-in transition-transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg overflow-hidden"
+              aria-label="Click to enlarge image"
+            >
+              <SanityImage
+                alt={value.caption || "Image"}
+                className="h-auto w-full rounded-lg transition-opacity group-hover:opacity-90"
+                height={900}
+                image={value}
+                width={1600}
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/10" />
+            </button>
             {value?.caption && (
               <figcaption className="mt-2 text-center text-sm text-zinc-500 dark:text-zinc-400">
                 {value.caption}
@@ -194,6 +254,9 @@ export function RichText<T>({
   className?: string;
   tone?: RichTextTone;
 }) {
+  const [selectedImage, setSelectedImage] = useState<any | null>(null);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   if (!richText) {
     return null;
   }
@@ -208,25 +271,45 @@ export function RichText<T>({
       ? "text-white dark:text-zinc-100"
       : "text-green-950 dark:text-zinc-100";
 
+  const handleImageClick = (image: any) => {
+    setSelectedImage(image);
+    setIsImageModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsImageModalOpen(false);
+    setSelectedImage(null);
+  };
+
   const components = createComponents({
     paragraphClassName,
     listClassName,
+    onImageClick: handleImageClick,
   });
 
   return (
-    <div
-      className={cn(
-        "prose prose-zinc dark:prose-invert max-w-none prose-headings:scroll-m-24 prose-h2:border-b prose-h2:pb-2 prose-h2:font-semibold prose-h2:text-3xl prose-headings:text-opacity-90 prose-ol:text-opacity-80 prose-p:text-opacity-80 prose-ul:text-opacity-80 prose-a:decoration-dotted prose-h2:first:mt-0",
-        className
+    <>
+      <div
+        className={cn(
+          "prose prose-zinc dark:prose-invert max-w-none prose-headings:scroll-m-24 prose-h2:border-b prose-h2:pb-2 prose-h2:font-semibold prose-h2:text-3xl prose-headings:text-opacity-90 prose-ol:text-opacity-80 prose-p:text-opacity-80 prose-ul:text-opacity-80 prose-a:decoration-dotted prose-h2:first:mt-0",
+          className
+        )}
+      >
+        <PortableText
+          components={components}
+          onMissingComponent={(_, { nodeType, type }) => {
+            console.warn(`Missing component: ${nodeType} for type: ${type}`);
+          }}
+          value={richText as unknown as PortableTextBlock[]}
+        />
+      </div>
+      {selectedImage && (
+        <ImageModal
+          image={selectedImage}
+          isOpen={isImageModalOpen}
+          onClose={handleCloseModal}
+        />
       )}
-    >
-      <PortableText
-        components={components}
-        onMissingComponent={(_, { nodeType, type }) => {
-          console.warn(`Missing component: ${nodeType} for type: ${type}`);
-        }}
-        value={richText as unknown as PortableTextBlock[]}
-      />
-    </div>
+    </>
   );
 }

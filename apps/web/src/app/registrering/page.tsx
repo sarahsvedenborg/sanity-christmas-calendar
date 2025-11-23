@@ -46,6 +46,10 @@ export default function RegisteringPage() {
     });
   };
 
+  // Check if emails match (only when both fields have values)
+  const emailsMatch = formData.confirmEmail === "" || formData.email === formData.confirmEmail;
+  const showEmailMismatch = formData.confirmEmail !== "" && formData.email !== formData.confirmEmail;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
@@ -79,7 +83,7 @@ export default function RegisteringPage() {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full rounded-lg border-2 border-amber-300/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
+                  className="w-full rounded-lg border-2 border-green-700/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
                   placeholder="Skriv inn ditt fulle navn"
                 />
               </div>
@@ -98,7 +102,7 @@ export default function RegisteringPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-lg border-2 border-amber-300/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
+                  className="w-full rounded-lg border-2 border-green-700/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
                   placeholder="din.epost@example.com"
                 />
               </div>
@@ -117,9 +121,18 @@ export default function RegisteringPage() {
                   required
                   value={formData.confirmEmail}
                   onChange={handleChange}
-                  className="w-full rounded-lg border-2 border-amber-300/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
+                  className={`w-full rounded-lg border-2 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:outline-none focus:ring-2 ${
+                    showEmailMismatch
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-500/50"
+                      : "border-green-700/50 focus:border-amber-400 focus:ring-amber-400/50 dark:border-amber-700/50 dark:focus:border-amber-600"
+                  } dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50`}
                   placeholder="bekreft din e-postadresse"
                 />
+                {showEmailMismatch && (
+                  <p className="mt-2 text-sm font-medium text-red-600 dark:text-red-400">
+                    E-postadressene matcher ikke
+                  </p>
+                )}
               </div>
 
               <button

@@ -16,13 +16,15 @@ type ScoreboardUser = {
       _id: string;
       dayNumber?: number;
       title?: string;
+      isBreak?: boolean;
     } | null;
   }>;
 };
 
 function calculateProgress(user: ScoreboardUser) {
+  // Filter out break days and only count actual tasks
   const tasks = user.taskCompletionStatus?.filter(
-    (status) => status.calendarDay?._id
+    (status) => status.calendarDay?._id && !status.calendarDay?.isBreak
   ) ?? [];
   
   const totalTasks = tasks.length;

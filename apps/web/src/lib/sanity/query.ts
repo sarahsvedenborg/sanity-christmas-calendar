@@ -660,7 +660,8 @@ export const queryScoreboardData = defineQuery(`
       calendarDay->{
         _id,
         dayNumber,
-        title
+        title,
+        isBreak
       }
     }
   }

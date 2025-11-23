@@ -639,6 +639,7 @@ export const queryUserProgressByEmail = defineQuery(`
         _id,
         dayNumber,
         title,
+        isBreak,
         "slug": slug.current,
         "category": category->{
           _id,
@@ -660,7 +661,8 @@ export const queryScoreboardData = defineQuery(`
       calendarDay->{
         _id,
         dayNumber,
-        title
+        title,
+        isBreak
       }
     }
   }

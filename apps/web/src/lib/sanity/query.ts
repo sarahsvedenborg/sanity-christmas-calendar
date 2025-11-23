@@ -649,6 +649,22 @@ export const queryUserProgressByEmail = defineQuery(`
   }
 `);
 
+export const queryScoreboardData = defineQuery(`
+  *[_type == "user" && acceptScoreboard == true]{
+    _id,
+    name,
+    email,
+    taskCompletionStatus[]{
+      completed,
+      calendarDay->{
+        _id,
+        dayNumber,
+        title
+      }
+    }
+  }
+`);
+
 export const queryPublicWorkUrls = defineQuery(`
   *[_type == "user" && acceptSharingWorkPublicly == true && defined(publicworkurl)]{
     _id,

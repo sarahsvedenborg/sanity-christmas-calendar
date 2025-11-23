@@ -184,7 +184,7 @@ export const structure = (
        createList({
          S,
          type: "user",
-         title: "Delatkere",
+         title: "Deltakere",
          icon: User,
        }),
       S.listItem()

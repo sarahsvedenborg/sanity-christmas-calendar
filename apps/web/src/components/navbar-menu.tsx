@@ -13,6 +13,7 @@ type NavbarMenuProps = {
   showRegistrationButton: boolean;
   registrationUrl?: string | null;
   hasSession: boolean;
+  userEmail?: string | null;
   signOutAction: () => Promise<void>;
 };
 
@@ -20,6 +21,7 @@ export function NavbarMenu({
   showRegistrationButton,
   registrationUrl,
   hasSession,
+  userEmail,
   signOutAction,
 }: NavbarMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,19 +35,21 @@ export function NavbarMenu({
 
     if (showRegistrationButton && registrationUrl) {
       return (
-        <a
-          href={registrationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={
-            isMobile
-              ? "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b]"
-              : "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
-          }
-          onClick={closeMenu}
-        >
-          Registrer deltakelse
-        </a>
+        <>
+          <a
+            href={registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              isMobile
+                ? "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b]"
+                : "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
+            }
+            onClick={closeMenu}
+          >
+            Registrer deltakelse
+          </a>
+        </>
       );
     }
 
@@ -56,6 +60,9 @@ export function NavbarMenu({
         </Link>
         <Link href="/besvarelser" className={linkClass} onClick={closeMenu}>
           Alles besvarelser
+        </Link>
+        <Link href="/scoreboard" className={linkClass} onClick={closeMenu}>
+          Scoreboard
         </Link>
         {hasSession ? (
           <>
@@ -88,8 +95,15 @@ export function NavbarMenu({
   return (
     <>
       {/* Desktop Menu - Hidden on mobile */}
-      <div className="hidden md:flex items-center gap-4">
-        <MenuContent />
+      <div className="hidden md:flex flex-col items-end gap-2">
+        <div className="flex items-center gap-4">
+          <MenuContent />
+        </div>
+      {/*   {hasSession && userEmail && (
+          <span className="text-xs text-white/70">
+            Logget inn som: {userEmail}
+          </span>
+        )} */}
       </div>
 
       {/* Mobile Menu - Hamburger */}
@@ -113,6 +127,11 @@ export function NavbarMenu({
             </div>
             <nav className="flex flex-col gap-4 pl-4">
               <MenuContent isMobile />
+              {hasSession && userEmail && (
+                <span className="text-sm text-white/70 py-2 mt-2">
+                  Logget inn som: {userEmail}
+                </span>
+              )}
             </nav>
           </div>
         </SheetContent>

@@ -15,6 +15,7 @@ export async function Navbar() {
   const showRegistrationButton = settings?.showRegistrationButton ?? false;
   const registrationUrl = settings?.registrationUrl;
   const hasSession = Boolean(session);
+  const userEmail = session?.user?.email;
 
   async function handleSignOut() {
     "use server";
@@ -54,6 +55,7 @@ export async function Navbar() {
             showRegistrationButton={showRegistrationButton}
             registrationUrl={registrationUrl}
             hasSession={hasSession}
+            userEmail={userEmail}
             signOutAction={handleSignOut}
           />
         </div>

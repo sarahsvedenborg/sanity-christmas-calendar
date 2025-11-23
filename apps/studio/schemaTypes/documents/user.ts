@@ -4,6 +4,7 @@ import { UserRound } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { TaskCompletionStatusInput } from "../../components/task-completion-status-input";
+import { createRadioListLayout } from "../../utils/helper";
 
 const taskCompletionStatusInput =
   TaskCompletionStatusInput as unknown as ComponentType<any>;
@@ -27,6 +28,20 @@ export const user = defineType({
       type: "string",
       validation: (rule) =>
         rule.required().email().error("Provide a valid email address."),
+    }),
+       defineField({
+      name: "participantType",
+      title: "participantType",
+      type: "string",
+      options: createRadioListLayout(["tech", "design"]),
+    /*   readOnly: true, */
+    }),
+      defineField({
+      name: "acceptScoreboard",
+      title: "Partake in scoreboard",
+      type: "boolean",
+    /*   readOnly: true, */
+      initialValue: false,
     }),
     defineField({
       name: "acceptSharingWorkPublicly",

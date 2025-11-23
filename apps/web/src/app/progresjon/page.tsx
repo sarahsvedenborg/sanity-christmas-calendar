@@ -11,6 +11,7 @@ type TaskStatus = {
     _id: string;
     title?: string;
     dayNumber?: number;
+    isBreak?: boolean;
     slug?: string;
     category?: {
       _id: string;
@@ -54,12 +55,13 @@ export default async function ProgressionPage() {
   const progress = await fetchProgress(userEmail);
   const hasEmail = Boolean(userEmail);
   const isMissingUser = hasEmail && !progress;
+  // Filter out break days - only count actual tasks
   const tasks =
     progress?.taskCompletionStatus?.filter(
       (status): status is Required<TaskStatus> &
         Required<Pick<TaskStatus, "calendarDay">> &
         { calendarDay: NonNullable<TaskStatus["calendarDay"]> } =>
-        Boolean(status?.calendarDay?._id)
+        Boolean(status?.calendarDay?._id && !status?.calendarDay?.isBreak)
     ) ?? [];
 
   const totalTasks = tasks.length;

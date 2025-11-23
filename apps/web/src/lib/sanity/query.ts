@@ -639,6 +639,7 @@ export const queryUserProgressByEmail = defineQuery(`
         _id,
         dayNumber,
         title,
+        isBreak,
         "slug": slug.current,
         "category": category->{
           _id,

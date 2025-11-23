@@ -55,6 +55,9 @@ export function NavbarMenu({
 
     return (
       <>
+        <Link href="/demo" className={linkClass} onClick={closeMenu}>
+       Demoløsning
+        </Link>
         <Link href="/definisjoner" className={linkClass} onClick={closeMenu}>
           Ordliste
         </Link>

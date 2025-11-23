@@ -313,6 +313,17 @@ export const queryDemoBlogPaths = defineQuery(`
   *[_type == "demo_blog" && defined(slug.current)].slug.current
 `);
 
+export const queryDemoBlogIndex = defineQuery(`
+  *[_type == "demo_blog" && defined(slug.current)] | order(_createdAt desc) {
+    _id,
+    _createdAt,
+    title,
+    description,
+    "slug": slug.current,
+    ${imageFragment}
+  }
+`);
+
 const ogFieldsFragment = /* groq */ `
   _id,
   _type,

@@ -654,6 +654,7 @@ export const queryScoreboardData = defineQuery(`
     _id,
     name,
     email,
+    participantType,
     taskCompletionStatus[]{
       completed,
       calendarDay->{

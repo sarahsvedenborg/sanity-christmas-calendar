@@ -24,8 +24,6 @@ async function fetchDemoBlogSlugPageData(slug: string, stega = true) {
       stega,
     });
 
-    console.log(   "result", result);
-
     if (result.data) {
       return result;
     }
@@ -122,41 +120,44 @@ export default async function DemoBlogSlugPage({
   const { title, description, image, richText } = data ?? {};
 
   return (
-     <main className="">
+    <main className="min-h-screen">
       {/* Snowflake animation background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <Snowflakes />
       </div>
-    <div className="container mx-auto my-16 px-4 md:px-6">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
-        <main>
-          <ArticleJsonLd article={data} />
-          <header className="mb-8">
-            <h1 className="mt-2 font-bold text-4xl text-white">{title}</h1>
-            <p className="mt-4 text-lg text-white/80">{description}</p>
-          </header>
-          {image && (
-            <div className="mb-12">
-              <SanityImage
-                alt={title}
-                className="h-auto w-full rounded-lg"
-                height={450}
-                image={image}
-                loading="eager"
-                width={800}
-              />
+      <div className="mx-auto max-w-4xl px-4 py-6 md:px-6 md:py-8">
+        <article className="space-y-6">
+          <header className="max-w-4xl  flex flex-col gap-4 py-8 md:flex-row md:items-start md:gap-6">
+            <div className="flex-1 space-y-3">
+              <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
+                {title}
+              </h1>
+              {description && (
+                <p className="text-lg leading-relaxed text-white/90 md:text-xl">
+                  {description}
+                </p>
+              )}
             </div>
-          )}
-          <RichText richText={richText} />
-        </main>
-
-        <div className="hidden lg:block">
-          <div className="sticky top-4 rounded-lg">
-            <TableOfContent richText={richText ?? []} />
+            {image && (
+              <div className="flex-shrink-0 overflow-hidden rounded-xl md:w-64">
+                <SanityImage
+                  alt={title}
+                  className="h-auto w-full object-contain"
+                  height={280}
+                  image={image}
+                  loading="eager"
+                  width={280}
+                />
+              </div>
+            )}
+          </header>
+          <p className="text-sm text-white/90">Publisert: {data._createdAt}</p>
+          <hr />
+          <div className=" mx-auto max-w-2xl prose prose-invert prose-lg ">
+            <RichText richText={richText} />
           </div>
-        </div>
+        </article>
       </div>
-    </div>
     </main>
   );
 }

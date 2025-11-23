@@ -24,6 +24,19 @@
     var(--demo-bg-gradient-mid),
     var(--demo-bg-gradient-end)
   ) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.demo-theme {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-theme body {
+  margin: 0;
+  padding: 0;
 }
 
 .demo-theme .bg-gradient-to-br.from-green-950.via-green-900.to-green-950,
@@ -151,5 +164,57 @@
 
 .demo-theme h1[style*="textShadow"] {
   text-shadow: none !important;
+}
+
+/* Blog content typography improvements */
+.demo-theme .prose {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .prose h1,
+.demo-theme .prose h2,
+.demo-theme .prose h3,
+.demo-theme .prose h4,
+.demo-theme .prose h5,
+.demo-theme .prose h6 {
+  color: var(--demo-text) !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.demo-theme .prose p {
+  color: var(--demo-text) !important;
+  opacity: 0.9;
+}
+
+.demo-theme .prose a {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .prose a:hover {
+  color: var(--demo-accent) !important;
+}
+
+.demo-theme .prose strong {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .prose code {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .prose pre {
+  background-color: rgba(10, 22, 40, 0.8) !important;
+  border-color: var(--demo-border) !important;
+}
+
+.demo-theme .prose blockquote {
+  border-left-color: var(--demo-primary) !important;
+  color: var(--demo-text-dark) !important;
+}
+
+.demo-theme .prose img {
+  border-radius: 0.75rem;
 }
 

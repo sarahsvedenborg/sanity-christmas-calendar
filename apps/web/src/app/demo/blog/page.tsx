@@ -45,7 +45,7 @@ export default async function DemoBlogIndexPage() {
           </div>
         ) : (
           <div className="space-y-8">
-            {blogs.map((blog) => (
+            {blogs.map((blog:any) => (
               <Link
                 key={blog._id}
                 href={`/demo/blog/${blog.slug}`}

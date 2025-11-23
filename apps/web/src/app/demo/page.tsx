@@ -9,6 +9,7 @@ import { getSEOMetadata } from "@/lib/seo";
 import { Snowflakes } from "@/components/Snowflakes";
 import { Countdown } from "@/components/Countdown";
 import { auth } from "@/auth";
+import { QueryChristmasCalendarDataResult } from "@/lib/sanity/sanity.types";
 
 async function fetchChristmasCalendarData() {
   return await sanityFetch({
@@ -86,7 +87,7 @@ export default async function CalendarPage() {
           </div>
         </div>
       </section>
-        <ChristmasCalendar data={{days: calendarData}} hasAdminAccess={true} isDemo={true}/> 
+        <ChristmasCalendar data={{days: calendarData } as NonNullable<QueryChristmasCalendarDataResult>} hasAdminAccess={true} isDemo={true}/> 
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChristmasCalendar } from "@/components/christmas-calendar";
 import { sanityFetch } from "@/lib/sanity/live";
@@ -56,16 +57,35 @@ export default async function CalendarPage() {
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <Snowflakes />
       </div>
-      <section className="relative pt-16 pb-1 md:pt-24 md:pb-2">
+      <section className="relative pt-16 pb-8 md:pt-24 md:pb-12">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl text-white">
+            <h1 className="mb-6 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl text-white">
              Demo Julekalender ❄️ 
             </h1>
+            <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-white/90 md:text-xl">
+              Denne subsiten viser alt innhold fra demo studio: <strong>demokalenderen</strong> og <strong>bloggen</strong>. Utforsk julekalenderen nedenfor eller les blogginnleggene.
+            </p>
+            <Link
+              href="/demo/blog"
+              className="group mx-auto block max-w-md rounded-xl border-2 border-cyan-400/60 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 p-6 text-center shadow-[0_0_25px_rgba(34,211,238,0.3)] transition-all hover:border-cyan-300 hover:shadow-[0_0_35px_rgba(34,211,238,0.5)] hover:scale-105"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <span className="text-3xl">📝</span>
+                <span className="text-xl font-bold text-white md:text-2xl">
+                  Les blogginnlegg
+                </span>
+                <span className="text-sm text-white/80 md:text-base">
+                  Utforsk alle våre demo blogginnlegg
+                </span>
+                <span className="mt-2 text-cyan-300 transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
-<p>sdfsdf</p>
         <ChristmasCalendar data={{days: calendarData}} hasAdminAccess={true} isDemo={true}/> 
     </main>
   );

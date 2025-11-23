@@ -63,7 +63,7 @@ export default async function CalendarPage() {
               color: '#B91C1C',
               textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
             }}>
-             Demo Julekalender 🎄 
+             Demo Julekalender ❄️ 
                 </h1>
           </div>
         </div>

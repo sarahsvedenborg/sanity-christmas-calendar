@@ -1,0 +1,145 @@
+/* Demo color scheme - Purple/Blue theme instead of green */
+.demo-theme {
+  /* CSS Variables for demo theme */
+  --demo-bg-gradient-start: #1e1b4b;
+  --demo-bg-gradient-mid: #312e81;
+  --demo-bg-gradient-end: #1e1b4b;
+  --demo-primary: #6366f1;
+  --demo-primary-dark: #4f46e5;
+  --demo-accent: #a855f7;
+  --demo-accent-light: #c084fc;
+  --demo-text: #e0e7ff;
+  --demo-text-dark: #c7d2fe;
+  --demo-border: #818cf8;
+  --demo-card-bg: rgba(255, 255, 255, 0.95);
+  --demo-card-bg-dark: white;
+  --demo-amber: #f59e0b;
+  --demo-amber-light: #fbbf24;
+}
+
+.demo-theme main {
+  background: linear-gradient(
+    to bottom right,
+    var(--demo-bg-gradient-start),
+    var(--demo-bg-gradient-mid),
+    var(--demo-bg-gradient-end)
+  ) !important;
+}
+
+.demo-theme .bg-gradient-to-br.from-green-950.via-green-900.to-green-950,
+.demo-theme [class*="bg-gradient-to-br"][class*="green"] {
+  background: linear-gradient(
+    to bottom right,
+    var(--demo-bg-gradient-start),
+    var(--demo-bg-gradient-mid),
+    var(--demo-bg-gradient-end)
+  ) !important;
+}
+
+.demo-theme .text-white {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .text-green-950 {
+  color: var(--demo-bg-gradient-start) !important;
+}
+
+.demo-theme .text-green-900 {
+  color: var(--demo-primary-dark) !important;
+}
+
+.demo-theme .border-amber-300,
+.demo-theme .border-amber-500,
+.demo-theme [class*="border-amber"] {
+  border-color: var(--demo-accent) !important;
+}
+
+.demo-theme .bg-amber-400,
+.demo-theme .bg-amber-500,
+.demo-theme [class*="bg-amber"] {
+  background-color: var(--demo-amber) !important;
+}
+
+.demo-theme .bg-white\/95,
+.demo-theme .bg-white\/90 {
+  background-color: var(--demo-card-bg) !important;
+}
+
+.demo-theme .text-amber-200,
+.demo-theme .text-amber-300 {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .text-amber-500,
+.demo-theme .text-amber-600 {
+  color: var(--demo-amber) !important;
+}
+
+.demo-theme .from-amber-300.to-amber-500,
+.demo-theme [class*="from-amber"][class*="to-amber"] {
+  background: linear-gradient(
+    to right,
+    var(--demo-amber),
+    var(--demo-amber-light)
+  ) !important;
+}
+
+.demo-theme .bg-green-950\/80,
+.demo-theme .bg-green-950\/85,
+.demo-theme [class*="bg-green"][class*="\/"] {
+  background-color: var(--demo-card-bg-dark) !important;
+}
+
+.demo-theme .text-green-900\/70,
+.demo-theme .text-green-900\/80 {
+  color: var(--demo-text-dark) !important;
+}
+
+.demo-theme .border-green-950 {
+  border-color: var(--demo-primary-dark) !important;
+}
+
+.demo-theme .bg-emerald-400\/20 {
+  background-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+.demo-theme .text-emerald-200 {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .bg-white\/10 {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+.demo-theme .bg-white\/5 {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+.demo-theme .hover\:bg-white\/10:hover {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+}
+
+.demo-theme .border-white\/10 {
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.demo-theme .hover\:border-amber-300\/60:hover {
+  border-color: var(--demo-accent) !important;
+}
+
+/* Bronze, Silver, Gold category colors for demo */
+.demo-theme [style*="borderColor"][style*="#CD7F32"],
+.demo-theme [style*="borderColor"][style*="bronze"] {
+  border-color: #8b5cf6 !important;
+}
+
+.demo-theme [style*="borderColor"][style*="#C0C0C0"],
+.demo-theme [style*="borderColor"][style*="silver"] {
+  border-color: #a78bfa !important;
+}
+
+.demo-theme [style*="borderColor"][style*="#FFD700"],
+.demo-theme [style*="borderColor"][style*="gold"] {
+  border-color: #fbbf24 !important;
+}
+

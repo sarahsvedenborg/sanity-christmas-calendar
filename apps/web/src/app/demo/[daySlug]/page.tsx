@@ -204,7 +204,7 @@ export default async function CalendarDayPage({
           {previousDay?.slug ? (
             <Link
               className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-200 md:w-auto"
-              href={`/${previousDay.slug}`}
+              href={`/demo/${previousDay.slug}`}
             >
               <ArrowLeft className="size-5 transition group-hover:-translate-x-1" />
               <span className="text-center">
@@ -219,7 +219,7 @@ export default async function CalendarDayPage({
           {nextDay?.slug ? (
             <Link
               className="group flex w-full items-center justify-center gap-3 rounded-full border-2 border-amber-300 bg-red-700/90 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-900 md:w-auto"
-              href={`/${nextDay.slug}`}
+              href={`/demo/${nextDay.slug}`}
             >
               <span className="text-center">
                 Neste dag{nextDay.dayNumber ? `: ${nextDay.dayNumber}` : ""}{" "}

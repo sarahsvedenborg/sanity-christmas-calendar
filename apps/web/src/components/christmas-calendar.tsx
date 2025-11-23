@@ -22,6 +22,7 @@ type CalendarData = NonNullable<QueryChristmasCalendarDataResult>;
 type ChristmasCalendarProps = {
   data: CalendarData;
   hasAdminAccess?: boolean;
+  isDemo?: boolean;
 };
 
 function getDayEmoji(dayNumber: number): string {
@@ -54,7 +55,7 @@ function getDayEmoji(dayNumber: number): string {
   return emojis[(dayNumber - 1) % 24] || "🎄";
 }
 
-const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }: { day: any, isBreak: boolean, isAvailable: boolean, dayEmoji: string, categoryColor: string }) => {
+const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor, isDemo }: { day: any, isBreak: boolean, isAvailable: boolean, dayEmoji: string, categoryColor: string, isDemo ?: boolean }) => {
   return (
     <Link
                               className={cn(
@@ -63,7 +64,7 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
                                   ? "cursor-pointer"
                                   : "cursor-not-allowed opacity-50"
                               )}
-                              href={isAvailable ? `/${day.slug}` : "#"}
+                              href={isAvailable ? `/${isDemo ? "demo/" : ""}${day.slug}` : "#"}
                               key={day.dayNumber}
                             >
                               {/* Card */}
@@ -113,7 +114,7 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
                                       : "text-slate-400 dark:text-slate-500"
                                   )}
                                 >
-                                  {day.title}
+                              {day.title} 
                                 </p>
 
                                 {/* Break Day Badge */}
@@ -148,7 +149,7 @@ const CalendarDayCard = ({ day, isBreak, isAvailable, dayEmoji, categoryColor }:
     )
   }
 
-  const CalendarCategoryGroup = ({ group, index, startDate, categoryBgColor, categoryColor, hasAdminAccess }: { group: any, index: number, startDate: Date | null, categoryBgColor: string, categoryColor: string, hasAdminAccess?: boolean }) => {
+  const CalendarCategoryGroup = ({ group, index, startDate, categoryBgColor, categoryColor, hasAdminAccess, isDemo }: { group: any, index: number, startDate: Date | null, categoryBgColor: string, categoryColor: string, hasAdminAccess?: boolean, isDemo ?: boolean }) => {
 
      const getLogo = (index: number) => {
     switch (index) {
@@ -202,7 +203,7 @@ return(
                             hasAdminAccess
                           );
                           const dayEmoji = getDayEmoji(day.dayNumber);
-                            return <CalendarDayCard key={day.dayNumber} day={day} isBreak={isBreak} isAvailable={isAvailable} dayEmoji={dayEmoji} categoryColor={categoryColor} />
+                            return <CalendarDayCard key={day.dayNumber} day={day} isBreak={isBreak} isAvailable={isAvailable} dayEmoji={dayEmoji} categoryColor={categoryColor} isDemo={isDemo} />
                           })}
                         </div>
                           </div>
@@ -211,7 +212,7 @@ return(
 }
 
 
-export function ChristmasCalendar({ data, hasAdminAccess }: ChristmasCalendarProps) {
+export function ChristmasCalendar({ data, hasAdminAccess, isDemo=false }: ChristmasCalendarProps) {
   const startDate = data.startDate ? new Date(data.startDate) : null;
   const days = data.days || [];
   
@@ -278,7 +279,7 @@ export function ChristmasCalendar({ data, hasAdminAccess }: ChristmasCalendarPro
                   ? '#D9D9D9' // Silver
                   : '#E5C68D'; // Gold 
 
-                   return <CalendarCategoryGroup key={group.category._id} group={group} index={index} startDate={startDate} categoryBgColor={categoryBgColor}  categoryColor={categoryColor} hasAdminAccess={hasAdminAccess} />
+                   return <CalendarCategoryGroup key={group.category._id} group={group} index={index} startDate={startDate} categoryBgColor={categoryBgColor}  categoryColor={categoryColor} hasAdminAccess={hasAdminAccess} isDemo={isDemo} />
               })}
             </div>
           ) : (
@@ -303,7 +304,7 @@ export function ChristmasCalendar({ data, hasAdminAccess }: ChristmasCalendarPro
                         ? "cursor-pointer"
                         : "cursor-not-allowed opacity-50"
                     )}
-                    href={isAvailable ? `/${data.slug}/${day.slug}` : "#"}
+                    href={isAvailable ? `/${isDemo ? "demo/" : ""}${data.slug}/${day.slug}` : "#"}
                     key={day.dayNumber}
                   >
                     {/* Card */}

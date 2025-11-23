@@ -676,3 +676,31 @@ export const queryPublicWorkUrls = defineQuery(`
     publicworkurl
   }
 `);
+
+export const queryDemoCalendarDayPaths = defineQuery(`
+  *[_type == "demo_calendarDay" && defined(slug.current)].slug.current
+`);
+
+export const queryDemoCalendarDayData = defineQuery(`
+  *[_type == "demo_calendarDay" && slug.current == $slug][0]{
+    ...,
+    ${calendarDayFragment},
+    "startDate": *[_type == "christmasCalendar"][0].startDate,
+    "previousDay": *[_type == "calendarDay" && dayNumber < ^.dayNumber] | order(dayNumber desc)[0] {
+      dayNumber,
+      title,
+      "slug": slug.current
+    },
+    "nextDay": *[_type == "calendarDay" && dayNumber > ^.dayNumber] | order(dayNumber asc)[0] {
+      dayNumber,
+      title,
+      "slug": slug.current
+    }
+  }
+`);
+
+export const queryDemoChristmasCalendarData = defineQuery(`
+*[_type == "demo_calendarDay"]{
+      ${calendarDayFragment}  
+}
+`);

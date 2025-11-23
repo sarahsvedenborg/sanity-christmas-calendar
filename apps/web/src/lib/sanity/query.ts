@@ -299,6 +299,20 @@ export const queryBlogPaths = defineQuery(`
   *[_type == "blog" && defined(slug.current)].slug.current
 `);
 
+export const queryDemoBlogSlugPageData = defineQuery(`
+  *[_type == "demo_blog" && slug.current == $slug][0]{
+    ...,
+    "slug": slug.current,
+    ${imageFragment},
+    ${richTextFragment},
+    ${pageBuilderFragment}
+  }
+`);
+
+export const queryDemoBlogPaths = defineQuery(`
+  *[_type == "demo_blog" && defined(slug.current)].slug.current
+`);
+
 const ogFieldsFragment = /* groq */ `
   _id,
   _type,

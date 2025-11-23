@@ -254,6 +254,12 @@ export const structure = (
                 title: "Demo Kategorier",
                 icon: TagIcon,
               }),
+              createList({
+                S,
+                type: "demo_blog",
+                title: "Demo Blog posts",
+                icon: FileText,
+              }),
        /*      ])
         ) */
       ];

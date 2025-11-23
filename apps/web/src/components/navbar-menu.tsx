@@ -62,7 +62,7 @@ export function NavbarMenu({
           Ordliste
         </Link>
         <Link href="/besvarelser" className={linkClass} onClick={closeMenu}>
-          Alles besvarelser
+          Delte besvarelser
         </Link>
         <Link href="/scoreboard" className={linkClass} onClick={closeMenu}>
           Scoreboard

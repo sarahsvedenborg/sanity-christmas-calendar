@@ -166,6 +166,23 @@
   text-shadow: none !important;
 }
 
+/* Match demo landing page h1 styling for calendar day pages */
+.demo-theme h1 {
+  margin-bottom: 1.5rem !important;
+  font-weight: 700 !important;
+  font-size: 3rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.025em !important;
+  text-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  color: white !important;
+}
+
+@media (min-width: 768px) {
+  .demo-theme h1 {
+    font-size: 4.5rem !important;
+  }
+}
+
 /* Blog content typography improvements */
 .demo-theme .prose {
   color: var(--demo-text) !important;

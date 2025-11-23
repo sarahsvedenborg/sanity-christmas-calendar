@@ -1,20 +1,20 @@
-/* Demo color scheme - Purple/Blue theme instead of green */
+/* Demo color scheme - Blue Christmas night sky theme */
 .demo-theme {
-  /* CSS Variables for demo theme */
-  --demo-bg-gradient-start: #1e1b4b;
-  --demo-bg-gradient-mid: #312e81;
-  --demo-bg-gradient-end: #1e1b4b;
-  --demo-primary: #6366f1;
-  --demo-primary-dark: #4f46e5;
-  --demo-accent: #a855f7;
-  --demo-accent-light: #c084fc;
-  --demo-text: #e0e7ff;
-  --demo-text-dark: #c7d2fe;
-  --demo-border: #818cf8;
+  /* CSS Variables for demo theme - Christmas night sky gradient */
+  --demo-bg-gradient-start: #0a1628;
+  --demo-bg-gradient-mid: #1e3a5f;
+  --demo-bg-gradient-end: #0f1b2e;
+  --demo-primary: #3b82f6;
+  --demo-primary-dark: #2563eb;
+  --demo-accent: white;
+  --demo-accent-light: #24e9fb;
+  --demo-text: #e0f2fe;
+  --demo-text-dark: #bae6fd;
+  --demo-border: #60a5fa;
   --demo-card-bg: rgba(255, 255, 255, 0.95);
-  --demo-card-bg-dark: white;
-  --demo-amber: #f59e0b;
-  --demo-amber-light: #fbbf24;
+  --demo-card-bg-dark:rgba(255, 255, 255, 0.85);
+  --demo-amber: #061b70;
+  --demo-amber-light: #061b70;
 }
 
 .demo-theme main {
@@ -100,7 +100,7 @@
 }
 
 .demo-theme .bg-emerald-400\/20 {
-  background-color: rgba(139, 92, 246, 0.2) !important;
+  background-color: rgba(11, 214, 245, 0.2) !important;
 }
 
 .demo-theme .text-emerald-200 {
@@ -108,38 +108,48 @@
 }
 
 .demo-theme .bg-white\/10 {
-  background-color: rgba(99, 102, 241, 0.1) !important;
+  background-color: rgba(59, 130, 246, 0.1) !important;
 }
 
 .demo-theme .bg-white\/5 {
-  background-color: rgba(99, 102, 241, 0.05) !important;
+  background-color: rgba(59, 130, 246, 0.05) !important;
 }
 
 .demo-theme .hover\:bg-white\/10:hover {
-  background-color: rgba(99, 102, 241, 0.15) !important;
+  background-color: rgba(59, 130, 246, 0.15) !important;
 }
 
 .demo-theme .border-white\/10 {
-  border-color: rgba(168, 85, 247, 0.3) !important;
+  border-color: rgba(11, 214, 245, 0.3) !important;
 }
 
 .demo-theme .hover\:border-amber-300\/60:hover {
   border-color: var(--demo-accent) !important;
 }
 
-/* Bronze, Silver, Gold category colors for demo */
+/* Bronze, Silver, Gold category colors for demo - updated to blue theme */
 .demo-theme [style*="borderColor"][style*="#CD7F32"],
 .demo-theme [style*="borderColor"][style*="bronze"] {
-  border-color: #8b5cf6 !important;
+  border-color: #3b82f6 !important;
 }
 
 .demo-theme [style*="borderColor"][style*="#C0C0C0"],
 .demo-theme [style*="borderColor"][style*="silver"] {
-  border-color: #a78bfa !important;
+  border-color: #60a5fa !important;
 }
 
 .demo-theme [style*="borderColor"][style*="#FFD700"],
 .demo-theme [style*="borderColor"][style*="gold"] {
-  border-color: #fbbf24 !important;
+  border-color: #0bd6f5 !important;
+}
+
+/* Override heading colors in demo theme */
+.demo-theme h1[style*="color"],
+.demo-theme h1[style*="#B91C1C"] {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme h1[style*="textShadow"] {
+  text-shadow: none !important;
 }
 

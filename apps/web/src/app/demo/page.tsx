@@ -59,12 +59,9 @@ export default async function CalendarPage() {
       <section className="relative pt-16 pb-1 md:pt-24 md:pb-2">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl" style={{ 
-              color: '#B91C1C',
-              textShadow: '2px 2px 0px rgba(212, 175, 55, 0.9), -2px -2px 0px rgba(212, 175, 55, 0.9), 2px -2px 0px rgba(212, 175, 55, 0.9), -2px 2px 0px rgba(212, 175, 55, 0.9)'
-            }}>
+            <h1 className="mb-4 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl text-white">
              Demo Julekalender ❄️ 
-                </h1>
+            </h1>
           </div>
         </div>
       </section>

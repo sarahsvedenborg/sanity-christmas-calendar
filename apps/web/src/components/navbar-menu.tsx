@@ -55,18 +55,21 @@ export function NavbarMenu({
 
     return (
       <>
-        <Link href="/demo" className={linkClass} onClick={closeMenu}>
-       Demoløsning
-        </Link>
+       <div className="flex flex-row gap-2 ml-8"> 
+        {hasSession && <Link href="/demo" className={linkClass} onClick={closeMenu}>
+          Demoløsning
+        </Link>}
         <Link href="/definisjoner" className={linkClass} onClick={closeMenu}>
           Ordliste
         </Link>
-        <Link href="/besvarelser" className={linkClass} onClick={closeMenu}>
+       </div> 
+<div className="flex flex-row gap-2">
+       {hasSession && <Link href="/besvarelser" className={linkClass} onClick={closeMenu}>
           Delte besvarelser
-        </Link>
-        <Link href="/scoreboard" className={linkClass} onClick={closeMenu}>
+        </Link> }
+        {hasSession && <Link href="/scoreboard" className={linkClass} onClick={closeMenu}>
           Scoreboard
-        </Link>
+        </Link>}
         {hasSession ? (
           <>
             <Link href="/progresjon" className={linkClass} onClick={closeMenu}>
@@ -91,6 +94,7 @@ export function NavbarMenu({
             Logg inn
           </Link>
         )}
+        </div>
       </>
     );
   };
@@ -98,10 +102,10 @@ export function NavbarMenu({
   return (
     <>
       {/* Desktop Menu - Hidden on mobile */}
-      <div className="hidden md:flex flex-col items-end gap-2">
-        <div className="flex items-center gap-4">
+      <div className="hidden md:flex flex-1 flex-row justify-between gap-2">
+{/*         <div className="flex items-center justify-space-between gap-4"> */}
           <MenuContent />
-        </div>
+{/*         </div> */}
       {/*   {hasSession && userEmail && (
           <span className="text-xs text-white/70">
             Logget inn som: {userEmail}

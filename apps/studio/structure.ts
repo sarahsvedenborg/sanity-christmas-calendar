@@ -186,9 +186,10 @@ export const structure = (
     createList({
       S,
       type: "answers",
-      title: "Deltakeres nettsider",
+      title: "Besvarelser",
       icon: MessageCircle,
     }),
+    S.divider(),
     createList({
       S,
       type: "user",
@@ -201,6 +202,13 @@ export const structure = (
       .child(
         S.component(BulkTaskProgressEditor).title("Bulk Task Progress Editor")
       ),
+      S.divider(),
+        createSingleTon({
+                S,
+                type: "demo_documentation",
+                title: "Demo Dokumentasjon",
+                icon: FileText,
+              }),
     /*    S.divider(),
         S.listItem()
           .title("Site Configuration")

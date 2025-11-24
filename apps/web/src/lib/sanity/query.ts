@@ -324,6 +324,26 @@ export const queryDemoBlogIndex = defineQuery(`
   }
 `);
 
+export const queryDemoDocumentationData = defineQuery(`
+  *[_type == "demo_documentation"][0] {
+    _id,
+    title,
+    description,
+    content[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    },
+    _updatedAt
+  }
+`);
+
 const ogFieldsFragment = /* groq */ `
   _id,
   _type,

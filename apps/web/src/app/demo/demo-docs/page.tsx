@@ -42,7 +42,7 @@ export default async function DemoDocsPage() {
           ) : (
             <section className="rounded-2xl border border-amber-300/60 bg-white/95 p-8 shadow-md backdrop-blur dark:border-amber-700/50 dark:bg-green-950/85">
               {documentation.content && documentation.content.length > 0 && (
-                <div className="prose prose-lg max-w-none dark:prose-invert">
+                <div className="prose prose-lg max-w-none">
                   <RichText richText={documentation.content} />
                 </div>
               )}

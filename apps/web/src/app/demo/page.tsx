@@ -40,8 +40,6 @@ export default async function CalendarPage() {
   const { data: calendarData } = await fetchChristmasCalendarData();
   const session = await auth();
   const userEmail = session?.user?.email;
-
-  console.log("calendarData", calendarData);
   
   // Server-side check: determine if user has admin access
 /*   const adminEmail = process.env.ADMIN_ACCESS_EMAIL;
@@ -62,10 +60,10 @@ export default async function CalendarPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="mb-6 text-balance font-bold text-5xl tracking-tight drop-shadow-lg md:text-7xl text-white">
-             Demo Julekalender ❄️ 
+             Demofrontend ❄️ 
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-white/90 md:text-xl">
-              Denne subsiten viser alt innhold fra demo studio: <strong>demokalenderen</strong> og <strong>bloggen</strong>. Utforsk julekalenderen nedenfor eller les blogginnleggene.
+              Dette er frontenden som viser innholdet fra demo studioet: <strong>demokalenderluker</strong> og <strong>blogginnlegg</strong>. Utforsk julekalenderen nedenfor eller les blogginnleggene.
             </p>
             <Link
               href="/demo/blog"

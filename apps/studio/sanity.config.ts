@@ -28,7 +28,7 @@ export default defineConfig({
     enabled: true,
   },
   plugins: [
-    presentationTool({
+   /*  presentationTool({
       resolve: {
         locations,
       },
@@ -38,7 +38,7 @@ export default defineConfig({
           enable: "/api/presentation-draft",
         },
       },
-    }),
+    }), */
     structureTool({
       structure,
     }),

@@ -74,7 +74,7 @@ export default function RegisteringPage() {
         <div className="mx-auto max-w-2xl">
           <section className="rounded-2xl border border-amber-300/60 bg-white/95 p-8 shadow-md backdrop-blur dark:border-amber-700/50 dark:bg-green-950/85">
             <form onSubmit={handleSubmit} className="space-y-6">
-             {/*  <div>
+              <div>
                 <label
                   htmlFor="fullName"
                   className="mb-2 block text-sm font-semibold text-green-950 dark:text-white"
@@ -91,9 +91,9 @@ export default function RegisteringPage() {
                   className="w-full rounded-lg border-2 border-green-700/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
                   placeholder="Skriv inn ditt fulle navn"
                 />
-              </div> */}
+              </div>
 
-            {/*   <div>
+              <div>
                 <label
                   htmlFor="email"
                   className="mb-2 block text-sm font-semibold text-green-950 dark:text-white"
@@ -110,9 +110,9 @@ export default function RegisteringPage() {
                   className="w-full rounded-lg border-2 border-green-700/50 bg-white px-4 py-3 text-base text-green-950 placeholder:text-green-900/50 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:border-amber-700/50 dark:bg-green-950/50 dark:text-white dark:placeholder:text-white/50 dark:focus:border-amber-600"
                   placeholder="din.epost@example.com"
                 />
-              </div> */}
+              </div>
 
-   {/*            <div>
+              <div>
                 <label
                   htmlFor="confirmEmail"
                   className="mb-2 block text-sm font-semibold text-green-950 dark:text-white"
@@ -138,7 +138,7 @@ export default function RegisteringPage() {
                     E-postadressene matcher ikke
                   </p>
                 )}
-              </div> */}
+              </div>
 
               <div className="space-y-4 rounded-lg  bg-amber-50/50 p-4 dark:border-amber-700/30 dark:bg-amber-900/20">
                 <div className="flex items-start gap-3">

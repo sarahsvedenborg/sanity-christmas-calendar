@@ -188,7 +188,7 @@ export default function RegisteringPage() {
                     htmlFor="acceptDisplayWork"
                     className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
                   >
-                   Jeg aksepterer at arbeidet mitt vises i en felles liste med slik at jeg kan bli kjent med andre kollegaer.
+                   Jeg aksepterer at arbeidet mitt vises i en felles liste slik at jeg kan bli kjent med andre kollegaer.
                   </label>
                 </div>
               </div>

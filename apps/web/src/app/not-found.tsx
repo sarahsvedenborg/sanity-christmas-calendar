@@ -27,13 +27,13 @@ export default function NotFound() {
             
             <Link
               href="/"
-              className="inline-block rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:bg-amber-600 dark:hover:bg-amber-700"
+              className="inline-block rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-green-950 transition-all hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:bg-amber-600 dark:hover:bg-amber-700"
             >
               Tilbake til forsiden
             </Link>
           </div>
           
-          <p className="mt-8 text-sm text-white/70">
+        {/*   <p className="mt-8 text-sm text-white/70">
             Eller gå til{" "}
             <Link
               href="/progresjon"
@@ -48,7 +48,7 @@ export default function NotFound() {
             >
               scoreboard
             </Link>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

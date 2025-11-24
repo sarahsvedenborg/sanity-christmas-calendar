@@ -19,7 +19,7 @@ export default async function SignUpPage({
           <h1 className="mb-2 text-3xl font-bold text-green-950 dark:text-white">
            Registrering
           </h1>
-          <p className="text-green-900/70 dark:text-amber-200/70">
+          <p className="text-base font-medium text-green-900/90 dark:text-amber-200/70">
             Registrer deg med Sopra Steria SSO for å se progresjonen din
           </p>
           {error === "consent_required" && (
@@ -128,7 +128,7 @@ export default async function SignUpPage({
                     htmlFor="acceptDisplayWork"
                     className="cursor-pointer text-base font-medium text-green-950 dark:text-white"
                   >
-                   Jeg aksepterer at arbeidet mitt vises i en felles liste med slik at jeg kan bli kjent med andre kollegaer.
+                   Jeg aksepterer at arbeidet mitt vises i en felles liste slik at jeg kan bli kjent med andre kollegaer.
                   </label>
                 </div>
               </div>

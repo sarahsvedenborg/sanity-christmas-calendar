@@ -137,8 +137,6 @@ export default async function ProgressionPage() {
               <Link
                 className="inline-flex items-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-green-950 transition hover:bg-amber-300"
                 href="/registrering"
-                rel="noreferrer"
-                target="_blank"
               >
                 Gå til registrering
               </Link>

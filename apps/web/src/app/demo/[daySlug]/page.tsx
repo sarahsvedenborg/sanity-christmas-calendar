@@ -196,7 +196,9 @@ export default async function CalendarDayPage({
             <h2 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
               🎯 Konklusjon
             </h2>
+            <div className="prose prose-invert prose-lg max-w-none">
             <RichText richText={dayData.conclusion} />
+            </div>
           </div>
         )}
          {/* Day Navigation */}

@@ -184,20 +184,33 @@
 }
 
 /* Blog content typography improvements */
-.demo-theme .prose {
+/* .demo-theme .prose {
   color: var(--demo-text) !important;
-}
+} */
 
-.demo-theme .prose h1,
-.demo-theme .prose h2,
-.demo-theme .prose h3,
-.demo-theme .prose h4,
-.demo-theme .prose h5,
-.demo-theme .prose h6 {
+/* Blog pages - white headings (prose-invert) */
+.demo-theme .prose.prose-invert h1,
+.demo-theme .prose.prose-invert h2,
+.demo-theme .prose.prose-invert h3,
+.demo-theme .prose.prose-invert h4,
+.demo-theme .prose.prose-invert h5,
+.demo-theme .prose.prose-invert h6 {
   color: white !important;
   border-bottom: none !important;
   padding-bottom: 0 !important;
 }
+
+/* Demo-docs page - dark headings (not prose-invert, white background) */
+/* .demo-theme .prose:not(.prose-invert) h1,
+.demo-theme .prose:not(.prose-invert) h2,
+.demo-theme .prose:not(.prose-invert) h3,
+.demo-theme .prose:not(.prose-invert) h4,
+.demo-theme .prose:not(.prose-invert) h5,
+.demo-theme .prose:not(.prose-invert) h6 {
+  color: #1e293b !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+} */
 
 .demo-theme .prose p {
   color: var(--demo-text) !important;

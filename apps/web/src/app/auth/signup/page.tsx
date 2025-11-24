@@ -1,14 +1,16 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 
 export default async function SignUpPage({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
   const params = await searchParams;
   const callbackUrl = params.callbackUrl || "/progresjon";
+  const error = params.error;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-green-950 via-green-900 to-green-950">
@@ -20,14 +22,62 @@ export default async function SignUpPage({
           <p className="text-green-900/70 dark:text-amber-200/70">
             Registrer deg med Sopra Steria SSO for å se progresjonen din
           </p>
+          {error === "consent_required" && (
+            <p className="mt-2 text-sm font-medium text-red-600 dark:text-red-400">
+              Du må akseptere at din fremgang trackes for å registrere deg.
+            </p>
+          )}
         </div>
 
         <form
-          action={async () => {
+          action={async (formData: FormData) => {
             "use server";
-            await signIn("microsoft-entra-id", { redirectTo: callbackUrl });
+            
+            const acceptTracking = formData.get("acceptTracking") === "on";
+            const acceptScoreboard = formData.get("acceptScoreboard") === "on";
+            const acceptDisplayWork = formData.get("acceptDisplayWork") === "on";
+            const formCallbackUrl = formData.get("callbackUrl") as string || "/progresjon";
+
+            // Validate required consent
+            if (!acceptTracking) {
+              redirect("/auth/signup?error=consent_required");
+            }
+
+            // Store consent in cookies before SSO redirect
+            const cookieStore = await cookies();
+            cookieStore.set("signup_acceptTracking", "true", {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              maxAge: 60 * 10, // 10 minutes
+            });
+            cookieStore.set("signup_acceptScoreboard", acceptScoreboard ? "true" : "false", {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              maxAge: 60 * 10,
+            });
+            cookieStore.set("signup_acceptDisplayWork", acceptDisplayWork ? "true" : "false", {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              maxAge: 60 * 10,
+            });
+
+            // Store the callback URL in a cookie too
+            cookieStore.set("signup_callbackUrl", formCallbackUrl, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              maxAge: 60 * 10,
+            });
+
+            // Redirect to our callback route after SSO completes
+            const callbackWithRoute = `/api/auth/callback?callbackUrl=${encodeURIComponent(formCallbackUrl)}`;
+            await signIn("microsoft-entra-id", { redirectTo: callbackWithRoute });
           }}
         >
+          <input type="hidden" name="callbackUrl" value={callbackUrl} />
 
               <div className="space-y-4 rounded-lg  bg-amber-50/50 p-4 dark:border-amber-700/30 dark:bg-amber-900/20">
                 <legend className="text-sm font-medium text-green-950 dark:text-white">*Påkrevd</legend>
@@ -86,7 +136,7 @@ export default async function SignUpPage({
             type="submit"
             className="w-full rounded-md bg-[#0078d4] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#0064b4]"
           >
-            Logg inn med Microsoft
+            Registrer deltakelse med SSO
           </button>
         </form>
       </div>

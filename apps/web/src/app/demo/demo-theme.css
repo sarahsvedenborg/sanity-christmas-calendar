@@ -266,3 +266,13 @@
   border-radius: 0.75rem;
 }  */
 
+/* Blog post headings only - white text */
+.demo-theme .prose.prose-invert h1,
+.demo-theme .prose.prose-invert h2,
+.demo-theme .prose.prose-invert h3,
+.demo-theme .prose.prose-invert h4,
+.demo-theme .prose.prose-invert h5,
+.demo-theme .prose.prose-invert h6 {
+  color: white !important;
+}
+

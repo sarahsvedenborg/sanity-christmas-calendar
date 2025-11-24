@@ -2,11 +2,7 @@ import "@workspace/ui/globals.css";
 import "./demo-theme.css";
 
 import type { Metadata } from "next";
-import { Navbar } from "@/components/navbar";
-import { Providers } from "@/components/providers";
-import { SimpleFooter } from "@/components/simple-footer";
-import { getNavigationData } from "@/lib/navigation";
-import { SanityLive } from "@/lib/sanity/live";
+import { DemoNavbar } from "@/components/demo-navbar";
 
 export const metadata: Metadata = {
   robots: {
@@ -22,16 +18,10 @@ export default async function DemoLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nav = await getNavigationData();
   return (
     <div className="demo-theme">
-          {children}
-    {/*   <Providers>
-        <Navbar />
-        {children}
-        <SimpleFooter />
-        <SanityLive />
-      </Providers> */}
+      <DemoNavbar />
+      {children}
     </div>
   );
 }

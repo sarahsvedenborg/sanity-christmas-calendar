@@ -30,6 +30,7 @@ export default async function SignUpPage({
         >
 
               <div className="space-y-4 rounded-lg  bg-amber-50/50 p-4 dark:border-amber-700/30 dark:bg-amber-900/20">
+                <legend className="text-sm font-medium text-green-950 dark:text-white">*Påkrevd</legend>
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -37,16 +38,16 @@ export default async function SignUpPage({
                     name="acceptTracking"
                  /*    checked={formData.acceptTracking}
                     onChange={handleChange} */
-                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                    className="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
                   />
                   <label
                     htmlFor="acceptTracking"
-                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                    className="cursor-pointer text-base font-medium text-green-950 dark:text-white"
                   >
-                    Jeg aksepterer at fremgangen min trackes og at mitt navn og epost lagres til julekalenderen er avsluttet.
+                    Jeg aksepterer at mitt navn og epost lagres til julekalenderen er avsluttet for at fremgangen kan trackes.
                   </label>
                 </div>
-
+                <legend className="text-sm font-medium text-green-950 dark:text-white">Valgfritt</legend>
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -54,11 +55,11 @@ export default async function SignUpPage({
                     name="acceptScoreboard"
                  /*    checked={formData.acceptScoreboard}
                     onChange={handleChange} */
-                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                    className="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
                   />
                   <label
                     htmlFor="acceptScoreboard"
-                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                    className="cursor-pointer text-base font-medium text-green-950 dark:text-white"
                   >
                  Jeg aksepterer at min score vises i scoreboard.
                   </label>
@@ -71,11 +72,11 @@ export default async function SignUpPage({
                     name="acceptDisplayWork"
                  /*    checked={formData.acceptDisplayWork}
                     onChange={handleChange} */
-                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                    className="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
                   />
                   <label
                     htmlFor="acceptDisplayWork"
-                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                    className="cursor-pointer text-base font-medium text-green-950 dark:text-white"
                   >
                    Jeg aksepterer at arbeidet mitt vises i en felles liste med slik at jeg kan bli kjent med andre kollegaer.
                   </label>

@@ -54,7 +54,7 @@ export const Lesson = ({ data: lesson, lessonType }: { data: any, lessonType: 't
                 <AccordionTrigger className="rounded-md bg-amber-500/90 px-4 py-3 text-left font-semibold text-lg text-green-950 hover:bg-amber-400/90 hover:no-underline dark:bg-amber-700/30 dark:text-white dark:hover:bg-amber-700/40">
                   Trenger du tilgang til et demo studio?
                 </AccordionTrigger>
-                <AccordionContent className="pt-4 text-base text-green-900/80 dark:text-white/70">
+                <AccordionContent className="pt-4 text-base text-green-900 dark:text-white/70">
                   <p className="mb-4">
                     Hvis du trenger/ønsker tilgang til et demo studio, kan du finne <Link href="/demo/demo-docs" className="inline-flex items-center gap-2 font-semibold text-green-900 underline transition-colors hover:text-green-700 dark:text-blue-400 dark:hover:text-blue-200">informasjon om dette i demo-dokumentasjon.</Link>
                   </p>

@@ -154,7 +154,7 @@ export default async function DemoBlogSlugPage({
           <p className="text-sm text-white/90">Publisert: {data._createdAt}</p>
           <hr />
           <div className=" mx-auto max-w-2xl prose prose-invert prose-lg ">
-            <RichText richText={richText} />
+            <RichText richText={richText} tone="light"/>
           </div>
         </article>
       </div>

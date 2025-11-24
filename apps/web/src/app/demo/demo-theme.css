@@ -49,18 +49,24 @@
   ) !important;
 }
 
-.demo-theme .text-white {
+/* .demo-theme .text-white {
   color: var(--demo-text) !important;
-}
+}*/
 
 .demo-theme .text-green-950 {
-  color: var(--demo-bg-gradient-start) !important;
+  color: var(--demo-bg-gradient-start) !important; 
+  
+}
+
+.demo-theme .text-green-900 {
+/*   color: var(--demo-primary-dark) !important; */
+  color: black !important;
 }
 
 .demo-theme .text-green-900 {
   color: var(--demo-primary-dark) !important;
 }
-
+/*
 .demo-theme .border-amber-300,
 .demo-theme .border-amber-500,
 .demo-theme [class*="border-amber"] {
@@ -138,7 +144,7 @@
 
 .demo-theme .hover\:border-amber-300\/60:hover {
   border-color: var(--demo-accent) !important;
-}
+} */
 
 /* Bronze, Silver, Gold category colors for demo - updated to blue theme */
 .demo-theme [style*="borderColor"][style*="#CD7F32"],
@@ -167,7 +173,7 @@
 }
 
 /* Match demo landing page h1 styling for calendar day pages */
-.demo-theme h1 {
+/* .demo-theme h1 {
   margin-bottom: 1.5rem !important;
   font-weight: 700 !important;
   font-size: 3rem !important;
@@ -175,21 +181,18 @@
   letter-spacing: -0.025em !important;
   text-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
   color: white !important;
-}
+} */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .demo-theme h1 {
     font-size: 4.5rem !important;
   }
-}
-
-/* Blog content typography improvements */
-/* .demo-theme .prose {
-  color: var(--demo-text) !important;
 } */
 
-/* Blog pages - white headings (prose-invert) */
-.demo-theme .prose.prose-invert h1,
+
+
+/* Demo blog post page - white text (prose-invert) */
+/* .demo-theme .prose.prose-invert h1,
 .demo-theme .prose.prose-invert h2,
 .demo-theme .prose.prose-invert h3,
 .demo-theme .prose.prose-invert h4,
@@ -200,7 +203,15 @@
   padding-bottom: 0 !important;
 }
 
-/* Demo-docs page - dark headings (not prose-invert, white background) */
+.demo-theme .prose.prose-invert p,
+.demo-theme .prose.prose-invert li,
+.demo-theme .prose.prose-invert span,
+.demo-theme .prose.prose-invert div,
+.demo-theme .prose.prose-invert {
+  color: white !important;
+} */
+
+/* Demo-docs and calendar day boxes - dark text (not prose-invert, white background) */
 /* .demo-theme .prose:not(.prose-invert) h1,
 .demo-theme .prose:not(.prose-invert) h2,
 .demo-theme .prose:not(.prose-invert) h3,
@@ -212,9 +223,20 @@
   padding-bottom: 0 !important;
 } */
 
-.demo-theme .prose p {
-  color: var(--demo-text) !important;
-  opacity: 0.9;
+/* Rich text in white boxes (calendar day lessons) - dark text, but not prose-invert */
+/* .demo-theme [class*="bg-white"] .prose:not(.prose-invert),
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) p,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) li,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) span,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) div,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h1,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h2,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h3,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h4,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h5,
+.demo-theme [class*="bg-white"] .prose:not(.prose-invert) h6 {
+  color: #1e293b !important;
+  font-weight: 500 !important;
 }
 
 .demo-theme .prose a {
@@ -224,10 +246,6 @@
 .demo-theme .prose a:hover {
   color: var(--demo-primary-light) !important;
 }
-
-/* .demo-theme .prose strong {
-  color: var(--demo-text) !important;
-} */
 
 .demo-theme .prose code {
   background-color: rgba(59, 130, 246, 0.2) !important;
@@ -246,5 +264,15 @@
 
 .demo-theme .prose img {
   border-radius: 0.75rem;
+}  */
+
+/* Blog post headings only - white text */
+.demo-theme .prose.prose-invert h1,
+.demo-theme .prose.prose-invert h2,
+.demo-theme .prose.prose-invert h3,
+.demo-theme .prose.prose-invert h4,
+.demo-theme .prose.prose-invert h5,
+.demo-theme .prose.prose-invert h6 {
+  color: white !important;
 }
 

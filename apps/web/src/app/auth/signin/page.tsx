@@ -39,7 +39,7 @@ export default async function SignInPage({
       
       <div className="mt-6 text-center">
         <Link
-          href="/registrering"
+          href="/auth/signup"
           className="text-lg text-white/90 underline transition-colors hover:text-white"
         >
           Ikke medlem? Registrer deg her

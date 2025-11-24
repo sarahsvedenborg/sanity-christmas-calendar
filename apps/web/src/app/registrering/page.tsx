@@ -8,6 +8,9 @@ export default function RegisteringPage() {
     fullName: "",
     email: "",
     confirmEmail: "",
+    acceptTracking: false,
+    acceptScoreboard: false,
+    acceptDisplayWork: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,9 +43,10 @@ export default function RegisteringPage() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -61,8 +65,9 @@ export default function RegisteringPage() {
           <h1 className="text-4xl font-bold text-white">
             Registrering
           </h1>
-          <p className="mt-3 text-lg text-white/80">
-            Fyll ut skjemaet nedenfor for å registrere deg
+          <p className=" max-w-2xl mx-auto mt-3 text-lg text-white/80">
+           
+           Registrering gir deg muligheten til å følge din progresjon i julekalenderen og være med i trekningen av kule Sanitypremier.
           </p>
         </header>
 
@@ -133,6 +138,59 @@ export default function RegisteringPage() {
                     E-postadressene matcher ikke
                   </p>
                 )}
+              </div>
+
+              <div className="space-y-4 rounded-lg  bg-amber-50/50 p-4 dark:border-amber-700/30 dark:bg-amber-900/20">
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptTracking"
+                    name="acceptTracking"
+                    checked={formData.acceptTracking}
+                    onChange={handleChange}
+                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                  />
+                  <label
+                    htmlFor="acceptTracking"
+                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                  >
+                    Jeg aksepterer at fremgangen min trackes og at mitt navn og epost lagres til julekalenderen er avsluttet.
+                  </label>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptScoreboard"
+                    name="acceptScoreboard"
+                    checked={formData.acceptScoreboard}
+                    onChange={handleChange}
+                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                  />
+                  <label
+                    htmlFor="acceptScoreboard"
+                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                  >
+                 Jeg aksepterer at min score vises i scoreboard.
+                  </label>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptDisplayWork"
+                    name="acceptDisplayWork"
+                    checked={formData.acceptDisplayWork}
+                    onChange={handleChange}
+                    className="mt-1 size-5 cursor-pointer rounded border-2 border-amber-600 text-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 dark:border-amber-400 dark:bg-green-950/50"
+                  />
+                  <label
+                    htmlFor="acceptDisplayWork"
+                    className="cursor-pointer text-sm font-medium text-green-950 dark:text-white"
+                  >
+                   Jeg aksepterer at arbeidet mitt vises i en felles liste med slik at jeg kan bli kjent med andre kollegaer.
+                  </label>
+                </div>
               </div>
 
               <button

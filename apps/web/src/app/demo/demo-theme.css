@@ -7,7 +7,7 @@
   --demo-primary: #3b82f6;
   --demo-primary-dark: #2563eb;
   --demo-accent: white;
-  --demo-accent-light: #24e9fb;
+  --demo-accent-light: #19929d;
   --demo-text: #e0f2fe;
   --demo-text-dark: #bae6fd;
   --demo-border: #60a5fa;
@@ -194,7 +194,7 @@
 .demo-theme .prose h4,
 .demo-theme .prose h5,
 .demo-theme .prose h6 {
-  color: var(--demo-text) !important;
+  color: white !important;
   border-bottom: none !important;
   padding-bottom: 0 !important;
 }
@@ -205,16 +205,16 @@
 }
 
 .demo-theme .prose a {
-  color: var(--demo-accent-light) !important;
+  color: var(--demo-primary) !important;
 }
 
 .demo-theme .prose a:hover {
-  color: var(--demo-accent) !important;
+  color: var(--demo-primary-light) !important;
 }
 
-.demo-theme .prose strong {
+/* .demo-theme .prose strong {
   color: var(--demo-text) !important;
-}
+} */
 
 .demo-theme .prose code {
   background-color: rgba(59, 130, 246, 0.2) !important;

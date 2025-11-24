@@ -28,7 +28,7 @@ export async function Navbar() {
     >
       <div className="container mx-auto px-4 ">
         <div className="flex h-16 items-center justify-between gap-4">   
-          <div className="flex flex-1 items-center justify-center md:justify-start">
+          <div className="flex items-center justify-center md:justify-start">
             <Link className="flex items-center" href="/">
               <div className="mb-[-60px] scale-75 sm:scale-100">
                {/*  <CalendarLogo width={100} height={100}/> */}

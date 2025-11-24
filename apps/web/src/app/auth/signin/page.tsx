@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -10,7 +11,7 @@ export default async function SignInPage({
   const callbackUrl = params.callbackUrl || "/progresjon";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-950 via-green-900 to-green-950">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-green-950 via-green-900 to-green-950">
       <div className="w-full max-w-md rounded-2xl border-2 border-amber-300/50 bg-white/95 p-8 shadow-xl backdrop-blur-sm dark:border-amber-700/50 dark:bg-green-950/90">
         <div className="mb-6 text-center">
           <h1 className="mb-2 text-3xl font-bold text-green-950 dark:text-white">
@@ -34,6 +35,15 @@ export default async function SignInPage({
             Logg inn med Microsoft
           </button>
         </form>
+      </div>
+      
+      <div className="mt-6 text-center">
+        <Link
+          href="/registrering"
+          className="text-lg text-white/90 underline transition-colors hover:text-white"
+        >
+          Ikke medlem? Registrer deg her
+        </Link>
       </div>
     </div>
   );

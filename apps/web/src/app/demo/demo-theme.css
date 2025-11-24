@@ -1,0 +1,237 @@
+/* Demo color scheme - Blue Christmas night sky theme */
+.demo-theme {
+  /* CSS Variables for demo theme - Christmas night sky gradient */
+  --demo-bg-gradient-start: #0a1628;
+  --demo-bg-gradient-mid: #1e3a5f;
+  --demo-bg-gradient-end: #0f1b2e;
+  --demo-primary: #3b82f6;
+  --demo-primary-dark: #2563eb;
+  --demo-accent: white;
+  --demo-accent-light: #24e9fb;
+  --demo-text: #e0f2fe;
+  --demo-text-dark: #bae6fd;
+  --demo-border: #60a5fa;
+  --demo-card-bg: rgba(255, 255, 255, 0.95);
+  --demo-card-bg-dark:rgba(255, 255, 255, 0.85);
+  --demo-amber: #061b70;
+  --demo-amber-light: #061b70;
+}
+
+.demo-theme main {
+  background: linear-gradient(
+    to bottom right,
+    var(--demo-bg-gradient-start),
+    var(--demo-bg-gradient-mid),
+    var(--demo-bg-gradient-end)
+  ) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.demo-theme {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-theme body {
+  margin: 0;
+  padding: 0;
+}
+
+.demo-theme .bg-gradient-to-br.from-green-950.via-green-900.to-green-950,
+.demo-theme [class*="bg-gradient-to-br"][class*="green"] {
+  background: linear-gradient(
+    to bottom right,
+    var(--demo-bg-gradient-start),
+    var(--demo-bg-gradient-mid),
+    var(--demo-bg-gradient-end)
+  ) !important;
+}
+
+.demo-theme .text-white {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .text-green-950 {
+  color: var(--demo-bg-gradient-start) !important;
+}
+
+.demo-theme .text-green-900 {
+  color: var(--demo-primary-dark) !important;
+}
+
+.demo-theme .border-amber-300,
+.demo-theme .border-amber-500,
+.demo-theme [class*="border-amber"] {
+  border-color: var(--demo-accent) !important;
+}
+
+.demo-theme .bg-amber-400,
+.demo-theme .bg-amber-500,
+.demo-theme [class*="bg-amber"] {
+  background-color: var(--demo-amber) !important;
+}
+
+.demo-theme .bg-white\/95,
+.demo-theme .bg-white\/90 {
+  background-color: var(--demo-card-bg) !important;
+}
+
+.demo-theme .text-amber-200,
+.demo-theme .text-amber-300 {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .text-amber-500,
+.demo-theme .text-amber-600 {
+  color: var(--demo-amber) !important;
+}
+
+.demo-theme .from-amber-300.to-amber-500,
+.demo-theme [class*="from-amber"][class*="to-amber"] {
+  background: linear-gradient(
+    to right,
+    var(--demo-amber),
+    var(--demo-amber-light)
+  ) !important;
+}
+
+.demo-theme .bg-green-950\/80,
+.demo-theme .bg-green-950\/85,
+.demo-theme [class*="bg-green"][class*="\/"] {
+  background-color: var(--demo-card-bg-dark) !important;
+}
+
+.demo-theme .text-green-900\/70,
+.demo-theme .text-green-900\/80 {
+  color: var(--demo-text-dark) !important;
+}
+
+.demo-theme .border-green-950 {
+  border-color: var(--demo-primary-dark) !important;
+}
+
+.demo-theme .bg-emerald-400\/20 {
+  background-color: rgba(11, 214, 245, 0.2) !important;
+}
+
+.demo-theme .text-emerald-200 {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .bg-white\/10 {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.demo-theme .bg-white\/5 {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.demo-theme .hover\:bg-white\/10:hover {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+.demo-theme .border-white\/10 {
+  border-color: rgba(11, 214, 245, 0.3) !important;
+}
+
+.demo-theme .hover\:border-amber-300\/60:hover {
+  border-color: var(--demo-accent) !important;
+}
+
+/* Bronze, Silver, Gold category colors for demo - updated to blue theme */
+.demo-theme [style*="borderColor"][style*="#CD7F32"],
+.demo-theme [style*="borderColor"][style*="bronze"] {
+  border-color: #3b82f6 !important;
+}
+
+.demo-theme [style*="borderColor"][style*="#C0C0C0"],
+.demo-theme [style*="borderColor"][style*="silver"] {
+  border-color: #60a5fa !important;
+}
+
+.demo-theme [style*="borderColor"][style*="#FFD700"],
+.demo-theme [style*="borderColor"][style*="gold"] {
+  border-color: #0bd6f5 !important;
+}
+
+/* Override heading colors in demo theme */
+.demo-theme h1[style*="color"],
+.demo-theme h1[style*="#B91C1C"] {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme h1[style*="textShadow"] {
+  text-shadow: none !important;
+}
+
+/* Match demo landing page h1 styling for calendar day pages */
+.demo-theme h1 {
+  margin-bottom: 1.5rem !important;
+  font-weight: 700 !important;
+  font-size: 3rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.025em !important;
+  text-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  color: white !important;
+}
+
+@media (min-width: 768px) {
+  .demo-theme h1 {
+    font-size: 4.5rem !important;
+  }
+}
+
+/* Blog content typography improvements */
+.demo-theme .prose {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .prose h1,
+.demo-theme .prose h2,
+.demo-theme .prose h3,
+.demo-theme .prose h4,
+.demo-theme .prose h5,
+.demo-theme .prose h6 {
+  color: var(--demo-text) !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.demo-theme .prose p {
+  color: var(--demo-text) !important;
+  opacity: 0.9;
+}
+
+.demo-theme .prose a {
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .prose a:hover {
+  color: var(--demo-accent) !important;
+}
+
+.demo-theme .prose strong {
+  color: var(--demo-text) !important;
+}
+
+.demo-theme .prose code {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: var(--demo-accent-light) !important;
+}
+
+.demo-theme .prose pre {
+  background-color: rgba(10, 22, 40, 0.8) !important;
+  border-color: var(--demo-border) !important;
+}
+
+.demo-theme .prose blockquote {
+  border-left-color: var(--demo-primary) !important;
+  color: var(--demo-text-dark) !important;
+}
+
+.demo-theme .prose img {
+  border-radius: 0.75rem;
+}
+

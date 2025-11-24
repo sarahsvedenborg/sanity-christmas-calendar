@@ -16,6 +16,7 @@ import {
   TagIcon,
   TrendingUpDown,
   User,
+  FlaskConical,
 } from "lucide-react";
 import type {
   StructureBuilder,
@@ -109,116 +110,163 @@ const createIndexListWithOrderableItems = ({
 export const structure = (
   S: StructureBuilder,
   context: StructureResolverContext
-) =>
-  S.list()
-    .title("Innhold")
-    .items([
+) => {
+  // Check if user has editor role
+  const currentUser = context.currentUser;
+
+  const hasEditorRole = currentUser?.roles?.some(
+    (role) => role.name === "editor"
+  ) ?? false;
+
+
+
+  const items = [
     /*   createSingleTon({ S, type: "homePage", icon: HomeIcon }), */
-  /*     S.divider(),
-      createSlugBasedStructure(S, "page"), */
-     /*  createIndexListWithOrderableItems({
-        S,
-        index: { type: "blogIndex", icon: BookMarked },
-        list: { type: "blog", title: "Blogs", icon: FileText },
-        context,
-      }), */
+    /*     S.divider(),
+        createSlugBasedStructure(S, "page"), */
+    /*  createIndexListWithOrderableItems({
+          S,
+          index: { type: "blogIndex", icon: BookMarked },
+          list: { type: "blog", title: "Blogs", icon: FileText },
+          context,
+        }), */
     /*   createList({
-        S,
-        type: "faq",
-        title: "FAQs",
-        icon: MessageCircle,
-      }), */
-     /*  createList({ S, type: "author", title: "Authors", icon: User }), */
+          S,
+          type: "faq",
+          title: "FAQs",
+          icon: MessageCircle,
+        }), */
+    /*  createList({ S, type: "author", title: "Authors", icon: User }), */
     /*   createList({
-        S,
-        type: "redirect",
-        title: "Redirects",
-        icon: TrendingUpDown,
-      }), */
-       S.divider(),
-      createIndexListWithOrderableItems({
-        S,
-        index: { type: "christmasCalendar", title: 'Kalenderforside', icon: Calendar },
-        list: { type: "calendarDay", title: "Kalenderluker", icon: CalendarDays },
-        context,
-      }), 
-      S.listItem()
-        .title("Kalenderluker per kategori")
-        .icon(TagIcon)
-        .child(
-          S.documentTypeList("dayCategory")
-            .title("Kalenderkategorier")
-            .child((categoryId) =>
-              S.documentList()
-                .schemaType("calendarDay")
-                .title("Kalenderluker")
-                .filter("defined(category._ref) && category._ref == $categoryId")
-                .params({ categoryId })
-                .defaultOrdering([{ field: "dayNumber", direction: "asc" }])
-            )
-        ),
-      /*   createList({
-        S,
-        type: "christmasCalendar",
-        title: "Kalender",
-        icon: TagIcon,
-      }), */
-      createList({
-        S,
-        type: "dayCategory",
-        title: "Kalenderkategorier",
-        icon: TagIcon,
-      }),
-      createList({
-        S,
-        type: "definition",
-        title: "Definisjoner",
-        icon: BookMarked,
-      }),
-      createList({
-        S,
-        type: "answers",
-        title: "Deltakeres nettsider",
-        icon: MessageCircle,
-      }),
-       createList({
-         S,
-         type: "user",
-         title: "Deltakere",
-         icon: User,
-       }),
-      S.listItem()
-        .title("Bulk Rediger Progressjon")
-        .icon(CheckSquare)
-        .child(
-          S.component(BulkTaskProgressEditor).title("Bulk Task Progress Editor")
-        ),
-   /*    S.divider(),
-      S.listItem()
-        .title("Site Configuration")
-        .icon(Settings2)
+          S,
+          type: "redirect",
+          title: "Redirects",
+          icon: TrendingUpDown,
+        }), */
+    S.divider(),
+    createIndexListWithOrderableItems({
+      S,
+      index: { type: "christmasCalendar", title: 'Kalenderforside', icon: Calendar },
+      list: { type: "calendarDay", title: "Kalenderluker", icon: CalendarDays },
+      context,
+    }), 
+    S.listItem()
+      .title("Kalenderluker per kategori")
+      .icon(TagIcon)
+      .child(
+        S.documentTypeList("dayCategory")
+          .title("Kalenderkategorier")
+          .child((categoryId) =>
+            S.documentList()
+              .schemaType("calendarDay")
+              .title("Kalenderluker")
+              .filter("defined(category._ref) && category._ref == $categoryId")
+              .params({ categoryId })
+              .defaultOrdering([{ field: "dayNumber", direction: "asc" }])
+          )
+      ),
+    /*   createList({
+          S,
+          type: "christmasCalendar",
+          title: "Kalender",
+          icon: TagIcon,
+        }), */
+    createList({
+      S,
+      type: "dayCategory",
+      title: "Kalenderkategorier",
+      icon: TagIcon,
+    }),
+    createList({
+      S,
+      type: "definition",
+      title: "Definisjoner",
+      icon: BookMarked,
+    }),
+    createList({
+      S,
+      type: "answers",
+      title: "Deltakeres nettsider",
+      icon: MessageCircle,
+    }),
+    createList({
+      S,
+      type: "user",
+      title: "Deltakere",
+      icon: User,
+    }),
+    S.listItem()
+      .title("Bulk Rediger Progressjon")
+      .icon(CheckSquare)
+      .child(
+        S.component(BulkTaskProgressEditor).title("Bulk Task Progress Editor")
+      ),
+    /*    S.divider(),
+        S.listItem()
+          .title("Site Configuration")
+          .icon(Settings2)
+          .child(
+            S.list()
+              .title("Site Configuration")
+              .items([
+                createSingleTon({
+                  S,
+                  type: "navbar",
+                  title: "Navigation",
+                  icon: PanelBottom,
+                }),
+                createSingleTon({
+                  S,
+                  type: "footer",
+                  title: "Footer",
+                  icon: PanelBottomIcon,
+                }),
+                createSingleTon({
+                  S,
+                  type: "settings",
+                  title: "Global Settings",
+                  icon: CogIcon,
+                }),
+              ])
+          ), */
+  ];
+
+  // Add demo studio section for editors only
+ 
+   const demoItems = 
+     [ 
+    /*   S.listItem()
+        .title("Demo Studio")
+        .icon(FlaskConical)
         .child(
           S.list()
-            .title("Site Configuration")
-            .items([
-              createSingleTon({
+            .title("Demo Studio")
+            .items([ */
+              createList({
                 S,
-                type: "navbar",
-                title: "Navigation",
-                icon: PanelBottom,
+                type: "demo_calendarDay",
+                title: "Demo Kalenderluker",
+                icon: CalendarDays,
               }),
-              createSingleTon({
+              createList({
                 S,
-                type: "footer",
-                title: "Footer",
-                icon: PanelBottomIcon,
+                type: "demo_dayCategory",
+                title: "Demo Kategorier",
+                icon: TagIcon,
               }),
-              createSingleTon({
+              createList({
                 S,
-                type: "settings",
-                title: "Global Settings",
-                icon: CogIcon,
+                type: "demo_blog",
+                title: "Demo Blog posts",
+                icon: FileText,
               }),
-            ])
-        ), */
-    ]);
+       /*      ])
+        ) */
+      ];
+  
+  if (hasEditorRole) {
+    return S.list().title("Demo Studio").items(demoItems);
+  }
+
+  return S.list().title("Innhold").items(items);
+};

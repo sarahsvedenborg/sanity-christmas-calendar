@@ -87,7 +87,7 @@ function createComponents({
         const slug = parseChildrenToSlug(value.children);
         return (
           <h2
-            className="scroll-m-20 border-b pb-2 font-semibold text-3xl first:mt-0"
+            className="scroll-m-20 pb-2 font-semibold text-3xl first:mt-0"
             id={slug}
           >
             {children}

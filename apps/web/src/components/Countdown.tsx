@@ -40,7 +40,20 @@ export const Countdown = ({startDate, intro}: {startDate: number, intro: any}) =
                   </div>
                 </div>
               </div>
-              
+                <a
+            href="/auth/signup"
+            target="_blank"
+            rel="noopener noreferrer"
+           /*  className={
+              isMobile
+                ? "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b]"
+                : "relative flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
+            } */
+           className="relative mt-[-45px] mb-10 mx-auto w-fit flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
+         
+          >
+            Registrer deltakelse
+          </a>
                {intro && (<>
               <div className="mb-8">
                 <RichText

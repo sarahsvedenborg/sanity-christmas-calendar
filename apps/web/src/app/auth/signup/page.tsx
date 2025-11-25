@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import { AuthButton } from "@/components/auth-button";
 
 export default async function SignUpPage({
   searchParams,
@@ -24,7 +25,7 @@ export default async function SignUpPage({
           </p>
           {error === "consent_required" && (
             <p className="mt-2 text-sm font-medium text-red-600 dark:text-red-400">
-              Du må akseptere at din fremgang trackes for å registrere deg.
+              Du må akseptere påkrevd betingelse nedenfor for å registrere deg.
             </p>
           )}
         </div>
@@ -132,12 +133,9 @@ export default async function SignUpPage({
                   </label>
                 </div>
               </div>
-          <button
-            type="submit"
-            className="w-full rounded-md bg-[#0078d4] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#0064b4]"
-          >
+          <AuthButton className="w-full rounded-md bg-[#0078d4] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#0064b4]">
             Registrer deltakelse med SSO
-          </button>
+          </AuthButton>
         </form>
       </div>
       

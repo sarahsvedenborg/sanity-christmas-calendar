@@ -91,7 +91,7 @@ export default async function CalendarPage() {
             Registrer deltakelse
           </a> */}
       </section>
-       <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
+       <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} isLoggedIn={!!session} />
        <ChristmasCalendar data={calendarData} hasAdminAccess={hasAdminAccess} /> 
     </main>
   );

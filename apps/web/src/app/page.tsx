@@ -81,8 +81,17 @@ export default async function CalendarPage() {
             </h1>
           </div>
         </div>
+         {/*  <a
+            href="/auth/signup"
+            target="_blank"
+            rel="noopener noreferrer"
+           className="relative mx-auto w-fit flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
+         
+          >
+            Registrer deltakelse
+          </a> */}
       </section>
-       <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} />
+       <Countdown startDate={calendarData.startDate} intro={calendarData.introContent} isLoggedIn={!!session} />
        <ChristmasCalendar data={calendarData} hasAdminAccess={hasAdminAccess} /> 
     </main>
   );

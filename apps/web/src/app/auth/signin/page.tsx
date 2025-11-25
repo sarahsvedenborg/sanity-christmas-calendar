@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import { AuthButton } from "@/components/auth-button";
 
 export default async function SignInPage({
   searchParams,
@@ -28,12 +29,9 @@ export default async function SignInPage({
             await signIn("microsoft-entra-id", { redirectTo: callbackUrl });
           }}
         >
-          <button
-            type="submit"
-            className="w-full rounded-md bg-[#0078d4] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#0064b4]"
-          >
+          <AuthButton className="w-full rounded-md bg-[#0078d4] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-[#0064b4]">
             Logg inn med Microsoft
-          </button>
+          </AuthButton>
         </form>
       </div>
       

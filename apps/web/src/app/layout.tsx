@@ -47,7 +47,7 @@ export default async function RootLayout({
   preconnect("https://cdn.sanity.io");
   const nav = await getNavigationData();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="no" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontInika.variable} font-sans antialiased`}
       >

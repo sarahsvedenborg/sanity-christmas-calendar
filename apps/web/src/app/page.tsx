@@ -24,13 +24,56 @@ export async function generateMetadata() {
     return {};
   }
 
-  return getSEOMetadata({
+/*   return getSEOMetadata({
     title: calendarData.title ?? calendarData.seoTitle ?? "Christmas Calendar",
     description:
       calendarData.description ?? calendarData.seoDescription ?? "",
     contentId: calendarData._id,
     contentType: calendarData._type,
-  });
+  }); */
+
+  const title = calendarData.title ?? calendarData.seoTitle ?? "Christmas Calendar";
+  const description = calendarData.description ?? calendarData.seoDescription ?? "";
+  const imageUrl = '/LogoViva.png';
+
+    return {
+    title,
+    description,
+    metadataBase: 'https://sanity-christmas-calendar.vercel.app/',
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+    icons: {
+      icon: [
+        {
+          url: '/favicon.ico',
+          media: '(prefers-color-scheme: light)',
+        },
+        {
+          url: '/favicon.ico',
+          media: '(prefers-color-scheme: dark)',
+        },
+      ],
+    },
+    openGraph: {
+      title,
+      description,
+      images: imageUrl,
+      type: 'website',
+      url: 'https://sanity-christmas-calendar.vercel.app/',
+      site_name: 'Sanity julekalender',
+    },
+    twitter: {
+      title,
+      description,
+      images: imageUrl,
+      url: 'https://sanity-christmas-calendar.vercel.app/',
+      card: 'summary_large_image',
+    },
+  
+  }
 }
 
 /* export async function generateStaticParams() {

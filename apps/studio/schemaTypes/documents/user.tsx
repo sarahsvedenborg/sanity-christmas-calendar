@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 
-import { UserRound } from "lucide-react";
+import { UserRound, CircleX, Laptop, Palette } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { TaskCompletionStatusInput } from "../../components/task-completion-status-input";
@@ -110,11 +110,17 @@ export const user = defineType({
     select: {
       title: "name",
       subtitle: "email",
+      category: 'participantType',
     },
-    prepare({ title, subtitle }) {
+    prepare({ title, subtitle, category }) {
+      const icon: {[key: string]: React.ReactNode} = {
+        design: <Palette />,
+        tech: <Laptop />,
+      }
       return {
-        title: title || "Unnamed user",
+        title: `${title || "Unnamed user"} - ${category || ""}`,
         subtitle: subtitle || "No email provided",
+        media: !category ? <CircleX style={{ color: "#B91C1C" }} /> : icon[category]
       };
     },
   },

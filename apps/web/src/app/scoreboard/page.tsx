@@ -2,6 +2,7 @@ import { sanityFetch } from "@/lib/sanity/live";
 import { queryScoreboardData } from "@/lib/sanity/query";
 import { Snowflakes } from "@/components/elements/snowflakes";
 import { ScoreboardContent } from "@/components/scoreboard-content";
+import { Info } from "lucide-react";
 
 export const revalidate = 10;
 
@@ -76,9 +77,18 @@ export default async function ScoreboardPage() {
           <h1 className="text-4xl font-bold text-white">
             🏆 Scoreboard
           </h1>
-          <p className="mt-3 text-lg text-white/80">
-            Se hvem som leder i julekalenderen!
-          </p>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <span className="group relative inline-flex cursor-help items-center">
+              <span className="text-white/70 text-md">Hvorfor er jeg tagget med denne kategorien?{' '}</span>
+              <Info className="ml-2 h-5 w-5 text-white/70 transition-colors hover:text-white" />
+              <span
+                className=" pointer-events-none absolute left-1/2 top-full z-20 mt-2 hidden w-80 -translate-x-1/2 rounded-xl border border-amber-300/70 bg-white/95 p-4 text-left text-sm text-green-900 shadow-xl transition-all group-hover:block group-focus-within:block dark:border-amber-700/50 dark:bg-green-950/95 dark:text-amber-100"
+                role="tooltip"
+              >
+                Du blir tagget i systement med den rollen som passer best til avdelingen du tilhører. Alle står fritt til å velge de oppgavene man vil, men man vil dukke opp under den kategorien man er tagget med. Dersom du ønsker å tagges i den andre kategorien, si i fra til Sarah Svedenborg.
+              </span>
+            </span>
+          </div>
         </header>
 
         {usersWithProgress.length === 0 ? (

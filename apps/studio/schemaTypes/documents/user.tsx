@@ -14,11 +14,23 @@ export const user = defineType({
   title: "User",
   type: "document",
   icon: UserRound,
+  groups: [
+    {
+      name: "content",
+      title: "Content",
+      default: true,
+    },
+    {
+      name: "admin",
+      title: "Admin",
+    },
+  ],
   fields: [
     defineField({
       name: "name",
       title: "Name",
       type: "string",
+      group: "content",
       validation: (rule) =>
         rule.required().error("Every user needs a display name."),
     }),
@@ -26,13 +38,22 @@ export const user = defineType({
       name: "email",
       title: "Email",
       type: "string",
+         group: "content",
       validation: (rule) =>
         rule.required().email().error("Provide a valid email address."),
+    }),
+       defineField({
+      name: "receivedStickers",
+      title: "Motatt klistermærker",
+      type: "boolean",
+         group: "admin",
+      initialValue: false,
     }),
        defineField({
       name: "participantType",
       title: "participantType",
       type: "string",
+         group: "content",
       options: createRadioListLayout(["tech", "design"]),
     /*   readOnly: true, */
     }),
@@ -40,6 +61,7 @@ export const user = defineType({
       name: "acceptScoreboard",
       title: "Partake in scoreboard",
       type: "boolean",
+         group: "content",
     /*   readOnly: true, */
       initialValue: false,
     }),
@@ -47,6 +69,7 @@ export const user = defineType({
       name: "acceptSharingWorkPublicly",
       title: "Accept sharing work publicly",
       type: "boolean",
+         group: "content",
     /*   readOnly: true, */
       initialValue: false,
     }),
@@ -54,6 +77,7 @@ export const user = defineType({
       name: "publicworkurl",
       title: "Public work URL",
       type: "url",
+         group: "content",
     }),
     defineField({
       name: "taskCompletionStatus",
@@ -61,6 +85,7 @@ export const user = defineType({
       description:
         "Keep track of each calendar task the user has completed. Toggle the switch once the day is done.",
       type: "array",
+         group: "content",
       readOnly: false,
       of: [
         defineArrayMember({

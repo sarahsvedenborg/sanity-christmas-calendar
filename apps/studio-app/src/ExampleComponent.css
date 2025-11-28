@@ -1,0 +1,249 @@
+.example-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.example-avatar-container {
+  position: relative;
+  margin-block-end: 1rem;
+}
+
+@keyframes wave {
+  0% {
+    rotate: 0deg;
+  }
+  2% {
+    rotate: 20deg;
+    filter: blur(1px);
+  }
+  4% {
+    rotate: 0deg;
+  }
+  6% {
+    rotate: -20deg;
+  }
+  8% {
+    rotate: 0deg;
+  }
+  10% {
+    rotate: 20deg;
+  }
+  12% {
+    rotate: 0deg;
+  }
+  14% {
+    rotate: -20deg;
+  }
+  16% {
+    rotate: 0deg;
+    filter: blur(0);
+  }
+}
+
+.example-avatar-container:after {
+  content: '👋';
+  position: absolute;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  translate: -25% -25%;
+  transform-origin: 100% 100%;
+  animation: wave 4s infinite linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .example-avatar-container:after {
+    animation: none;
+  }
+}
+
+.example-avatar {
+  inline-size: 4rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.example-heading {
+  color: #333;
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.code-hint {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  margin-top: 1.5rem;
+  border-left: 3px solid #e0e0e0;
+  line-height: 1.5;
+}
+
+/* Table Styles */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  background-color: white;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-header-row {
+  background: linear-gradient(135deg, #1f4638 0%, #2d5a47 100%);
+}
+
+.table-header {
+  padding: 20px 24px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-header:first-child {
+  padding-left: 32px;
+}
+
+.table-header:last-child {
+  padding-right: 32px;
+}
+
+.table-header-sortable {
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.table-header-sortable:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.table-row {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-row:hover {
+  background-color: #f9fafb;
+  transform: scale(1.001);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: 20px 24px;
+  font-size: 15px;
+  color: #374151;
+  vertical-align: middle;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.table-cell:first-child {
+  padding-left: 32px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.table-cell:last-child {
+  padding-right: 32px;
+}
+
+/* .table-cell-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 24px;
+} */
+
+.table-cell-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #4b5563;
+}
+
+.table-cell-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.table-cell-background-green {
+  background-color: #d1fae5;
+}
+
+.table-cell-background-red {
+  background-color: #fee2e2;
+}
+
+.table-cell-background-bronze {
+  background-color: #E5B18E80;
+  padding: 0;
+}
+
+.table-cell-background-silver {
+  background-color: #D9D9D980;
+  padding: 0;
+}
+
+.table-cell-background-gold {
+  background-color: #E5C68D80;
+  padding: 0;
+}
+
+.column-filters {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-toggle-button:hover {
+  background-color: #2d5a47 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .table-header,
+  .table-cell {
+    padding: 16px 12px;
+    font-size: 13px;
+  }
+  
+  .table-header:first-child,
+  .table-cell:first-child {
+    padding-left: 16px;
+  }
+  
+  .table-header:last-child,
+  .table-cell:last-child {
+    padding-right: 16px;
+  }
+}

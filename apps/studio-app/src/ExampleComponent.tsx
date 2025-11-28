@@ -111,6 +111,8 @@ export function ExampleComponent() {
 
   const [userDataMap, setUserDataMap] = useState<Map<string, UserData>>(new Map())
   const [scoreSortDirection, setScoreSortDirection] = useState<'asc' | 'desc' | null>(null)
+  const [klstrSortDirection, setKlstrSortDirection] = useState<'asc' | 'desc' | null>(null)
+  const [sharingSortDirection, setSharingSortDirection] = useState<'asc' | 'desc' | null>(null)
   const [visibleColumns, setVisibleColumns] = useState<Set<ColumnKey>>(
     new Set(COLUMNS.filter(col => col.defaultVisible).map(col => col.key))
   )
@@ -126,14 +128,29 @@ export function ExampleComponent() {
 
   const userDataList = Array.from(userDataMap.values())
 
-  // Sort user data based on score sort direction
+  // Sort user data based on active sort direction
   const sortedUserData = [...userDataList].sort((a, b) => {
-    if (scoreSortDirection === null) return 0
+    let aValue = 0
+    let bValue = 0
+    let sortDirection: 'asc' | 'desc' | null = null
+
+    if (scoreSortDirection !== null) {
+      aValue = a.acceptScoreboard ? 1 : 0
+      bValue = b.acceptScoreboard ? 1 : 0
+      sortDirection = scoreSortDirection
+    } else if (klstrSortDirection !== null) {
+      aValue = a.receivedStickers ? 1 : 0
+      bValue = b.receivedStickers ? 1 : 0
+      sortDirection = klstrSortDirection
+    } else if (sharingSortDirection !== null) {
+      aValue = a.acceptSharingWorkPublicly ? 1 : 0
+      bValue = b.acceptSharingWorkPublicly ? 1 : 0
+      sortDirection = sharingSortDirection
+    } else {
+      return 0
+    }
     
-    const aValue = a.acceptScoreboard ? 1 : 0
-    const bValue = b.acceptScoreboard ? 1 : 0
-    
-    if (scoreSortDirection === 'asc') {
+    if (sortDirection === 'asc') {
       return aValue - bValue
     } else {
       return bValue - aValue
@@ -143,10 +160,36 @@ export function ExampleComponent() {
   const handleScoreSort = () => {
     if (scoreSortDirection === null) {
       setScoreSortDirection('asc')
+      setKlstrSortDirection(null)
+      setSharingSortDirection(null)
     } else if (scoreSortDirection === 'asc') {
       setScoreSortDirection('desc')
     } else {
       setScoreSortDirection(null)
+    }
+  }
+
+  const handleKlstrSort = () => {
+    if (klstrSortDirection === null) {
+      setKlstrSortDirection('asc')
+      setScoreSortDirection(null)
+      setSharingSortDirection(null)
+    } else if (klstrSortDirection === 'asc') {
+      setKlstrSortDirection('desc')
+    } else {
+      setKlstrSortDirection(null)
+    }
+  }
+
+  const handleSharingSort = () => {
+    if (sharingSortDirection === null) {
+      setSharingSortDirection('asc')
+      setScoreSortDirection(null)
+      setKlstrSortDirection(null)
+    } else if (sharingSortDirection === 'asc') {
+      setSharingSortDirection('desc')
+    } else {
+      setSharingSortDirection(null)
     }
   }
 
@@ -235,7 +278,19 @@ export function ExampleComponent() {
               {visibleColumns.has('name') && <th className="table-header">Navn</th>}
               {visibleColumns.has('email') && <th className="table-header">Epost</th>}
               {visibleColumns.has('participantType') && <th className="table-header">Type</th>}
-              {visibleColumns.has('receivedStickers') && <th className="table-header">Klstr</th>}
+              {visibleColumns.has('receivedStickers') && (
+                <th 
+                  className="table-header table-header-sortable" 
+                  onClick={handleKlstrSort}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    Klstr
+                    {klstrSortDirection === 'asc' && <ArrowUp size={16} />}
+                    {klstrSortDirection === 'desc' && <ArrowDown size={16} />}
+                  </span>
+                </th>
+              )}
               {visibleColumns.has('acceptScoreboard') && (
                 <th 
                   className="table-header table-header-sortable" 
@@ -249,7 +304,19 @@ export function ExampleComponent() {
                   </span>
                 </th>
               )}
-              {visibleColumns.has('acceptSharingWorkPublicly') && <th className="table-header">Sharing</th>}
+              {visibleColumns.has('acceptSharingWorkPublicly') && (
+                <th 
+                  className="table-header table-header-sortable" 
+                  onClick={handleSharingSort}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    Sharing
+                    {sharingSortDirection === 'asc' && <ArrowUp size={16} />}
+                    {sharingSortDirection === 'desc' && <ArrowDown size={16} />}
+                  </span>
+                </th>
+              )}
               {visibleColumns.has('tasksCompleted') && <th className="table-header">Tasks Completed</th>}
             </tr>
           </thead>
@@ -263,7 +330,7 @@ export function ExampleComponent() {
                 {data.map((doc) => (
                   <UserDataCollector key={doc.documentId} document={doc} onDataLoaded={handleDataLoaded} />
                 ))}
-                {(scoreSortDirection !== null ? sortedUserData : userDataList).map((userData) => (
+                {((scoreSortDirection !== null || klstrSortDirection !== null || sharingSortDirection !== null) ? sortedUserData : userDataList).map((userData) => (
                   <UserRow key={userData.documentId} userData={userData} visibleColumns={visibleColumns} />
                 ))}
               </>

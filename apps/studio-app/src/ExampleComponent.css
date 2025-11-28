@@ -200,6 +200,18 @@ p {
   background-color: #fee2e2;
 }
 
+.table-cell-background-bronze {
+  background-color: #E5B18E80;
+}
+
+.table-cell-background-silver {
+  background-color: #D9D9D980;
+}
+
+.table-cell-background-gold {
+  background-color: #E5C68D80;
+}
+
 .column-filters {
   background-color: #ffffff;
   border: 1px solid #e5e7eb;

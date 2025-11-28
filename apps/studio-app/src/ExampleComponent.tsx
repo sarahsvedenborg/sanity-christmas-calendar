@@ -16,8 +16,8 @@ interface UserProjection {
   taskCompletionStatus?: Array<{
     _key?: string
     calendarDay?: {
-      _ref?: string
-      _type?: string
+      _id?: string
+      dayNumber?: number
     }
     completed?: boolean
   }>
@@ -25,7 +25,7 @@ interface UserProjection {
 
 type UserData = UserProjection & { documentId: string }
 
-type ColumnKey = 'name' | 'email' | 'participantType' | 'receivedStickers' | 'acceptScoreboard' | 'acceptSharingWorkPublicly' | 'tasksCompleted'
+type ColumnKey = 'name' | 'email' | 'participantType' | 'receivedStickers' | 'acceptScoreboard' | 'acceptSharingWorkPublicly' | 'tasksCompleted' | 'bronzePrize'
 
 interface ColumnConfig {
   key: ColumnKey
@@ -41,6 +41,7 @@ const COLUMNS: ColumnConfig[] = [
   { key: 'acceptScoreboard', label: 'Score', defaultVisible: true },
   { key: 'acceptSharingWorkPublicly', label: 'Sharing', defaultVisible: true },
   { key: 'tasksCompleted', label: 'Tasks Completed', defaultVisible: true },
+  { key: 'bronzePrize', label: 'Bronze Prize', defaultVisible: true },
 ]
 
 const UserDataCollector = ({document, onDataLoaded}: {document: DocumentHandle, onDataLoaded: (data: UserData) => void}) => {
@@ -58,9 +59,9 @@ const UserDataCollector = ({document, onDataLoaded}: {document: DocumentHandle, 
       publicworkurl,
       taskCompletionStatus[] {
         _key,
-        calendarDay {
-          _ref,
-          _type
+        calendarDay-> {
+          _id,
+          dayNumber
         },
         completed
       }
@@ -89,6 +90,16 @@ const UserRow = ({userData, visibleColumns}: {userData: UserData, visibleColumns
     return <CircleX style={{ color: "#B91C1C" }} />
   }
 
+  const hasBronzePrize = () => {
+    const tasks1to5 = [1, 2, 3, 4, 5]
+    const completedDayNumbers = userData?.taskCompletionStatus
+      ?.filter(task => task.completed && task.calendarDay?.dayNumber)
+      .map(task => task.calendarDay?.dayNumber)
+      .filter((dayNumber): dayNumber is number => dayNumber !== undefined) || []
+    
+    return tasks1to5.every(dayNum => completedDayNumbers.includes(dayNum))
+  }
+
   return (
     <tr className="table-row">
       {visibleColumns.has('name') && <td className="table-cell">{userData?.name || '-'}</td>}
@@ -98,6 +109,11 @@ const UserRow = ({userData, visibleColumns}: {userData: UserData, visibleColumns
       {visibleColumns.has('acceptScoreboard') && <td className={`table-cell ${userData?.acceptScoreboard ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.acceptScoreboard ? 'Yes' : 'No'}</td>}
       {visibleColumns.has('acceptSharingWorkPublicly') && <td className={`table-cell ${userData?.acceptSharingWorkPublicly ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.acceptSharingWorkPublicly ? 'Yes' : 'No'}</td>}
       {visibleColumns.has('tasksCompleted') && <td className="table-cell">{completedTasks} / {totalTasks}</td>}
+      {visibleColumns.has('bronzePrize') && (
+        <td className={`table-cell ${hasBronzePrize() ? 'table-cell-background-bronze' : ''}`}>
+          {hasBronzePrize() ? 'Yes' : 'No'}
+        </td>
+      )}
     </tr>
   )
 }
@@ -318,6 +334,7 @@ export function ExampleComponent() {
                 </th>
               )}
               {visibleColumns.has('tasksCompleted') && <th className="table-header">Tasks Completed</th>}
+              {visibleColumns.has('bronzePrize') && <th className="table-header">Bronze Prize</th>}
             </tr>
           </thead>
           <tbody>

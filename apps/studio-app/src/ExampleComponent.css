@@ -200,6 +200,19 @@ p {
   background-color: #fee2e2;
 }
 
+.column-filters {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-toggle-button:hover {
+  background-color: #2d5a47 !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .table-header,

@@ -1,4 +1,5 @@
-import { UserRound, CircleX, Laptop, Palette } from "lucide-react";
+import { UserRound, CircleX, Laptop, Palette, ArrowUp, ArrowDown } from "lucide-react";
+import { useState, useEffect } from "react";
 import './ExampleComponent.css'
 import {DocumentHandle, useDocumentProjection, useDocumentProjectionResults, useDocuments} from '@sanity/sdk-react'
 
@@ -22,8 +23,10 @@ interface UserProjection {
   }>
 }
 
-const UserDetails = ({document}: {document: DocumentHandle}) => {
-  const {data, isPending}: useDocumentProjectionResults<UserProjection> = useDocumentProjection({
+type UserData = UserProjection & { documentId: string }
+
+const UserDataCollector = ({document, onDataLoaded}: {document: DocumentHandle, onDataLoaded: (data: UserData) => void}) => {
+  const {data}: useDocumentProjectionResults<UserProjection> = useDocumentProjection({
     ...document,
     projection: `{
       _id,
@@ -46,14 +49,23 @@ const UserDetails = ({document}: {document: DocumentHandle}) => {
     }`,
   })
 
-  if (isPending) {
-    return <tr><td colSpan={10}>Loading...</td></tr>
-  }
+  useEffect(() => {
+    if (data) {
+      onDataLoaded({
+        ...data,
+        documentId: document.documentId,
+      })
+    }
+  }, [data, document.documentId, onDataLoaded])
 
-  const completedTasks = data?.taskCompletionStatus?.filter(task => task.completed).length || 0
-  const totalTasks = data?.taskCompletionStatus?.length || 0
+  return null
+}
 
-  const getParticipantType = (participantType: string) => {
+const UserRow = ({userData}: {userData: UserData}) => {
+  const completedTasks = userData?.taskCompletionStatus?.filter(task => task.completed).length || 0
+  const totalTasks = userData?.taskCompletionStatus?.length || 0
+
+  const getParticipantType = (participantType?: string) => {
     if (participantType === 'tech') return <Laptop />
     if (participantType === 'design') return <Palette />
     return <CircleX style={{ color: "#B91C1C" }} />
@@ -61,12 +73,12 @@ const UserDetails = ({document}: {document: DocumentHandle}) => {
 
   return (
     <tr className="table-row">
-      <td className="table-cell">{data?.name || '-'}</td>
-      <td className="table-cell">{data?.email || '-'}</td>
-      <td className="table-cell table-cell-icon">{getParticipantType(data?.participantType || '')}</td>
-      <td className={`table-cell ${data?.receivedStickers ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{data?.receivedStickers ? 'Yes' : 'No'}</td>
-      <td className={`table-cell ${data?.acceptScoreboard ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{data?.acceptScoreboard ? 'Yes' : 'No'}</td>
-      <td className={`table-cell ${data?.acceptSharingWorkPublicly ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{data?.acceptSharingWorkPublicly ? 'Yes' : 'No'}</td>
+      <td className="table-cell">{userData?.name || '-'}</td>
+      <td className="table-cell">{userData?.email || '-'}</td>
+      <td className="table-cell table-cell-icon">{getParticipantType(userData?.participantType)}</td>
+      <td className={`table-cell ${userData?.receivedStickers ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.receivedStickers ? 'Yes' : 'No'}</td>
+      <td className={`table-cell ${userData?.acceptScoreboard ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.acceptScoreboard ? 'Yes' : 'No'}</td>
+      <td className={`table-cell ${userData?.acceptSharingWorkPublicly ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.acceptSharingWorkPublicly ? 'Yes' : 'No'}</td>
       <td className="table-cell">{completedTasks} / {totalTasks}</td>
     </tr>
   )
@@ -78,6 +90,43 @@ export function ExampleComponent() {
     batchSize: 50,
     orderings: [{field: '_updatedAt', direction: 'desc'}],
   })
+
+  const [userDataMap, setUserDataMap] = useState<Map<string, UserData>>(new Map())
+  const [scoreSortDirection, setScoreSortDirection] = useState<'asc' | 'desc' | null>(null)
+
+  const handleDataLoaded = (userData: UserData) => {
+    setUserDataMap(prev => {
+      const newMap = new Map(prev)
+      newMap.set(userData.documentId, userData)
+      return newMap
+    })
+  }
+
+  const userDataList = Array.from(userDataMap.values())
+
+  // Sort user data based on score sort direction
+  const sortedUserData = [...userDataList].sort((a, b) => {
+    if (scoreSortDirection === null) return 0
+    
+    const aValue = a.acceptScoreboard ? 1 : 0
+    const bValue = b.acceptScoreboard ? 1 : 0
+    
+    if (scoreSortDirection === 'asc') {
+      return aValue - bValue
+    } else {
+      return bValue - aValue
+    }
+  })
+
+  const handleScoreSort = () => {
+    if (scoreSortDirection === null) {
+      setScoreSortDirection('asc')
+    } else if (scoreSortDirection === 'asc') {
+      setScoreSortDirection('desc')
+    } else {
+      setScoreSortDirection(null)
+    }
+  }
 
   return (
     <div className="example-container">
@@ -92,20 +141,35 @@ export function ExampleComponent() {
               <th className="table-header">Epost</th>
               <th className="table-header">Type</th>
               <th className="table-header">Klstr</th>
-              <th className="table-header">Score</th>
+              <th 
+                className="table-header table-header-sortable" 
+                onClick={handleScoreSort}
+                style={{ cursor: 'pointer' }}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  Score
+                  {scoreSortDirection === 'asc' && <ArrowUp size={16} />}
+                  {scoreSortDirection === 'desc' && <ArrowDown size={16} />}
+                </span>
+              </th>
               <th className="table-header">Sharing</th>
               <th className="table-header">Tasks Completed</th>
             </tr>
           </thead>
           <tbody>
-            {isPending && data.length === 0 ? (
+            {isPending && userDataList.length === 0 ? (
               <tr>
                 <td colSpan={7} className="table-cell table-cell-loading">Loading users...</td>
               </tr>
             ) : (
-              data.map((doc) => (
-                <UserDetails key={doc.documentId} document={doc} />
-              ))
+              <>
+                {data.map((doc) => (
+                  <UserDataCollector key={doc.documentId} document={doc} onDataLoaded={handleDataLoaded} />
+                ))}
+                {(scoreSortDirection !== null ? sortedUserData : userDataList).map((userData) => (
+                  <UserRow key={userData.documentId} userData={userData} />
+                ))}
+              </>
             )}
           </tbody>
         </table>

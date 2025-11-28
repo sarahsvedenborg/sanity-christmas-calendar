@@ -2,6 +2,9 @@ import { UserRound, CircleX, Laptop, Palette, ArrowUp, ArrowDown, Filter } from 
 import { useState, useEffect } from "react";
 import './ExampleComponent.css'
 import {DocumentHandle, useDocumentProjection, useDocumentProjectionResults, useDocuments} from '@sanity/sdk-react'
+import { LogoBronzeNew } from "./icons/LogoBronzeNew";
+import { LogoSilverNew } from "./icons/LogoSilverNew";
+import { LogoGoldNew } from "./icons/LogoGoldNew";
 
 interface UserProjection {
   _id: string
@@ -25,7 +28,7 @@ interface UserProjection {
 
 type UserData = UserProjection & { documentId: string }
 
-type ColumnKey = 'name' | 'email' | 'participantType' | 'receivedStickers' | 'acceptScoreboard' | 'acceptSharingWorkPublicly' | 'tasksCompleted' | 'bronzePrize'
+type ColumnKey = 'name' | 'email' | 'participantType' | 'receivedStickers' | 'acceptScoreboard' | 'acceptSharingWorkPublicly' | 'tasksCompleted' | 'bronzePrize' | 'silverPrize' | 'goldPrize'
 
 interface ColumnConfig {
   key: ColumnKey
@@ -35,13 +38,15 @@ interface ColumnConfig {
 
 const COLUMNS: ColumnConfig[] = [
   { key: 'name', label: 'Navn', defaultVisible: true },
-  { key: 'email', label: 'Epost', defaultVisible: true },
+  { key: 'email', label: 'Epost', defaultVisible: false },
   { key: 'participantType', label: 'Type', defaultVisible: true },
-  { key: 'receivedStickers', label: 'Klstr', defaultVisible: true },
-  { key: 'acceptScoreboard', label: 'Score', defaultVisible: true },
-  { key: 'acceptSharingWorkPublicly', label: 'Sharing', defaultVisible: true },
-  { key: 'tasksCompleted', label: 'Tasks Completed', defaultVisible: true },
-  { key: 'bronzePrize', label: 'Bronze Prize', defaultVisible: true },
+  { key: 'receivedStickers', label: 'Klstr', defaultVisible: false },
+  { key: 'acceptScoreboard', label: 'Score', defaultVisible: false },
+  { key: 'acceptSharingWorkPublicly', label: 'Sharing', defaultVisible: false },
+  { key: 'tasksCompleted', label: 'Tasks Completed', defaultVisible: false },
+  { key: 'bronzePrize', label: 'Bronje', defaultVisible: true },
+  { key: 'silverPrize', label: 'Sølv', defaultVisible: true },
+  { key: 'goldPrize', label: 'Gull', defaultVisible: true },
 ]
 
 const UserDataCollector = ({document, onDataLoaded}: {document: DocumentHandle, onDataLoaded: (data: UserData) => void}) => {
@@ -100,9 +105,29 @@ const UserRow = ({userData, visibleColumns}: {userData: UserData, visibleColumns
     return tasks1to5.every(dayNum => completedDayNumbers.includes(dayNum))
   }
 
+  const hasSilverPrize = () => {
+    const tasks8to12 = [8, 9, 10, 11, 12]
+    const completedDayNumbers = userData?.taskCompletionStatus
+      ?.filter(task => task.completed && task.calendarDay?.dayNumber)
+      .map(task => task.calendarDay?.dayNumber)
+      .filter((dayNumber): dayNumber is number => dayNumber !== undefined) || []
+    
+    return tasks8to12.every(dayNum => completedDayNumbers.includes(dayNum))
+  }
+
+  const hasGoldPrize = () => {
+    const tasks15to19 = [15, 16, 17, 18, 19]
+    const completedDayNumbers = userData?.taskCompletionStatus
+      ?.filter(task => task.completed && task.calendarDay?.dayNumber)
+      .map(task => task.calendarDay?.dayNumber)
+      .filter((dayNumber): dayNumber is number => dayNumber !== undefined) || []
+    
+    return tasks15to19.every(dayNum => completedDayNumbers.includes(dayNum))
+  }
+
   return (
     <tr className="table-row">
-      {visibleColumns.has('name') && <td className="table-cell">{userData?.name || '-'}</td>}
+      {visibleColumns.has('name') && <td className="table-cell" style={{ textAlign: 'left' }}>{userData?.name || '-'}</td>}
       {visibleColumns.has('email') && <td className="table-cell">{userData?.email || '-'}</td>}
       {visibleColumns.has('participantType') && <td className="table-cell table-cell-icon">{getParticipantType(userData?.participantType)}</td>}
       {visibleColumns.has('receivedStickers') && <td className={`table-cell ${userData?.receivedStickers ? 'table-cell-background-green' : 'table-cell-background-red'}`}>{userData?.receivedStickers ? 'Yes' : 'No'}</td>}
@@ -111,7 +136,17 @@ const UserRow = ({userData, visibleColumns}: {userData: UserData, visibleColumns
       {visibleColumns.has('tasksCompleted') && <td className="table-cell">{completedTasks} / {totalTasks}</td>}
       {visibleColumns.has('bronzePrize') && (
         <td className={`table-cell ${hasBronzePrize() ? 'table-cell-background-bronze' : ''}`}>
-          {hasBronzePrize() ? 'Yes' : 'No'}
+          {hasBronzePrize() ? <LogoBronzeNew width="35" height="35"/> : '-'}
+        </td>
+      )}
+      {visibleColumns.has('silverPrize') && (
+        <td className={`table-cell ${hasSilverPrize() ? 'table-cell-background-silver' : ''}`}>
+          {hasSilverPrize() ? <LogoSilverNew width="35" height="35"/> : '-'}
+        </td>
+      )}
+      {visibleColumns.has('goldPrize') && (
+        <td className={`table-cell ${hasGoldPrize() ? 'table-cell-background-gold' : ''}`}>
+          {hasGoldPrize() ? <LogoGoldNew width="35" height="35"/> : '-'}
         </td>
       )}
     </tr>
@@ -227,8 +262,8 @@ export function ExampleComponent() {
     <div className="example-container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
-          <h2 className="example-heading">Users Table</h2>
-          <p>Total documents: {count}</p>
+          <h2 className="example-heading">Deltagere</h2>
+          <p>Antall: {count}</p>
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
@@ -251,7 +286,7 @@ export function ExampleComponent() {
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1f4638'}
         >
           <Filter size={16} />
-          Filter Columns
+          Filtrer kolonner
         </button>
       </div>
 
@@ -291,7 +326,7 @@ export function ExampleComponent() {
         <table className="users-table">
           <thead>
             <tr className="table-header-row">
-              {visibleColumns.has('name') && <th className="table-header">Navn</th>}
+              {visibleColumns.has('name') && <th className="table-header" style={{ textAlign: 'left' }}>Navn</th>}
               {visibleColumns.has('email') && <th className="table-header">Epost</th>}
               {visibleColumns.has('participantType') && <th className="table-header">Type</th>}
               {visibleColumns.has('receivedStickers') && (
@@ -334,7 +369,9 @@ export function ExampleComponent() {
                 </th>
               )}
               {visibleColumns.has('tasksCompleted') && <th className="table-header">Tasks Completed</th>}
-              {visibleColumns.has('bronzePrize') && <th className="table-header">Bronze Prize</th>}
+              {visibleColumns.has('bronzePrize') && <th className="table-header">Bronze</th>}
+              {visibleColumns.has('silverPrize') && <th className="table-header">Silver</th>}
+              {visibleColumns.has('goldPrize') && <th className="table-header">Gold</th>}
             </tr>
           </thead>
           <tbody>

@@ -538,6 +538,7 @@ const calendarDayFragment = /* groq */ `
   },
   techActivity {
     title,
+    handInUrl,
     duration,
     difficulty,
     objectives,
@@ -573,6 +574,7 @@ const calendarDayFragment = /* groq */ `
   designActivity {
     title,
     duration,
+    handInUrl,
     difficulty,
     objectives,
     content[]{

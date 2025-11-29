@@ -79,6 +79,8 @@ export const Lesson = ({ data: lesson, lessonType }: { data: any, lessonType: 't
             <h3 className="mb-4 flex items-center gap-2 font-bold text-2xl text-green-950 dark:text-white">
               Innlevering
             </h3>
+           <p className="mb-4 text-green-950 text-lg"> Kommenter på {' '}
+            {lesson.handInUrl ? <a target="_blank" rel="noopener noreferrer" href={lesson.handInUrl} className="text-blue-600 underline transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200">dagens Viva Engage post</a> : <span className="text-gray-500">dagens Viva Engage post</span>} (åpner senest kl 10.00) med: </p>
             <RichText richText={lesson.handIn} />
           </div>
         )}

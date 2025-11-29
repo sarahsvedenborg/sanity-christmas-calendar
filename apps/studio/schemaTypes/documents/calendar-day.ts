@@ -118,6 +118,11 @@ export const calendarDay = defineType({
           title: "Tittel på tech-oppgave",
           validation: (Rule) => Rule.required(),
         }),
+         defineField({
+          name: "handInUrl",
+          type: "url",
+          title: "Innleveringslenke",
+        }),
       /*   defineField({
           name: "duration",
           type: "string",
@@ -279,6 +284,11 @@ export const calendarDay = defineType({
           type: "string",
           title: "Tittle på designoppgave",
           validation: (Rule) => Rule.required(),
+        }),
+          defineField({
+          name: "handInUrl",
+          type: "url",
+          title: "Innleveringslenke",
         }),
       /*   defineField({
           name: "duration",

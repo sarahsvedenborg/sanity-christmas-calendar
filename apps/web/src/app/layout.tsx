@@ -1,6 +1,7 @@
 import "@workspace/ui/globals.css";
 
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 import { Geist, Geist_Mono, Inika } from "next/font/google";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity";
@@ -65,6 +66,7 @@ export default async function RootLayout({
             </>
           )} */}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

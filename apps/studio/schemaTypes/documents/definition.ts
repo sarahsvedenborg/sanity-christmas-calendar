@@ -14,11 +14,16 @@ export const definition = defineType({
       validation: (rule) => rule.required().error("En tittel er nødvendig"),
     }),
     defineField({
-      name: "description",
-      title: "Definisjon",
-      description: "En kort oppsummering av definisjonen.",
+      name: "shortDescription",
+      title: "Kort beskrivelse",
       type: "text",
       rows: 3,
+    }),
+    defineField({
+      name: "description",
+      title: "Definisjon",
+      type: "text",
+      rows: 6,
     }),
   /*   defineField({
       name: "content",

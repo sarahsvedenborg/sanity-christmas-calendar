@@ -70,6 +70,7 @@ export const queryDefinitionsData = defineQuery(`
   *[_type == "definition"] | order(lower(title) asc) {
     _id,
     title,
+    shortDescription,
     description,
     content[]{
       ...,

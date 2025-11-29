@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryDefinitionsData } from "@/lib/sanity/query";
+import Link from "next/link";
 
 import { RichText } from "@/components/elements/rich-text";
 import { Snowflakes } from "@/components/elements/snowflakes";
@@ -61,6 +62,14 @@ export default async function DefinisjonerPage() {
           <p className="mt-3 text-lg text-white/80">
             Et ordliste over typiske sanity begreper brukt i julekalenderen.
           </p>
+          <div className="mt-6">
+            <Link
+              href="/definisjoner/ordliste-spill"
+              className="inline-block rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-green-950 transition-colors hover:bg-amber-600"
+            >
+              🎯 Sjekk ordforådet ditt
+            </Link>
+          </div>
         </header>
 
         {definitions.length === 0 ? (

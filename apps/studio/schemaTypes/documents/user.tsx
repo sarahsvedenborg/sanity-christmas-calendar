@@ -98,7 +98,7 @@ export const user = defineType({
               title: "Calendar day",
               type: "reference",
               to: [{ type: "calendarDay" }],
-              readOnly: true,
+              readOnly: true, 
             }),
             defineField({
               name: "completed",
@@ -109,7 +109,7 @@ export const user = defineType({
           ],
         }),
       ],
-      initialValue: async (_params, { getClient }) => {
+       initialValue: async (_params, { getClient }) => {
         const client = getClient({ apiVersion: "2025-01-01" });
         const calendarDays =
           (await client.fetch<{ _id: string }[]>(
@@ -125,10 +125,10 @@ export const user = defineType({
           },
           completed: false,
         }));
-      },
-      components: {
+      }, 
+       components: {
         input: taskCompletionStatusInput,
-      },
+      }, 
     }),
   ],
   preview: {

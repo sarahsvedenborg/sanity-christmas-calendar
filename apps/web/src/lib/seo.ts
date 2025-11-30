@@ -107,7 +107,7 @@ export function getSEOMetadata(page: PageSeoData = {}): Metadata {
   const allKeywords = [...siteConfig.keywords, ...pageKeywords];
 
   // Use the green calendar logo as the default OG image
-  const ogImage = `${baseUrl}/LogoViva.png`;
+  const ogImage = `${baseUrl}/logos/LogoViva.png`;
 
   const fullTitle =
     defaultTitle === siteConfig.title

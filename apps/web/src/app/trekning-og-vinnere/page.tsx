@@ -86,7 +86,7 @@ export default async function WinnersPage() {
         {/* Animation Section */}
         <section className="mb-16">
           <div className="flex min-h-[300px] items-center justify-center">
-            <WinnerAnimation name="Sarah"/>
+            <WinnerAnimation  participantName="Sarah" winnerName="Stian"/>
           </div>
         </section>
 

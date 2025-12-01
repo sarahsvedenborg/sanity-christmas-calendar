@@ -214,8 +214,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       <button
         onClick={startAnimation}
         disabled={animationState !== 'idle'}
-/*          className="px-6 py-3 bg-amber-500/90 text-green-950 rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2"  */
-        className=" px-6 py-3 bg-transparent border-2 border-amber-500 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2" 
+        className="mt-2 flex items-center justify-center rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-green-950 transition-colors hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {animationState === 'idle' ? 'Spill av trekningen på nytt' : 'Trekker...'}
       </button>

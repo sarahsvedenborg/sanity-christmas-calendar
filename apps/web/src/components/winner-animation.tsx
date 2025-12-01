@@ -52,7 +52,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+      <div className="relative w-[500px] h-[300px] flex items-center justify-center">
         {/* Large card with name appearing first */}
         {participantName && animationState === 'showingCard' && (
           <motion.div
@@ -136,7 +136,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             }}
           >
             {winnerName ? (
-              <span className="text-sm font-bold text-gray-800 text-center leading-tight">{winnerName}</span>
+              <span className="text-lg font-bold text-gray-800 text-center leading-tight">{winnerName}</span>
             ) : (
               <span className="text-2xl">{revealedNumber}</span>
             )}
@@ -214,9 +214,10 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       <button
         onClick={startAnimation}
         disabled={animationState !== 'idle'}
-        className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2"
+/*          className="px-6 py-3 bg-amber-500/90 text-green-950 rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2"  */
+        className=" px-6 py-3 bg-transparent border-2 border-amber-500 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2" 
       >
-        {animationState === 'idle' ? 'Draw a Number' : 'Drawing...'}
+        {animationState === 'idle' ? 'Spill av trekningen på nytt' : 'Trekker...'}
       </button>
     </div>
   );

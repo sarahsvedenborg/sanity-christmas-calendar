@@ -9,8 +9,9 @@ type WinnerAnimationProps = {
 };
 
 export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationProps) {
-  const [animationState, setAnimationState] = useState<'idle' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
+  const [animationState, setAnimationState] = useState<'idle' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
+  const [countdownNumber, setCountdownNumber] = useState<number>(3);
 
   // Spark colors - amber, yellow, orange, red
   const sparkColors = ['#fbbf24', '#f59e0b', '#eab308', '#f97316', '#ef4444', '#dc2626'];
@@ -37,17 +38,25 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
 
   const startAnimation = () => {
     if (participantName) {
-      // If name is provided, show large card first
-      setAnimationState('showingCard');
-      // Pick a random number for the reveal
+      // Start with countdown
+      setAnimationState('countdown');
+      setCountdownNumber(3);
       setRevealedNumber(Math.floor(Math.random() * 24) + 1);
       
-      // Sequence: show card -> enter hat -> other papers -> shake -> pause -> reveal -> fade
-      setTimeout(() => setAnimationState('filling'), 2500);
-      setTimeout(() => setAnimationState('shaking'), 5000);
-      setTimeout(() => setAnimationState('revealing'), 8000); // Delayed to allow shake to complete and return to center
-      setTimeout(() => setAnimationState('fading'), 10000); // Start fading out
-      setTimeout(() => setAnimationState('idle'), 15000); // Complete fade and reset
+      // Countdown: 3 -> 2 -> 1 (5 seconds total: ~1.67s per number)
+      setTimeout(() => setCountdownNumber(2), 1667);
+      setTimeout(() => setCountdownNumber(1), 3334);
+      setTimeout(() => {
+        setCountdownNumber(0);
+        setAnimationState('showingCard');
+      }, 5000);
+      
+      // Sequence: countdown -> show card -> enter hat -> other papers -> shake -> pause -> reveal -> fade
+      setTimeout(() => setAnimationState('filling'), 7500); // 5s countdown + 2.5s showing card
+      setTimeout(() => setAnimationState('shaking'), 10000); // 5s countdown + 5s to shaking
+      setTimeout(() => setAnimationState('revealing'), 13000); // Delayed to allow shake to complete and return to center
+      setTimeout(() => setAnimationState('fading'), 15000); // Start fading out
+      setTimeout(() => setAnimationState('idle'), 20000); // Complete fade and reset
     } else {
       // Original flow if no name
       setAnimationState('filling');
@@ -59,16 +68,14 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
   };
 
   const anonymousNames = [
-    'Deltaker 1',
-    'Deltaker 2',
-    'Deltaker 3',
-    'Deltaker 4',
-    'Deltaker 5',
-    'Deltaker 6',
-    'Deltaker 7',
-    'Deltaker 8',
-    'Deltaker 9',
-    'Deltaker 10',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
+    'XXXXXX yyyy',
   ];
 
   const papers = [
@@ -88,6 +95,27 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="relative w-[500px] h-[300px] flex items-center justify-center">
+        {/* Countdown */}
+        {animationState === 'countdown' && countdownNumber > 0 && (
+          <motion.div
+            key={countdownNumber}
+            className="absolute z-30 flex items-center justify-center"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ 
+              scale: [0, 1.5, 1, 0.8, 0],
+              opacity: [0, 1, 1, 0.8, 0]
+            }}
+            transition={{ 
+              duration: 1.67, 
+              ease: "easeOut",
+              times: [0, 0.2, 0.5, 0.8, 1]
+            }}
+          >
+            <span className="text-8xl font-bold text-white drop-shadow-[0_0_20px_rgba(251,191,36,0.8)]">
+              {countdownNumber}
+            </span>
+          </motion.div>
+        )}
         {/* Large card with name appearing first */}
         {participantName && animationState === 'showingCard' && (
           <motion.div
@@ -205,7 +233,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
               duration: 1,
               ease: "easeOut"
             } : {
-              duration: 0.5,
+              duration: 1.5,
               ease: "easeIn"
             }}
           >

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { RichText } from "./elements/rich-text";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@workspace/ui/components/accordion";
 
 export const Countdown = ({startDate, intro, isLoggedIn}: {startDate: number, intro: any, isLoggedIn?: boolean}) => {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -16,8 +17,38 @@ export const Countdown = ({startDate, intro, isLoggedIn}: {startDate: number, in
         }
     }, [startDate]);
 
+
     if (daysUntilStart === null || daysUntilStart < 0) {
         return null;  
+    }
+
+    if(daysUntilStart === 0) {
+      return (
+        <>
+           {!isLoggedIn && (
+                  <a
+                    href="/auth/signup"
+                    className="relative mt-10 mb-10 mx-auto w-fit flex items-center justify-center rounded-md bg-[#B91C1C] border-2 border-amber-400 px-6 py-3 text-base font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.4)] transition-all hover:bg-[#991b1b] hover:shadow-[0_0_25px_rgba(251,191,36,0.6)] hover:scale-105"
+                  >
+                    Registrer deltakelse
+                  </a>
+                )}
+        <Accordion type="single" collapsible className="w-full mx-auto max-w-md mt-10">
+          <AccordionItem value="demo-studio" className="border-amber-300/50 dark:border-amber-700/50">
+            <AccordionTrigger className="rounded-md bg-amber-400 px-4 py-3 text-left font-semibold text-lg text-green-950 hover:bg-amber-400/90 hover:no-underline dark:bg-amber-700/30 dark:text-white dark:hover:bg-amber-700/40">
+              Mer informasjon om julekalenderen
+            </AccordionTrigger>
+            <AccordionContent className="pt-4 text-base text-green-900 dark:text-white/70">
+              <RichText
+                className="mx-auto max-w-xl text-left"
+                richText={intro}
+                tone="light"
+              />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+                </>
+      )
     }
 
     return (

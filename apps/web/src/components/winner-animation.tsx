@@ -12,6 +12,29 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
   const [animationState, setAnimationState] = useState<'idle' | 'showingCard' | 'filling' | 'shaking' | 'revealing'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
 
+  // Spark colors - amber, yellow, orange, red
+  const sparkColors = ['#fbbf24', '#f59e0b', '#eab308', '#f97316', '#ef4444', '#dc2626'];
+  
+  // Generate spark particles shooting out from the hat
+  const sparkParticles = Array.from({ length: 40 }, (_, i) => {
+    const angle = (i / 40) * 360 + (Math.random() - 0.5) * 20; // Distribute around 360 degrees with wider variation
+    const distance = 250 + Math.random() * 200; // How far they travel - increased for longer sparks
+    const radians = (angle * Math.PI) / 180;
+    return {
+      id: i,
+      angle,
+      distance,
+      startX: 0, // Hat center
+      startY: -80, // Top of hat
+      endX: Math.cos(radians) * distance,
+      endY: -80 + Math.sin(radians) * distance,
+      color: sparkColors[Math.floor(Math.random() * sparkColors.length)],
+      delay: Math.random() * 0.2,
+      duration: 1.2 + Math.random() * 0.6, // Longer duration for longer travel
+      size: 2 + Math.random() * 3,
+    };
+  });
+
   const startAnimation = () => {
     if (participantName) {
       // If name is provided, show large card first
@@ -119,6 +142,37 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
           </motion.div>
         ))}
 
+        {/* Sparks shooting out of hat */}
+        {animationState === 'revealing' && sparkParticles.map((spark) => (
+          <motion.div
+            key={spark.id}
+            className="absolute rounded-full"
+            style={{ 
+              backgroundColor: spark.color,
+              width: `${spark.size}px`,
+              height: `${spark.size}px`,
+              boxShadow: `0 0 ${spark.size * 2}px ${spark.color}`,
+            }}
+            initial={{ 
+              x: spark.startX, 
+              y: spark.startY, 
+              opacity: 1, 
+              scale: 1
+            }}
+            animate={{ 
+              x: spark.endX,
+              y: spark.endY,
+              opacity: [1, 1, 0.5, 0],
+              scale: [1, 1.5, 0.5, 0]
+            }}
+            transition={{ 
+              delay: spark.delay,
+              duration: spark.duration,
+              ease: "easeOut"
+            }}
+          />
+        ))}
+
         {/* Revealed paper */}
         {animationState === 'revealing' && (
           <motion.div
@@ -173,7 +227,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             cy="140"
             rx="50"
             ry="12"
-            fill="#3a3a3a"
+            fill="#1a1a1a"
             stroke="#000"
             strokeWidth="2"
           />
@@ -184,7 +238,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             y="50"
             width="100"
             height="90"
-            fill="#2a2a2a"
+            fill="#1a1a1a"
             stroke="#000"
             strokeWidth="2"
           />
@@ -206,7 +260,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             cy="90"
             rx="8"
             ry="15"
-            fill="rgba(255, 255, 255, 0.2)"
+            fill="rgba(255, 255, 255, 0.05)"
           />
         </motion.svg>
       </div>

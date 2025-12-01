@@ -9,7 +9,7 @@ type WinnerAnimationProps = {
 };
 
 export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationProps) {
-  const [animationState, setAnimationState] = useState<'idle' | 'showingCard' | 'filling' | 'shaking' | 'revealing'>('idle');
+  const [animationState, setAnimationState] = useState<'idle' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
 
   // Spark colors - amber, yellow, orange, red
@@ -42,11 +42,12 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       // Pick a random number for the reveal
       setRevealedNumber(Math.floor(Math.random() * 24) + 1);
       
-      // Sequence: show card -> enter hat -> other papers -> shake -> pause -> reveal
+      // Sequence: show card -> enter hat -> other papers -> shake -> pause -> reveal -> fade
       setTimeout(() => setAnimationState('filling'), 2500);
       setTimeout(() => setAnimationState('shaking'), 5000);
       setTimeout(() => setAnimationState('revealing'), 8000); // Delayed to allow shake to complete and return to center
-      setTimeout(() => setAnimationState('idle'), 10000); // Extended to show winner card longer (5.5 seconds)
+      setTimeout(() => setAnimationState('fading'), 10000); // Start fading out
+      setTimeout(() => setAnimationState('idle'), 15000); // Complete fade and reset
     } else {
       // Original flow if no name
       setAnimationState('filling');
@@ -78,7 +79,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
     { delay: 1.2, x: 0, y: -300, rotate: 0, name: anonymousNames[4] },
     { delay: 1.5, x: -100, y: -200, rotate: -45, name: anonymousNames[5] },
     { delay: 1.8, x: 150, y: -150, rotate: 45, name: anonymousNames[6] },
-    { delay: 2.1, x: 250, y: -100, rotate: 30, name: anonymousNames[7] },
+  /*   { delay: 2.1, x: 250, y: -100, rotate: 30, name: anonymousNames[7] }, */
   /*   { delay: 2.4, x: -150, y: 100, rotate: -60, name: anonymousNames[8] },
     { delay: 2.7, x: 100, y: -200, rotate: -30, name: anonymousNames[9] }, */
  
@@ -185,19 +186,27 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
         ))}
 
         {/* Revealed paper */}
-        {animationState === 'revealing' && (
+        {(animationState === 'revealing' || animationState === 'fading') && (
           <motion.div
             className="absolute w-64 h-40 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-10 p-4"
             initial={{ y: -40, opacity: 0, scale: 0.5, rotate: 0 }}
-            animate={{ 
+            animate={animationState === 'revealing' ? { 
               y: -120, 
               opacity: 1, 
               scale: 1.2,
               rotate: [0, -5, 5, 0]
+            } : {
+              y: -120,
+              opacity: 0,
+              scale: 0.8,
+              rotate: 0
             }}
-            transition={{ 
+            transition={animationState === 'revealing' ? { 
               duration: 1,
               ease: "easeOut"
+            } : {
+              duration: 0.5,
+              ease: "easeIn"
             }}
           >
             {winnerName ? (
@@ -242,7 +251,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             rx="50"
             ry="12"
             fill="#1a1a1a"
-            stroke="#000"
+            stroke="#1a1a1a"
             strokeWidth="2"
           />
           
@@ -253,7 +262,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             width="100"
             height="90"
             fill="#1a1a1a"
-            stroke="#000"
+            stroke="#1a1a1a"
             strokeWidth="2"
           />
           

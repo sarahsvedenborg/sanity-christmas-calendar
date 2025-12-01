@@ -7,7 +7,7 @@ export default auth(async (req) => {
   const isAuthenticated = !!req.auth;
   
   // Protect the progress page - require authentication
-  if (pathname.startsWith("/progresjon") || pathname.startsWith("/scoreboard")) {
+  if (pathname.startsWith("/progresjon") || pathname.startsWith("/scoreboard") || pathname.startsWith("/trekning-og-vinnere")) {
     if (!isAuthenticated) {
       const signInUrl = new URL("/auth/signin", req.url);
       signInUrl.searchParams.set("callbackUrl", pathname);

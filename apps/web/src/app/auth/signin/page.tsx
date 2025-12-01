@@ -19,7 +19,7 @@ export default async function SignInPage({
             Logg inn
           </h1>
           <p className="text-green-900/70 dark:text-amber-200/70">
-            Logg inn med din Sopra Steria-konto for å se progresjonen din
+            Logg inn med din Sopra Steria-konto for å se progresjonen din, scoreboard og vinnere.
           </p>
         </div>
 

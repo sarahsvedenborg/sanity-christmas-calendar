@@ -85,10 +85,8 @@ export default async function WinnersPage() {
 
         {/* Animation Section */}
         <section className="mb-16">
-          <div className="rounded-2xl border border-amber-300/60 bg-white/90 p-12 text-center shadow-sm backdrop-blur dark:border-amber-700/50 dark:bg-green-950/80">
-            <div className="flex min-h-[300px] items-center justify-center">
-              <WinnerAnimation />
-            </div>
+          <div className="flex min-h-[300px] items-center justify-center">
+            <WinnerAnimation name="Sarah"/>
           </div>
         </section>
 

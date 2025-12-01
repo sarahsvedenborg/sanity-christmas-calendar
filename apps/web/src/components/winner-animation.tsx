@@ -3,7 +3,11 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
 
-export function WinnerAnimation() {
+type WinnerAnimationProps = {
+  name?: string;
+};
+
+export function WinnerAnimation({ name }: WinnerAnimationProps) {
   const [animationState, setAnimationState] = useState<'idle' | 'filling' | 'shaking' | 'revealing'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
 
@@ -57,7 +61,7 @@ export function WinnerAnimation() {
         {/* Revealed paper */}
         {animationState === 'revealing' && (
           <motion.div
-            className="absolute w-16 h-20 bg-white border-2 border-gray-800 rounded shadow-2xl flex items-center justify-center z-10"
+            className="absolute w-32 h-24 bg-white border-2 border-gray-800 rounded shadow-2xl flex flex-col items-center justify-center z-10 p-2"
             initial={{ y: -40, opacity: 0, scale: 0.5, rotate: 0 }}
             animate={{ 
               y: -120, 
@@ -70,7 +74,11 @@ export function WinnerAnimation() {
               ease: "easeOut"
             }}
           >
-            <span className="text-2xl">{revealedNumber}</span>
+            {name ? (
+              <span className="text-sm font-bold text-gray-800 text-center leading-tight">{name}</span>
+            ) : (
+              <span className="text-2xl">{revealedNumber}</span>
+            )}
           </motion.div>
         )}
 

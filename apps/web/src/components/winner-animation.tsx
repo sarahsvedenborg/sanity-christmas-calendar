@@ -4,22 +4,34 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 
 type WinnerAnimationProps = {
-  name?: string;
+  participantName?: string;
+  winnerName?: string;
 };
 
-export function WinnerAnimation({ name }: WinnerAnimationProps) {
-  const [animationState, setAnimationState] = useState<'idle' | 'filling' | 'shaking' | 'revealing'>('idle');
+export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationProps) {
+  const [animationState, setAnimationState] = useState<'idle' | 'showingCard' | 'filling' | 'shaking' | 'revealing'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
 
   const startAnimation = () => {
-    setAnimationState('filling');
-    // Pick a random number for the reveal
-    setRevealedNumber(Math.floor(Math.random() * 24) + 1);
-    
-    // Sequence the animations
-    setTimeout(() => setAnimationState('shaking'), 3000);
-    setTimeout(() => setAnimationState('revealing'), 4500);
-    setTimeout(() => setAnimationState('idle'), 7000);
+    if (participantName) {
+      // If name is provided, show large card first
+      setAnimationState('showingCard');
+      // Pick a random number for the reveal
+      setRevealedNumber(Math.floor(Math.random() * 24) + 1);
+      
+      // Sequence: show card -> enter hat -> other papers -> shake -> reveal
+      setTimeout(() => setAnimationState('filling'), 1500);
+      setTimeout(() => setAnimationState('shaking'), 4000);
+      setTimeout(() => setAnimationState('revealing'), 5500);
+      setTimeout(() => setAnimationState('idle'), 8000);
+    } else {
+      // Original flow if no name
+      setAnimationState('filling');
+      setRevealedNumber(Math.floor(Math.random() * 24) + 1);
+      setTimeout(() => setAnimationState('shaking'), 3000);
+      setTimeout(() => setAnimationState('revealing'), 4500);
+      setTimeout(() => setAnimationState('idle'), 7000);
+    }
   };
 
   const papers = [
@@ -33,6 +45,48 @@ export function WinnerAnimation({ name }: WinnerAnimationProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-8">
       <div className="relative w-[400px] h-[400px] flex items-center justify-center">
+        {/* Large card with name appearing first */}
+        {participantName && animationState === 'showingCard' && (
+          <motion.div
+            className="absolute w-48 h-32 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-4"
+            initial={{ scale: 0, opacity: 0, rotate: -180 }}
+            animate={{ 
+              scale: 1, 
+              opacity: 1, 
+              rotate: 0,
+              y: -150
+            }}
+            transition={{ 
+              duration: 0.8,
+              ease: "easeOut"
+            }}
+          >
+            <span className="text-xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
+          </motion.div>
+        )}
+
+        {/* Large card entering the hat */}
+        {participantName && animationState === 'filling' && (
+          <motion.div
+            className="absolute w-48 h-32 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-4"
+            initial={{ scale: 1, opacity: 1, y: -150, rotate: 0 }}
+            animate={{ 
+              scale: 0.3, 
+              opacity: 0, 
+              y: 20,
+              rotate: 360,
+              x: 0
+            }}
+            transition={{ 
+              duration: 0.8,
+              delay: 0,
+              ease: "easeInOut"
+            }}
+          >
+            <span className="text-xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
+          </motion.div>
+        )}
+
         {/* Papers flying in */}
         {animationState === 'filling' && papers.map((paper, index) => (
           <motion.div
@@ -74,8 +128,8 @@ export function WinnerAnimation({ name }: WinnerAnimationProps) {
               ease: "easeOut"
             }}
           >
-            {name ? (
-              <span className="text-sm font-bold text-gray-800 text-center leading-tight">{name}</span>
+            {winnerName ? (
+              <span className="text-sm font-bold text-gray-800 text-center leading-tight">{winnerName}</span>
             ) : (
               <span className="text-2xl">{revealedNumber}</span>
             )}

@@ -42,11 +42,11 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       // Pick a random number for the reveal
       setRevealedNumber(Math.floor(Math.random() * 24) + 1);
       
-      // Sequence: show card -> enter hat -> other papers -> shake -> reveal
-      setTimeout(() => setAnimationState('filling'), 1500);
-      setTimeout(() => setAnimationState('shaking'), 4000);
-      setTimeout(() => setAnimationState('revealing'), 5500);
-      setTimeout(() => setAnimationState('idle'), 8000);
+      // Sequence: show card -> enter hat -> other papers -> shake -> pause -> reveal
+      setTimeout(() => setAnimationState('filling'), 2500);
+      setTimeout(() => setAnimationState('shaking'), 5000);
+      setTimeout(() => setAnimationState('revealing'), 8000); // Delayed to allow shake to complete and return to center
+      setTimeout(() => setAnimationState('idle'), 10000); // Extended to show winner card longer (5.5 seconds)
     } else {
       // Original flow if no name
       setAnimationState('filling');
@@ -63,14 +63,25 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
     'Deltaker 3',
     'Deltaker 4',
     'Deltaker 5',
+    'Deltaker 6',
+    'Deltaker 7',
+    'Deltaker 8',
+    'Deltaker 9',
+    'Deltaker 10',
   ];
 
   const papers = [
     { delay: 0, x: -300, y: -200, rotate: -45, name: anonymousNames[0] },
     { delay: 0.3, x: 300, y: -150, rotate: 45, name: anonymousNames[1] },
-    { delay: 0.6, x: -250, y: 200, rotate: 30, name: anonymousNames[2] },
-    { delay: 0.9, x: 350, y: 150, rotate: -60, name: anonymousNames[3] },
+    { delay: 0.6, x: -250, y: 50, rotate: 30, name: anonymousNames[2] },
+    { delay: 0.9, x: 150, y: 100, rotate: -60, name: anonymousNames[3] },
     { delay: 1.2, x: 0, y: -300, rotate: 0, name: anonymousNames[4] },
+    { delay: 1.5, x: -100, y: -200, rotate: -45, name: anonymousNames[5] },
+    { delay: 1.8, x: 150, y: -150, rotate: 45, name: anonymousNames[6] },
+    { delay: 2.1, x: 250, y: -100, rotate: 30, name: anonymousNames[7] },
+  /*   { delay: 2.4, x: -150, y: 100, rotate: -60, name: anonymousNames[8] },
+    { delay: 2.7, x: 100, y: -200, rotate: -30, name: anonymousNames[9] }, */
+ 
   ];
 
   return (
@@ -89,7 +100,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
               y: -150
             }}
             transition={{ 
-              duration: 1.2,
+              duration: 1.5,
               ease: "easeOut"
             }}
           >
@@ -207,18 +218,21 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
           animate={
             animationState === 'shaking'
               ? { 
-                  rotate: [0, -8, 8, -8, 8, -5, 5, 0],
-                  x: [0, -3, 3, -3, 3, -2, 2, 0]
+                  rotate: [0, -8, 8, -8, 8, -6, 6, -5, 5, -4, 4, -3, 3, -2, 2, 0],
+                  x: [0, -3, 3, -3, 3, -2, 2, -2, 2, -1, 1, -1, 1, 0]
                 }
-              : {}
+              : { rotate: 0, x: 0 } // Return to center when not shaking
           }
           transition={
             animationState === 'shaking'
               ? {
-                  duration: 0.6,
+                  duration: 2.5,
                   ease: "easeInOut"
                 }
-              : {}
+              : {
+                  duration: 0.3,
+                  ease: "easeOut"
+                }
           }
         >
           {/* Top of cylinder (now at bottom) - drawn first */}

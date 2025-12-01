@@ -51,8 +51,8 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-8">
-      <div className="relative w-[400px] h-[400px] flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center gap-4">
+      <div className="relative w-[500px] h-[500px] flex items-center justify-center">
         {/* Large card with name appearing first */}
         {participantName && animationState === 'showingCard' && (
           <motion.div
@@ -145,8 +145,8 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
 
         {/* Top Hat */}
         <motion.svg
-          width="200"
-          height="200"
+          width="350"
+          height="350"
           viewBox="0 0 200 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +214,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       <button
         onClick={startAnimation}
         disabled={animationState !== 'idle'}
-        className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-2"
       >
         {animationState === 'idle' ? 'Draw a Number' : 'Drawing...'}
       </button>

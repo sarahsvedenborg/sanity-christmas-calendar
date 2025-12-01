@@ -34,12 +34,20 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
     }
   };
 
+  const anonymousNames = [
+    'Deltaker 1',
+    'Deltaker 2',
+    'Deltaker 3',
+    'Deltaker 4',
+    'Deltaker 5',
+  ];
+
   const papers = [
-    { delay: 0, x: -300, y: -200, rotate: -45 },
-    { delay: 0.3, x: 300, y: -150, rotate: 45 },
-    { delay: 0.6, x: -250, y: 200, rotate: 30 },
-    { delay: 0.9, x: 350, y: 150, rotate: -60 },
-    { delay: 1.2, x: 0, y: -300, rotate: 0 },
+    { delay: 0, x: -300, y: -200, rotate: -45, name: anonymousNames[0] },
+    { delay: 0.3, x: 300, y: -150, rotate: 45, name: anonymousNames[1] },
+    { delay: 0.6, x: -250, y: 200, rotate: 30, name: anonymousNames[2] },
+    { delay: 0.9, x: 350, y: 150, rotate: -60, name: anonymousNames[3] },
+    { delay: 1.2, x: 0, y: -300, rotate: 0, name: anonymousNames[4] },
   ];
 
   return (
@@ -49,15 +57,16 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
         {participantName && animationState === 'showingCard' && (
           <motion.div
             className="absolute w-48 h-32 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-4"
-            initial={{ scale: 0, opacity: 0, rotate: -180 }}
+            initial={{ scale: 0, opacity: 0, rotate: -180, x: 400, y: 200 }}
             animate={{ 
               scale: 1, 
               opacity: 1, 
               rotate: 0,
+              x: 0,
               y: -150
             }}
             transition={{ 
-              duration: 0.8,
+              duration: 1.2,
               ease: "easeOut"
             }}
           >
@@ -91,7 +100,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
         {animationState === 'filling' && papers.map((paper, index) => (
           <motion.div
             key={index}
-            className="absolute w-12 h-16 bg-white border-2 border-gray-300 rounded shadow-lg"
+            className="absolute w-16 h-20 bg-white border-2 border-gray-300 rounded shadow-lg flex items-center justify-center p-1"
             initial={{ x: paper.x, y: paper.y, rotate: paper.rotate, opacity: 1 }}
             animate={{ 
               x: 0, 
@@ -106,9 +115,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
               ease: "easeInOut"
             }}
           >
-            <div className="w-full h-full flex items-center justify-center">
-              {Math.floor(Math.random() * 24) + 1}
-            </div>
+            <span className="text-[8px] font-semibold text-gray-800 text-center leading-tight">{paper.name}</span>
           </motion.div>
         ))}
 

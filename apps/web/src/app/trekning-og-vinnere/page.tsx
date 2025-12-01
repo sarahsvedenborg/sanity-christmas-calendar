@@ -1,5 +1,8 @@
 import { Snowflakes } from "@/components/elements/snowflakes";
 import { WinnerAnimation } from "@/components/winner-animation";
+import { LogoBronzeNew } from "@/logos/LogoBronzeNew";
+import { LogoSilverNew } from "@/logos/LogoSilverNew";
+import { LogoGoldNew } from "@/logos/LogoGoldNew";
 
 export const revalidate = 10;
 
@@ -22,6 +25,8 @@ const weekWinners: WeekWinners[] = [
     title: "Uke 1",
     winners: [
       // Placeholder - will be populated from Sanity
+     // {name: '-', prize:'Sanity kopp'},
+ 
     ],
   },
   {
@@ -29,6 +34,7 @@ const weekWinners: WeekWinners[] = [
     title: "Uke 2",
     winners: [
       // Placeholder - will be populated from Sanity
+        //  {name: '-', prize:'Sanity t-skjorte'},
     ],
   },
   {
@@ -36,6 +42,7 @@ const weekWinners: WeekWinners[] = [
     title: "Uke 3",
     winners: [
       // Placeholder - will be populated from Sanity
+         // {name: '-', prize:'Sanity genser'},
     ],
   },
 ];
@@ -45,6 +52,20 @@ const categoryBgColors = {
   1: "#E5B18E", // Bronze
   2: "#D9D9D9", // Silver
   3: "#E5C68D", // Gold
+};
+
+// Get logo for each week
+const getWeekLogo = (week: number) => {
+  switch (week) {
+    case 1:
+      return <LogoBronzeNew width={80} height={80} />;
+    case 2:
+      return <LogoSilverNew width={80} height={80} />;
+    case 3:
+      return <LogoGoldNew width={80} height={80} />;
+    default:
+      return null;
+  }
 };
 
 export default async function WinnersPage() {
@@ -73,7 +94,7 @@ export default async function WinnersPage() {
 
         {/* Winners by Week Section */}
         <section>
-          <h2 className="mb-8 text-center text-3xl font-bold text-white">
+          <h2 className="mb-10 text-center text-3xl font-bold text-white">
             🏆 Vinnere per uke
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
@@ -83,6 +104,9 @@ export default async function WinnersPage() {
                 className="rounded-2xl border border-amber-300/60 p-6 shadow-sm backdrop-blur dark:border-amber-700/50"
                 style={{ backgroundColor: categoryBgColors[week.week as keyof typeof categoryBgColors] || "#E5B18E" }}
               >
+                <div className="mt-[-50px] mb-4 flex justify-center">
+                  {getWeekLogo(week.week)}
+                </div>
                 <h3 className="mb-6 text-center text-2xl font-semibold text-green-950 dark:text-white">
                   {week.title}
                 </h3>

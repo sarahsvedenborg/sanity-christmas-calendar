@@ -56,7 +56,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
         {/* Large card with name appearing first */}
         {participantName && animationState === 'showingCard' && (
           <motion.div
-            className="absolute w-48 h-32 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-4"
+            className="absolute w-72 h-44 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-6"
             initial={{ scale: 0, opacity: 0, rotate: -180, x: 400, y: 200 }}
             animate={{ 
               scale: 1, 
@@ -70,14 +70,14 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
               ease: "easeOut"
             }}
           >
-            <span className="text-xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
+            <span className="text-3xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
           </motion.div>
         )}
 
         {/* Large card entering the hat */}
         {participantName && animationState === 'filling' && (
           <motion.div
-            className="absolute w-48 h-32 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-4"
+            className="absolute w-72 h-44 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-20 p-6"
             initial={{ scale: 1, opacity: 1, y: -150, rotate: 0 }}
             animate={{ 
               scale: 0.3, 
@@ -92,7 +92,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
               ease: "easeInOut"
             }}
           >
-            <span className="text-xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
+            <span className="text-3xl font-bold text-gray-800 text-center leading-tight">{participantName}</span>
           </motion.div>
         )}
 
@@ -122,7 +122,7 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
         {/* Revealed paper */}
         {animationState === 'revealing' && (
           <motion.div
-            className="absolute w-32 h-24 bg-white border-2 border-gray-800 rounded shadow-2xl flex flex-col items-center justify-center z-10 p-2"
+            className="absolute w-64 h-40 bg-white border-4 border-gray-800 rounded-lg shadow-2xl flex flex-col items-center justify-center z-10 p-4"
             initial={{ y: -40, opacity: 0, scale: 0.5, rotate: 0 }}
             animate={{ 
               y: -120, 
@@ -136,9 +136,9 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
             }}
           >
             {winnerName ? (
-              <span className="text-lg font-bold text-gray-800 text-center leading-tight">{winnerName}</span>
+              <span className="text-3xl font-bold text-gray-800 text-center leading-tight">{winnerName}</span>
             ) : (
-              <span className="text-2xl">{revealedNumber}</span>
+              <span className="text-3xl">{revealedNumber}</span>
             )}
           </motion.div>
         )}

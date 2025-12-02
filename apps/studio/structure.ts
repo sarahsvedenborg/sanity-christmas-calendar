@@ -17,6 +17,7 @@ import {
   TrendingUpDown,
   User,
   FlaskConical,
+  Trophy,
 } from "lucide-react";
 import type {
   StructureBuilder,
@@ -209,6 +210,13 @@ export const structure = (
                 title: "Demo Dokumentasjon",
                 icon: FileText,
               }),
+              S.divider(),
+               createList({
+      S,
+      type: "winnerAnimation",
+      title: "Trekninger",
+      icon: Trophy,
+    }),
     /*    S.divider(),
         S.listItem()
           .title("Site Configuration")

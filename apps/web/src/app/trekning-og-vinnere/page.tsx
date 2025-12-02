@@ -3,6 +3,8 @@ import { WinnerAnimation } from "@/components/winner-animation";
 import { LogoBronzeNew } from "@/logos/LogoBronzeNew";
 import { LogoSilverNew } from "@/logos/LogoSilverNew";
 import { LogoGoldNew } from "@/logos/LogoGoldNew";
+import { sanityFetch } from "@/lib/sanity/live";
+import { queryWinnerAnimationData } from "@/lib/sanity/query";
 
 export const revalidate = 10;
 
@@ -69,6 +71,15 @@ const getWeekLogo = (week: number) => {
 };
 
 export default async function WinnersPage() {
+  // Fetch winner animation data from Sanity
+  const { data: winnerAnimationData } = await sanityFetch({
+    query: queryWinnerAnimationData,
+    stega: true,
+  });
+
+  const winnerName = winnerAnimationData?.winnerName;
+  const scheduledTime = winnerAnimationData?.time;
+  const participantName = "SVEDENBORG Sarah";
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}
@@ -86,7 +97,11 @@ export default async function WinnersPage() {
         {/* Animation Section */}
         <section className="mt-50 mb-16">
           <div className="flex min-h-[300px] items-center justify-center">
-            <WinnerAnimation  participantName="SVEDENBORG Sarah" winnerName="SVEDENBORG Stian"/>
+            <WinnerAnimation 
+              participantName={participantName}
+              winnerName={winnerName}
+              scheduledTime={scheduledTime}
+            />
           </div>
         </section>
 

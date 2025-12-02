@@ -1,14 +1,15 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type WinnerAnimationProps = {
   participantName?: string;
   winnerName?: string;
+  scheduledTime?: string; // ISO datetime string from Sanity
 };
 
-export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationProps) {
+export function WinnerAnimation({ participantName, winnerName, scheduledTime}: WinnerAnimationProps) {
   const [animationState, setAnimationState] = useState<'idle' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
   const [countdownNumber, setCountdownNumber] = useState<number>(3);
@@ -66,6 +67,28 @@ export function WinnerAnimation({ participantName, winnerName}: WinnerAnimationP
       setTimeout(() => setAnimationState('idle'), 7000);
     }
   };
+
+  // Auto-start animation at scheduled time
+  useEffect(() => {
+    if (!scheduledTime || !participantName) return;
+
+    const scheduleTime = new Date(scheduledTime).getTime();
+    const now = Date.now();
+    const timeUntilStart = scheduleTime - now;
+
+    if (timeUntilStart <= 0) {
+      // Time has passed, start immediately
+      startAnimation();
+    } else {
+      // Schedule to start at the specified time
+      const timeoutId = setTimeout(() => {
+        startAnimation();
+      }, timeUntilStart);
+
+      return () => clearTimeout(timeoutId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scheduledTime, participantName]);
 
   const anonymousNames = [
     'XXXXXX yyyy',

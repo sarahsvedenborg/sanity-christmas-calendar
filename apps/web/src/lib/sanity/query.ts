@@ -86,6 +86,14 @@ export const queryDefinitionsData = defineQuery(`
   }
 `);
 
+export const queryWinnerAnimationData = defineQuery(`
+  *[_type == "winnerAnimation"] | order(time desc) [0] {
+    _id,
+    winnerName,
+    time
+  }
+`);
+
 const richTextFragment = /* groq */ `
   richText[]{
     ...,

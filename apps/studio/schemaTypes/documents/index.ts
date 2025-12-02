@@ -14,6 +14,7 @@ import { page } from "./page";
 import { redirect } from "./redirect";
 import { settings } from "./settings";
 import { user } from "./user";
+import { winnerAnimation } from "./winner-animation";
 
 export const singletons = [homePage, blogIndex, settings, footer, navbar];
 
@@ -28,6 +29,7 @@ export const documents = [
   definition,
   answers,
   user,
+  winnerAnimation,
   ...singletons,
   redirect,
 ];

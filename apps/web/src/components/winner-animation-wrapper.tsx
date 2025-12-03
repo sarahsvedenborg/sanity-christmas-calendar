@@ -8,6 +8,7 @@ type WinnerAnimationWrapperProps = {
   winnerName?: string;
   scheduledTime?: string;
   animationTitle?: string;
+  animationId?: string;
 };
 
 // Helper function to get cookie value
@@ -31,7 +32,8 @@ export function WinnerAnimationWrapper({
   participantName, 
   winnerName, 
   scheduledTime,
-  animationTitle 
+  animationTitle,
+  animationId
 }: WinnerAnimationWrapperProps) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [showAnimation, setShowAnimation] = useState(false);
@@ -39,19 +41,19 @@ export function WinnerAnimationWrapper({
 
   // Check if user has already seen this animation
   useEffect(() => {
-    if (!animationTitle) return;
+    if (!animationId) return;
     
-    const cookieName = `animation_viewed_${animationTitle}`;
+    const cookieName = `animation_viewed_${animationId}`;
     const viewed = getCookie(cookieName);
     if (viewed === 'true') {
       setHasSeenAnimation(true);
     }
-  }, [animationTitle]);
+  }, [animationId]);
 
   // Callback when animation completes
   const handleAnimationComplete = () => {
-    if (animationTitle) {
-      const cookieName = `animation_viewed_${animationTitle}`;
+    if (animationId) {
+      const cookieName = `animation_viewed_${animationId}`;
       setCookie(cookieName, 'true', 365);
       setHasSeenAnimation(true);
     }
@@ -123,7 +125,7 @@ export function WinnerAnimationWrapper({
     return (
       <div className="text-center">
         <h2 className="mb-4 text-3xl font-bold text-white">
-          Neste trekning
+          Neste trekning: {animationTitle}
         </h2>
         <p className="text-xl text-white/90">
           {new Date(scheduledTime).toLocaleString('no-NO', {
@@ -146,6 +148,7 @@ export function WinnerAnimationWrapper({
       scheduledTime={scheduledTime}
       onAnimationComplete={handleAnimationComplete}
       autoStart={shouldAutoStart}
+      animationTitle={animationTitle}
     />
   );
 }

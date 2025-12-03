@@ -9,9 +9,10 @@ type WinnerAnimationProps = {
   scheduledTime?: string; // ISO datetime string from Sanity
   onAnimationComplete?: () => void;
   autoStart?: boolean; // Whether to auto-start the animation
+  animationTitle?: string;
 };
 
-export function WinnerAnimation({ participantName, winnerName, scheduledTime, onAnimationComplete, autoStart = true}: WinnerAnimationProps) {
+export function WinnerAnimation({ participantName, winnerName, scheduledTime, onAnimationComplete, autoStart = true, animationTitle }: WinnerAnimationProps) {
   const [animationState, setAnimationState] = useState<'idle' | 'starting' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
   const [countdownNumber, setCountdownNumber] = useState<number>(3);
@@ -133,6 +134,7 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime, on
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="relative w-[500px] h-[300px] flex items-center justify-center">
+
         {/* Starting state - show hat and text */}
         {animationState === 'starting' && (
           <div className="flex flex-col items-center justify-center gap-6">
@@ -152,9 +154,9 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime, on
                   ease: "easeInOut"
                 }
               }}
-              className="text-2xl font-bold text-amber-500 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]"
+              className="text-2xl text-center font-bold text-amber-500/70 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]"
             >
-              Trekningen begynner straks
+              Trekningen for <br/><span className="text-3xl text-amber-500">{animationTitle}</span> <br/>begynner straks
             </motion.p>
             <motion.svg
               width="350"
@@ -436,7 +438,7 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime, on
         disabled={animationState !== 'idle'}
         className="mt-2 flex items-center justify-center rounded-lg bg-amber-500 px-6 py-3 text-base font-semibold text-green-950 transition-colors hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {animationState === 'idle' ? 'Spill av trekningen på nytt' : 'Trekker...'}
+        {animationState === 'idle' ? `Spill av trekningen for ${animationTitle} på nytt` : 'Trekker...'}
       </button>
     </div>
   );

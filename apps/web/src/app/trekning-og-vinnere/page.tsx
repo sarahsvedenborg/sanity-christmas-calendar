@@ -79,6 +79,7 @@ export default async function WinnersPage() {
 
   const winnerName = winnerAnimationData?.winnerName;
   const scheduledTime = winnerAnimationData?.time;
+  const animationTitle = winnerAnimationData?.title;
   const participantName = "SVEDENBORG Sarah";
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
@@ -101,6 +102,7 @@ export default async function WinnersPage() {
               participantName={participantName}
               winnerName={winnerName}
               scheduledTime={scheduledTime}
+              animationTitle={animationTitle}
             />
           </div>
         </section>

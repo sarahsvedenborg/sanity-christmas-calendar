@@ -8,6 +8,18 @@ export const winnerAnimation = defineType({
   description: "Winner animation data for the drawing",
   icon: Trophy,
   fields: [
+     defineField({
+      name: "title",
+      type: "string",
+      title: "Tittel (as slug)",
+      validation: (rule) => rule.required(),
+    }),
+      defineField({
+      name: "category",
+      type: "reference",
+      to: [{ type: "dayCategory" }],
+      title: "Gjelder kategori",
+    }),
     defineField({
       name: "winnerName",
       type: "string",

@@ -8,9 +8,10 @@ type WinnerAnimationProps = {
   winnerName?: string;
   scheduledTime?: string; // ISO datetime string from Sanity
   onAnimationComplete?: () => void;
+  autoStart?: boolean; // Whether to auto-start the animation
 };
 
-export function WinnerAnimation({ participantName, winnerName, scheduledTime, onAnimationComplete}: WinnerAnimationProps) {
+export function WinnerAnimation({ participantName, winnerName, scheduledTime, onAnimationComplete, autoStart = true}: WinnerAnimationProps) {
   const [animationState, setAnimationState] = useState<'idle' | 'starting' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
   const [countdownNumber, setCountdownNumber] = useState<number>(3);
@@ -82,9 +83,9 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime, on
     }
   };
 
-  // Auto-start animation at scheduled time
+  // Auto-start animation at scheduled time (only if autoStart is true)
   useEffect(() => {
-    if (!scheduledTime || !participantName) return;
+    if (!autoStart || !scheduledTime || !participantName) return;
 
     const scheduleTime = new Date(scheduledTime).getTime();
     const now = Date.now();
@@ -102,7 +103,7 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime, on
       return () => clearTimeout(timeoutId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduledTime, participantName]);
+  }, [scheduledTime, participantName, autoStart]);
 
   const anonymousNames = [
     'XXXXXX yyyy',

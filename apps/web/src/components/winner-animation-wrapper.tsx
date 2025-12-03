@@ -58,7 +58,7 @@ export function WinnerAnimationWrapper({
   };
 
   useEffect(() => {
-    // Don't show animation if user has already seen it
+    // Don't auto-start animation if user has already seen it
     if (hasSeenAnimation) {
       setShowAnimation(false);
       return;
@@ -100,17 +100,10 @@ export function WinnerAnimationWrapper({
     }
   }, [scheduledTime, currentTime, showAnimation, hasSeenAnimation]);
 
-  // If user has seen the animation, show a message
-  if (hasSeenAnimation) {
-    return (
-      <div className="text-center">
-        <p className="text-xl text-white/80">
-          Du har allerede sett denne trekningen
-        </p>
-      </div>
-    );
-  }
+  // Determine if animation should auto-start (only if not viewed and time is right)
+  const shouldAutoStart = !hasSeenAnimation && showAnimation;
 
+  // If no scheduled time, auto-start only if not viewed
   if (!scheduledTime) {
     return (
       <WinnerAnimation 
@@ -118,6 +111,7 @@ export function WinnerAnimationWrapper({
         winnerName={winnerName}
         scheduledTime={scheduledTime}
         onAnimationComplete={handleAnimationComplete}
+        autoStart={!hasSeenAnimation}
       />
     );
   }
@@ -151,6 +145,7 @@ export function WinnerAnimationWrapper({
       winnerName={winnerName}
       scheduledTime={scheduledTime}
       onAnimationComplete={handleAnimationComplete}
+      autoStart={shouldAutoStart}
     />
   );
 }

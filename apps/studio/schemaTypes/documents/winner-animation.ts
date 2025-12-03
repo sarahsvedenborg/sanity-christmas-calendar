@@ -14,6 +14,12 @@ export const winnerAnimation = defineType({
       title: "Tittel (as slug)",
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "id",
+      type: "string",
+      title: "id (as slug)",
+      validation: (rule) => rule.required(),
+    }),
       defineField({
       name: "category",
       type: "reference",

@@ -91,7 +91,8 @@ export const queryWinnerAnimationData = defineQuery(`
     _id,
     title,
     winnerName,
-    time
+    time,
+    id,
   }
 `);
 

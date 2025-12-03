@@ -10,7 +10,7 @@ type WinnerAnimationProps = {
 };
 
 export function WinnerAnimation({ participantName, winnerName, scheduledTime}: WinnerAnimationProps) {
-  const [animationState, setAnimationState] = useState<'idle' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
+  const [animationState, setAnimationState] = useState<'idle' | 'starting' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
   const [countdownNumber, setCountdownNumber] = useState<number>(3);
 
@@ -39,25 +39,30 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
 
   const startAnimation = () => {
     if (participantName) {
-      // Start with countdown
-      setAnimationState('countdown');
-      setCountdownNumber(3);
+      // Start with "starting" state - show hat and text for 5 seconds
+      setAnimationState('starting');
       setRevealedNumber(Math.floor(Math.random() * 24) + 1);
       
+      // After 5 seconds, start countdown
+      setTimeout(() => {
+        setAnimationState('countdown');
+        setCountdownNumber(3);
+      }, 5000);
+      
       // Countdown: 3 -> 2 -> 1 (5 seconds total: ~1.67s per number)
-      setTimeout(() => setCountdownNumber(2), 1667);
-      setTimeout(() => setCountdownNumber(1), 3334);
+      setTimeout(() => setCountdownNumber(2), 6667); // 5s starting + 1.67s
+      setTimeout(() => setCountdownNumber(1), 8334); // 5s starting + 3.34s
       setTimeout(() => {
         setCountdownNumber(0);
         setAnimationState('showingCard');
-      }, 5000);
+      }, 10000); // 5s starting + 5s countdown
       
-      // Sequence: countdown -> show card -> enter hat -> other papers -> shake -> pause -> reveal -> fade
-      setTimeout(() => setAnimationState('filling'), 7500); // 5s countdown + 2.5s showing card
-      setTimeout(() => setAnimationState('shaking'), 10000); // 5s countdown + 5s to shaking
-      setTimeout(() => setAnimationState('revealing'), 13000); // Delayed to allow shake to complete and return to center
-      setTimeout(() => setAnimationState('fading'), 15000); // Start fading out
-      setTimeout(() => setAnimationState('idle'), 20000); // Complete fade and reset
+      // Sequence: starting (5s) -> countdown -> show card -> enter hat -> other papers -> shake -> pause -> reveal -> fade
+      setTimeout(() => setAnimationState('filling'), 12500); // 5s starting + 5s countdown + 2.5s showing card
+      setTimeout(() => setAnimationState('shaking'), 15000); // 5s starting + 5s countdown + 5s to shaking
+      setTimeout(() => setAnimationState('revealing'), 18000); // Delayed to allow shake to complete and return to center
+      setTimeout(() => setAnimationState('fading'), 20000); // Start fading out
+      setTimeout(() => setAnimationState('idle'), 25000); // Complete fade and reset
     } else {
       // Original flow if no name
       setAnimationState('filling');
@@ -118,6 +123,81 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="relative w-[500px] h-[300px] flex items-center justify-center">
+        {/* Starting state - show hat and text */}
+        {animationState === 'starting' && (
+          <div className="flex flex-col items-center justify-center gap-6">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ 
+                opacity: 1,
+                y: 0,
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                opacity: { duration: 0.5 },
+                y: { duration: 0.5 },
+                scale: { 
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+              className="text-2xl font-bold text-amber-500 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]"
+            >
+              Trekningen begynner straks
+            </motion.p>
+            <motion.svg
+              width="350"
+              height="350"
+              viewBox="0 0 200 200"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Top of cylinder (now at bottom) - drawn first */}
+              <ellipse
+                cx="100"
+                cy="140"
+                rx="50"
+                ry="12"
+                fill="#1a1a1a"
+                stroke="#1a1a1a"
+                strokeWidth="2"
+              />
+              
+              {/* Main cylinder */}
+              <rect
+                x="50"
+                y="50"
+                width="100"
+                height="90"
+                fill="#1a1a1a"
+                stroke="#1a1a1a"
+                strokeWidth="2"
+              />
+              
+              {/* Brim (now at top since upside down) */}
+              <ellipse
+                cx="100"
+                cy="50"
+                rx="80"
+                ry="15"
+                fill="#1a1a1a"
+                stroke="#000"
+                strokeWidth="2"
+              />
+              
+              {/* Shine effect */}
+              <ellipse
+                cx="80"
+                cy="90"
+                rx="8"
+                ry="15"
+                fill="rgba(255, 255, 255, 0.05)"
+              />
+            </motion.svg>
+          </div>
+        )}
+
         {/* Countdown */}
         {animationState === 'countdown' && countdownNumber > 0 && (
           <motion.div
@@ -233,7 +313,7 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
               duration: spark.duration,
               ease: "easeOut"
             }}
-          />
+          >✨</motion.div>
         ))}
 
         {/* Revealed paper */}
@@ -268,33 +348,34 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
           </motion.div>
         )}
 
-        {/* Top Hat */}
-        <motion.svg
-          width="350"
-          height="350"
-          viewBox="0 0 200 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          animate={
-            animationState === 'shaking'
-              ? { 
-                  rotate: [0, -8, 8, -8, 8, -6, 6, -5, 5, -4, 4, -3, 3, -2, 2, 0],
-                  x: [0, -3, 3, -3, 3, -2, 2, -2, 2, -1, 1, -1, 1, 0]
-                }
-              : { rotate: 0, x: 0 } // Return to center when not shaking
-          }
-          transition={
-            animationState === 'shaking'
-              ? {
-                  duration: 2.5,
-                  ease: "easeInOut"
-                }
-              : {
-                  duration: 0.3,
-                  ease: "easeOut"
-                }
-          }
-        >
+        {/* Top Hat - hidden during starting state */}
+        {animationState !== 'starting' && (
+          <motion.svg
+            width="350"
+            height="350"
+            viewBox="0 0 200 200"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            animate={
+              animationState === 'shaking'
+                ? { 
+                    rotate: [0, -8, 8, -8, 8, -6, 6, -5, 5, -4, 4, -3, 3, -2, 2, 0],
+                    x: [0, -3, 3, -3, 3, -2, 2, -2, 2, -1, 1, -1, 1, 0]
+                  }
+                : { rotate: 0, x: 0 } // Return to center when not shaking
+            }
+            transition={
+              animationState === 'shaking'
+                ? {
+                    duration: 2.5,
+                    ease: "easeInOut"
+                  }
+                : {
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }
+            }
+          >
           {/* Top of cylinder (now at bottom) - drawn first */}
           <ellipse
             cx="100"
@@ -336,7 +417,8 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
             ry="15"
             fill="rgba(255, 255, 255, 0.05)"
           />
-        </motion.svg>
+          </motion.svg>
+        )}
       </div>
 
       <button

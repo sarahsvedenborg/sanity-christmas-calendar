@@ -1,5 +1,5 @@
 import { Snowflakes } from "@/components/elements/snowflakes";
-import { WinnerAnimation } from "@/components/winner-animation";
+import { WinnerAnimationWrapper } from "@/components/winner-animation-wrapper";
 import { LogoBronzeNew } from "@/logos/LogoBronzeNew";
 import { LogoSilverNew } from "@/logos/LogoSilverNew";
 import { LogoGoldNew } from "@/logos/LogoGoldNew";
@@ -97,7 +97,7 @@ export default async function WinnersPage() {
         {/* Animation Section */}
         <section className="mt-50 mb-16">
           <div className="flex min-h-[300px] items-center justify-center">
-            <WinnerAnimation 
+            <WinnerAnimationWrapper 
               participantName={participantName}
               winnerName={winnerName}
               scheduledTime={scheduledTime}

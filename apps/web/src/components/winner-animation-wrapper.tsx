@@ -7,17 +7,63 @@ type WinnerAnimationWrapperProps = {
   participantName?: string;
   winnerName?: string;
   scheduledTime?: string;
+  animationTitle?: string;
 };
+
+// Helper function to get cookie value
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  return null;
+}
+
+// Helper function to set cookie
+function setCookie(name: string, value: string, days: number = 365) {
+  if (typeof document === 'undefined') return;
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
 
 export function WinnerAnimationWrapper({ 
   participantName, 
   winnerName, 
-  scheduledTime 
+  scheduledTime,
+  animationTitle 
 }: WinnerAnimationWrapperProps) {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [showAnimation, setShowAnimation] = useState(false);
+  const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
+
+  // Check if user has already seen this animation
+  useEffect(() => {
+    if (!animationTitle) return;
+    
+    const cookieName = `animation_viewed_${animationTitle}`;
+    const viewed = getCookie(cookieName);
+    if (viewed === 'true') {
+      setHasSeenAnimation(true);
+    }
+  }, [animationTitle]);
+
+  // Callback when animation completes
+  const handleAnimationComplete = () => {
+    if (animationTitle) {
+      const cookieName = `animation_viewed_${animationTitle}`;
+      setCookie(cookieName, 'true', 365);
+      setHasSeenAnimation(true);
+    }
+  };
 
   useEffect(() => {
+    // Don't show animation if user has already seen it
+    if (hasSeenAnimation) {
+      setShowAnimation(false);
+      return;
+    }
+
     if (!scheduledTime) {
       // No scheduled time, show animation immediately
       setShowAnimation(true);
@@ -40,11 +86,11 @@ export function WinnerAnimationWrapper({
 
       return () => clearInterval(intervalId);
     }
-  }, [scheduledTime, currentTime]);
+  }, [scheduledTime, currentTime, hasSeenAnimation]);
 
   // Update showAnimation when time passes
   useEffect(() => {
-    if (!scheduledTime) return;
+    if (!scheduledTime || hasSeenAnimation) return;
 
     const scheduleTime = new Date(scheduledTime).getTime();
     const timeUntilStart = scheduleTime - currentTime;
@@ -52,7 +98,18 @@ export function WinnerAnimationWrapper({
     if (timeUntilStart <= 0 && !showAnimation) {
       setShowAnimation(true);
     }
-  }, [scheduledTime, currentTime, showAnimation]);
+  }, [scheduledTime, currentTime, showAnimation, hasSeenAnimation]);
+
+  // If user has seen the animation, show a message
+  if (hasSeenAnimation) {
+    return (
+      <div className="text-center">
+        <p className="text-xl text-white/80">
+          Du har allerede sett denne trekningen
+        </p>
+      </div>
+    );
+  }
 
   if (!scheduledTime) {
     return (
@@ -60,6 +117,7 @@ export function WinnerAnimationWrapper({
         participantName={participantName}
         winnerName={winnerName}
         scheduledTime={scheduledTime}
+        onAnimationComplete={handleAnimationComplete}
       />
     );
   }
@@ -92,6 +150,7 @@ export function WinnerAnimationWrapper({
       participantName={participantName}
       winnerName={winnerName}
       scheduledTime={scheduledTime}
+      onAnimationComplete={handleAnimationComplete}
     />
   );
 }

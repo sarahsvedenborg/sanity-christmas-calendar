@@ -7,9 +7,10 @@ type WinnerAnimationProps = {
   participantName?: string;
   winnerName?: string;
   scheduledTime?: string; // ISO datetime string from Sanity
+  onAnimationComplete?: () => void;
 };
 
-export function WinnerAnimation({ participantName, winnerName, scheduledTime}: WinnerAnimationProps) {
+export function WinnerAnimation({ participantName, winnerName, scheduledTime, onAnimationComplete}: WinnerAnimationProps) {
   const [animationState, setAnimationState] = useState<'idle' | 'starting' | 'countdown' | 'showingCard' | 'filling' | 'shaking' | 'revealing' | 'fading'>('idle');
   const [revealedNumber, setRevealedNumber] = useState<number>(0);
   const [countdownNumber, setCountdownNumber] = useState<number>(3);
@@ -62,14 +63,22 @@ export function WinnerAnimation({ participantName, winnerName, scheduledTime}: W
       setTimeout(() => setAnimationState('shaking'), 15000); // 5s starting + 5s countdown + 5s to shaking
       setTimeout(() => setAnimationState('revealing'), 18000); // Delayed to allow shake to complete and return to center
       setTimeout(() => setAnimationState('fading'), 20000); // Start fading out
-      setTimeout(() => setAnimationState('idle'), 25000); // Complete fade and reset
+      setTimeout(() => {
+        setAnimationState('idle');
+        // Call callback when animation completes
+        onAnimationComplete?.();
+      }, 25000); // Complete fade and reset
     } else {
       // Original flow if no name
       setAnimationState('filling');
       setRevealedNumber(Math.floor(Math.random() * 24) + 1);
       setTimeout(() => setAnimationState('shaking'), 3000);
       setTimeout(() => setAnimationState('revealing'), 4500);
-      setTimeout(() => setAnimationState('idle'), 7000);
+      setTimeout(() => {
+        setAnimationState('idle');
+        // Call callback when animation completes
+        onAnimationComplete?.();
+      }, 7000);
     }
   };
 

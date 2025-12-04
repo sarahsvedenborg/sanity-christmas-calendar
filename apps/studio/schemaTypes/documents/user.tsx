@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 
-import { UserRound, CircleX, Laptop, Palette } from "lucide-react";
+import { UserRound, CircleX, Laptop, Palette, CircleCheck } from "lucide-react";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { TaskCompletionStatusInput } from "../../components/task-completion-status-input";
@@ -126,9 +126,9 @@ export const user = defineType({
           completed: false,
         }));
       }, 
-       components: {
+      components: {
         input: taskCompletionStatusInput,
-      }, 
+      },  
     }),
   ],
   preview: {

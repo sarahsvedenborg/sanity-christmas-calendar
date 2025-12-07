@@ -34,6 +34,18 @@ export const dayCategory = defineType({
       rows: 3,
       group: GROUP.MAIN_CONTENT,
     }),
+    defineField({
+      name: "winners",
+      title: "Vinnere",
+      type: "array",
+      description: "Liste over vinnere for denne kategorien",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        {
+          type: "string",
+        },
+      ],
+    }),
   ],
   preview: {
     select: {

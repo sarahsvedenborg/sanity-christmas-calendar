@@ -2,7 +2,7 @@ import { Snowflakes } from "@/components/elements/snowflakes";
 import { WinnerAnimationWrapper } from "@/components/winner-animation-wrapper";
 import { WeekWinnersSection } from "@/components/week-winners-section";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryWinnerAnimationData, queryDayCategoriesWithWinners } from "@/lib/sanity/query";
+import { queryWinnerAnimationData, queryDayCategoriesWithWinners, queryUserProgressByEmail } from "@/lib/sanity/query";
 import { auth } from "@/auth";
 
 export const revalidate = 10;
@@ -26,6 +26,60 @@ type CategoryData = {
   winners?: string[];
 };
 
+type TaskStatus = {
+  completed?: boolean;
+  calendarDay?: {
+    _id: string;
+    dayNumber?: number;
+    isBreak?: boolean;
+  } | null;
+};
+
+type UserProgress = {
+  name?: string;
+  email?: string;
+  taskCompletionStatus?: TaskStatus[];
+} | null;
+
+async function fetchProgress(userEmail: string | null | undefined): Promise<UserProgress> {
+  if (!userEmail) {
+    return null;
+  }
+
+  const response = await sanityFetch({
+    query: queryUserProgressByEmail,
+    params: { email: userEmail },
+  });
+
+  return response.data ?? null;
+}
+
+function hasCompletedDaysOneToFive(progress: UserProgress): boolean {
+  if (!progress?.taskCompletionStatus) {
+    return false;
+  }
+
+  // Get all completed tasks for days 1-5 (excluding break days)
+  const days1to5 = progress.taskCompletionStatus
+    .filter((status) => {
+      const dayNumber = status.calendarDay?.dayNumber;
+      return dayNumber !== undefined && dayNumber >= 1 && dayNumber <= 5 && !status.calendarDay?.isBreak;
+    })
+    .filter((status) => status.completed === true);
+
+  // Check if we have exactly 5 completed tasks for days 1-5
+  const completedDayNumbers = days1to5
+    .map((status) => status.calendarDay?.dayNumber)
+    .filter((num): num is number => num !== undefined)
+    .sort((a, b) => a - b);
+
+  // Check if days 1, 2, 3, 4, 5 are all completed
+  const requiredDays = [1, 2, 3, 4, 5];
+  const hasAllDays = requiredDays.every((day) => completedDayNumbers.includes(day));
+
+  return hasAllDays;
+}
+
 
 export default async function WinnersPage() {
   // Fetch winner animation data from Sanity
@@ -45,9 +99,16 @@ export default async function WinnersPage() {
   const animationTitle = winnerAnimationData?.title;
   const animationId = winnerAnimationData?._id;
 
-  // Get logged-in user's name
+  // Get logged-in user's name and check if they've completed days 1-5
   const session = await auth();
-  const participantName = session?.user?.name || undefined;
+  const userEmail = session?.user?.email;
+  const progress = await fetchProgress(userEmail);
+  
+  // Use real name only if user has completed days 1-5, otherwise use "Anonym deltaker"
+  const hasCompletedBronzePrize = hasCompletedDaysOneToFive(progress);
+  const participantName = hasCompletedBronzePrize 
+    ? (session?.user?.name || "Anonym deltaker")
+    : "Anonym deltaker";
 
   // Map categories to weeks based on identifier
   // Assuming identifiers are: "bronze", "silver", "gold" (case-insensitive)

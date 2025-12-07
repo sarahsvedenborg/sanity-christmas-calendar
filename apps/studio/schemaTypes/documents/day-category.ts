@@ -24,6 +24,7 @@ export const dayCategory = defineType({
       name: "identifier",
       type: "string",
       title: "Identifier",
+      description: "should be number",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category identifier is required"),
     }),
@@ -33,6 +34,18 @@ export const dayCategory = defineType({
       type: "text",
       rows: 3,
       group: GROUP.MAIN_CONTENT,
+    }),
+    defineField({
+      name: "winners",
+      title: "Vinnere",
+      type: "array",
+      description: "Liste over vinnere for denne kategorien",
+      group: GROUP.MAIN_CONTENT,
+      of: [
+        {
+          type: "string",
+        },
+      ],
     }),
   ],
   preview: {

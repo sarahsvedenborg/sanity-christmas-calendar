@@ -86,6 +86,16 @@ export const queryDefinitionsData = defineQuery(`
   }
 `);
 
+export const queryWinnerAnimationData = defineQuery(`
+  *[_type == "winnerAnimation"] | order(time desc) [0] {
+    _id,
+    title,
+    winnerName,
+    time,
+    id,
+  }
+`);
+
 const richTextFragment = /* groq */ `
   richText[]{
     ...,
@@ -751,4 +761,13 @@ export const queryDemoChristmasCalendarData = defineQuery(`
 *[_type == "demo_calendarDay"]{
       ${calendarDayFragment}  
 }
+`);
+
+export const queryDayCategoriesWithWinners = defineQuery(`
+  *[_type == "dayCategory"] {
+    _id,
+    title,
+    identifier,
+    winners
+  }
 `);

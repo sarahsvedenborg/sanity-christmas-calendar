@@ -5,6 +5,7 @@ import { LogoSilverNew } from "@/logos/LogoSilverNew";
 import { LogoGoldNew } from "@/logos/LogoGoldNew";
 import { sanityFetch } from "@/lib/sanity/live";
 import { queryWinnerAnimationData, queryDayCategoriesWithWinners } from "@/lib/sanity/query";
+import { auth } from "@/auth";
 
 export const revalidate = 10;
 
@@ -65,7 +66,10 @@ export default async function WinnersPage() {
   const scheduledTime = winnerAnimationData?.time;
   const animationTitle = winnerAnimationData?.title;
   const animationId = winnerAnimationData?._id;
-  const participantName = "SVEDENBORG Sarah";
+
+  // Get logged-in user's name
+  const session = await auth();
+  const participantName = session?.user?.name || undefined;
 
   // Map categories to weeks based on identifier
   // Assuming identifiers are: "bronze", "silver", "gold" (case-insensitive)

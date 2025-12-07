@@ -24,6 +24,7 @@ export const dayCategory = defineType({
       name: "identifier",
       type: "string",
       title: "Identifier",
+      description: "should be number",
       group: GROUP.MAIN_CONTENT,
       validation: (Rule) => Rule.required().error("A category identifier is required"),
     }),

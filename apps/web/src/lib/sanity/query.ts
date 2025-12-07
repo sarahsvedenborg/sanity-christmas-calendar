@@ -762,3 +762,12 @@ export const queryDemoChristmasCalendarData = defineQuery(`
       ${calendarDayFragment}  
 }
 `);
+
+export const queryDayCategoriesWithWinners = defineQuery(`
+  *[_type == "dayCategory"] {
+    _id,
+    title,
+    identifier,
+    winners
+  }
+`);

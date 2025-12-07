@@ -4,7 +4,7 @@ import { LogoBronzeNew } from "@/logos/LogoBronzeNew";
 import { LogoSilverNew } from "@/logos/LogoSilverNew";
 import { LogoGoldNew } from "@/logos/LogoGoldNew";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryWinnerAnimationData } from "@/lib/sanity/query";
+import { queryWinnerAnimationData, queryDayCategoriesWithWinners } from "@/lib/sanity/query";
 
 export const revalidate = 10;
 
@@ -20,34 +20,12 @@ type WeekWinners = {
   winners: WeekWinner[];
 };
 
-// Placeholder data - to be replaced with actual data from Sanity
-const weekWinners: WeekWinners[] = [
-  {
-    week: 1,
-    title: "Uke 1",
-    winners: [
-      // Placeholder - will be populated from Sanity
-     // {name: '-', prize:'Sanity kopp'},
- 
-    ],
-  },
-  {
-    week: 2,
-    title: "Uke 2",
-    winners: [
-      // Placeholder - will be populated from Sanity
-        //  {name: '-', prize:'Sanity t-skjorte'},
-    ],
-  },
-  {
-    week: 3,
-    title: "Uke 3",
-    winners: [
-      // Placeholder - will be populated from Sanity
-         // {name: '-', prize:'Sanity genser'},
-    ],
-  },
-];
+type CategoryData = {
+  _id: string;
+  title: string;
+  identifier: string;
+  winners?: string[];
+};
 
 // Category background colors matching the homepage
 const categoryBgColors = {
@@ -77,11 +55,67 @@ export default async function WinnersPage() {
     stega: true,
   });
 
+  // Fetch day categories with winners
+  const { data: categoriesData } = await sanityFetch({
+    query: queryDayCategoriesWithWinners,
+    stega: true,
+  });
+
   const winnerName = winnerAnimationData?.winnerName;
   const scheduledTime = winnerAnimationData?.time;
   const animationTitle = winnerAnimationData?.title;
-  const animationId = winnerAnimationData?.id;
+  const animationId = winnerAnimationData?._id;
   const participantName = "SVEDENBORG Sarah";
+
+  // Map categories to weeks based on identifier
+  // Assuming identifiers are: "bronze", "silver", "gold" (case-insensitive)
+  const categoryMap: Record<string, number> = {
+    bronze: 1,
+    silver: 2,
+    gold: 3,
+  };
+
+  // Build week winners from categories
+  const weekWinners: WeekWinners[] = [
+    {
+      week: 1,
+      title: "Uke 1",
+      winners: [],
+    },
+    {
+      week: 2,
+      title: "Uke 2",
+      winners: [],
+    },
+    {
+      week: 3,
+      title: "Uke 3",
+      winners: [],
+    },
+  ];
+
+  // Populate winners from categories
+  if (categoriesData && Array.isArray(categoriesData)) {
+    categoriesData.forEach((category: CategoryData) => {
+      const identifier = category.identifier?.toLowerCase();
+      const weekNumber = identifier ? categoryMap[identifier] : null;
+
+   
+      if (identifier && category.winners && Array.isArray(category.winners)) {
+        const winners = category.winners
+          .filter((name): name is string => typeof name === 'string' && name.trim() !== '')
+          .map((name) => ({
+            name: name.trim(),
+          }));
+
+        
+        const weekIndex = parseInt(identifier) - 1;
+        if (weekWinners[weekIndex]) {
+          weekWinners[weekIndex].winners.push(...winners);
+        }
+      }
+    });
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-green-950 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Snowflake animation background */}

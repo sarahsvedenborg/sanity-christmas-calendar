@@ -10,6 +10,7 @@ type WinnerAnimationWrapperProps = {
   animationTitle?: string;
   animationId?: string;
   isActive?: boolean;
+  animationCategory?: string;
   oldInactiveAnimationIds?: string[];
 };
 
@@ -32,9 +33,6 @@ function setCookie(name: string, value: string, days: number = 365) {
 
 // Helper function to check if animation has been seen (synchronous)
 function hasSeenAnimationCookie(animationId: string | undefined, oldInactiveAnimationIds: string[], isActive: boolean): boolean {
-  console.log('animationId', animationId);
-  console.log('oldInactiveAnimationIds', oldInactiveAnimationIds);
-  console.log('isActive', isActive);
   if (!animationId || typeof document === 'undefined') return false;
   
   // If there are old inactive animations, don't check for cookie
@@ -50,8 +48,6 @@ function hasSeenAnimationCookie(animationId: string | undefined, oldInactiveAnim
   const cookieName = `winner_animation_viewed`;
   const viewed = getCookie(cookieName);
 
-  console.log('viewed', viewed);
-  console.log('animationId', animationId);
   return viewed === animationId;
 }
 
@@ -62,6 +58,7 @@ export function WinnerAnimationWrapper({
   animationTitle,
   animationId,
   isActive = true,
+  animationCategory,
   oldInactiveAnimationIds = []
 }: WinnerAnimationWrapperProps) {
   // Check cookie immediately on mount to prevent race condition
@@ -124,7 +121,10 @@ console.log('initialHasSeenAnimation', initialHasSeenAnimation);
     if (animationId) {
       // Use animation ID as the cookie identifier
       const cookieName = `winner_animation_viewed`;
-      setCookie(cookieName, animationId, 365);
+      // For week 2 (silver), set cookie to "week-2", otherwise use animation ID
+      const cookieValue = animationCategory === 'silver' ? 'week-2' : animationId;
+      setCookie(cookieName, cookieValue, 365);
+      
       setHasSeenAnimation(true);
       // Immediately prevent auto-play on next render
       setShowAnimation(false);

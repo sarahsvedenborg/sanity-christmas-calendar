@@ -94,6 +94,10 @@ export const queryWinnerAnimationData = defineQuery(`
     time,
     id,
     isActive,
+    "category": category-> {
+      _id,
+      identifier
+    }
   }
 `);
 
@@ -101,6 +105,24 @@ export const queryInactivePassedAnimations = defineQuery(`
   *[_type == "winnerAnimation" && isActive == false && time < now()] | order(time desc) {
     _id,
     time,
+    id,
+    "category": category-> {
+      _id,
+      identifier
+    }
+  }
+`);
+
+export const queryAllAnimationsByWeek = defineQuery(`
+  *[_type == "winnerAnimation"] | order(time desc) {
+    _id,
+    id,
+    time,
+    isActive,
+    "category": category-> {
+      _id,
+      identifier
+    }
   }
 `);
 

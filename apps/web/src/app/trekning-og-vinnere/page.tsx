@@ -2,7 +2,7 @@ import { Snowflakes } from "@/components/elements/snowflakes";
 import { WinnerAnimationWrapper } from "@/components/winner-animation-wrapper";
 import { WeekWinnersSection } from "@/components/week-winners-section";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryWinnerAnimationData, queryDayCategoriesWithWinners, queryUserProgressByEmail, queryInactivePassedAnimations } from "@/lib/sanity/query";
+import { queryWinnerAnimationData, queryDayCategoriesWithWinners, queryUserProgressByEmail, queryInactivePassedAnimations, queryAllAnimationsByWeek } from "@/lib/sanity/query";
 import { auth } from "@/auth";
 
 export const revalidate = 10;
@@ -94,6 +94,12 @@ export default async function WinnersPage() {
     stega: true,
   });
 
+  // Fetch all animations to map them to weeks
+  const { data: allAnimations } = await sanityFetch({
+    query: queryAllAnimationsByWeek,
+    stega: true,
+  });
+
   // Fetch day categories with winners
   const { data: categoriesData } = await sanityFetch({
     query: queryDayCategoriesWithWinners,
@@ -105,6 +111,7 @@ export default async function WinnersPage() {
   const animationTitle = winnerAnimationData?.title;
   const animationId = winnerAnimationData?.id;
   const isActive = winnerAnimationData?.isActive ?? false;
+  const animationCategory = winnerAnimationData?.category?.identifier?.toLowerCase();
 
   // Check if there are inactive animations that have passed AND a new active animation exists
   // If so, we should ignore cookies from old inactive animations
@@ -130,6 +137,22 @@ export default async function WinnersPage() {
     silver: 2,
     gold: 3,
   };
+
+  // Map animations to weeks based on their category
+  const animationsByWeek: Record<number, { id?: string; isActive?: boolean; time?: string }> = {};
+  if (allAnimations && Array.isArray(allAnimations)) {
+    allAnimations.forEach((anim: { category?: { identifier?: string }; id?: string; isActive?: boolean; time?: string }) => {
+      const identifier = anim.category?.identifier?.toLowerCase();
+      const weekNumber = identifier ? categoryMap[identifier] : null;
+      if (weekNumber && anim.id) {
+        animationsByWeek[weekNumber] = {
+          id: anim.id,
+          isActive: anim.isActive,
+          time: anim.time,
+        };
+      }
+    });
+  }
 
   // Build week winners from categories
   const weekWinners: WeekWinners[] = [
@@ -196,6 +219,7 @@ export default async function WinnersPage() {
               animationTitle={animationTitle}
               animationId={animationId}
               isActive={isActive}
+              animationCategory={animationCategory}
               oldInactiveAnimationIds={shouldIgnoreOldCookies ? inactivePassedAnimations?.map((anim: { _id: string }) => anim._id) || [] : []}
             />
           </div>
@@ -208,6 +232,7 @@ export default async function WinnersPage() {
           isActive={isActive}
           scheduledTime={scheduledTime}
           oldInactiveAnimationIds={shouldIgnoreOldCookies ? inactivePassedAnimations?.map((anim: { _id: string }) => anim._id) || [] : []}
+          animationsByWeek={animationsByWeek}
         />
       </div>
     </div>

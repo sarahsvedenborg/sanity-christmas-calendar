@@ -23,6 +23,7 @@ type WeekWinnersSectionProps = {
   isActive?: boolean;
   scheduledTime?: string;
   oldInactiveAnimationIds?: string[];
+  animationsByWeek?: Record<number, { id?: string; isActive?: boolean; time?: string }>;
 };
 
 // Helper function to get cookie value
@@ -61,8 +62,9 @@ const getWeekLogo = (week: number) => {
   }
 };
 
-export function WeekWinnersSection({ weekWinners, animationId, isActive = true, scheduledTime, oldInactiveAnimationIds = [] }: WeekWinnersSectionProps) {
+export function WeekWinnersSection({ weekWinners, animationId, isActive = true, scheduledTime, oldInactiveAnimationIds = [], animationsByWeek = {} }: WeekWinnersSectionProps) {
   const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
+  const [week2HasSeenAnimation, setWeek2HasSeenAnimation] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
 
   // Update current time periodically
@@ -76,7 +78,7 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
   // Clear cookies from old inactive animations if they exist
   // Also clear the current animation's cookie if there are old inactive animations that passed
   // This ensures winners show even if user has seen the animation before
-  useEffect(() => {
+/*   useEffect(() => {
     if (oldInactiveAnimationIds.length > 0) {
       // Clear cookies from old inactive animations
       oldInactiveAnimationIds.forEach((oldId) => {
@@ -91,7 +93,7 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
       }
     }
   }, [oldInactiveAnimationIds, animationId]);
-
+ */
   // Check if winners should be displayed
   // Winners should be shown if:
   // 1. Animation has been seen (cookie exists), OR
@@ -104,10 +106,10 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
     }
     
     // If there are old inactive animations, show winners (cookies have been cleared)
-    if (oldInactiveAnimationIds.length > 0) {
+   /*  if (oldInactiveAnimationIds.length > 0) {
       setHasSeenAnimation(true);
       return;
-    }
+    } */
     
     // If animation is inactive and time has passed, show winners
     if (!isActive && scheduledTime) {
@@ -120,16 +122,16 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
     
     // For active animations, check if user has seen it
     if (isActive) {
-      const cookieName = `animation_viewed_${animationId}`;
+      const cookieName = `winner_animation_viewed`;
       const viewed = getCookie(cookieName);
-      if (viewed === 'true') {
+      if (viewed === animationId) {
         setHasSeenAnimation(true);
       }
 
       // Also listen for storage events in case cookie is set in another tab
       const checkCookie = () => {
         const viewed = getCookie(cookieName);
-        if (viewed === 'true') {
+        if (viewed === animationId) {
           setHasSeenAnimation(true);
         }
       };
@@ -141,9 +143,65 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
     }
   }, [animationId, oldInactiveAnimationIds, isActive, scheduledTime, currentTime]);
 
-  // Filter week winners - hide week 1 if animation hasn't been viewed
+  // Check if week 2 animation has been seen or is inactive and passed
+  useEffect(() => {
+    const week2Animation = animationsByWeek[2];
+   /*  if (!week2Animation?.id) {
+      // No week 2 animation, show winners
+      setWeek2HasSeenAnimation(true);
+      return;
+    } */
+
+    const checkWeek2Cookie = () => {
+      // Check cookie for week 2 animation
+      const cookieName = `winner_animation_viewed`;
+      const viewedAnimationId = getCookie(cookieName);
+          setWeek2HasSeenAnimation(viewedAnimationId ===  'week-two');
+      
+      // Check if cookie matches week-2 or the week 2 animation ID
+     /*  if (viewedAnimationId === 'week-two') {
+        setWeek2HasSeenAnimation(true);
+        return;
+      } */
+
+      // If week 2 animation is inactive and time has passed, show winners
+     /*  if (!week2Animation.isActive && week2Animation.time) {
+        const scheduleTime = new Date(week2Animation.time).getTime();
+        if (scheduleTime <= currentTime) {
+          setWeek2HasSeenAnimation(true);
+          return;
+        }
+      }
+ */
+     // setWeek2HasSeenAnimation(false);
+    };
+
+    // Check immediately
+    checkWeek2Cookie();
+
+    // Check cookie periodically in case it's set in another tab
+    const intervalId = setInterval(checkWeek2Cookie, 500);
+
+    return () => clearInterval(intervalId);
+  }, [animationsByWeek, currentTime]);
+
+  // Filter week winners
+  // Week 1: hide if animation hasn't been viewed
+  // Week 2: hide if animation hasn't been viewed AND it's not inactive and passed
   const visibleWeekWinners = weekWinners.map((week) => {
-    if (week.week === 1 && !hasSeenAnimation) {
+   /*  if (week.week === 1 && !hasSeenAnimation) {
+      return {
+        ...week,
+        winners: [], // Hide winners but keep the week card
+      };
+    } */
+    if (week.week === 2 && !week2HasSeenAnimation) {
+      return {
+        ...week,
+        winners: [], // Hide winners but keep the week card
+      };
+    }
+     if (week.week === 3 ) {
       return {
         ...week,
         winners: [], // Hide winners but keep the week card
@@ -172,7 +230,7 @@ export function WeekWinnersSection({ weekWinners, animationId, isActive = true, 
             </h3>
             {week.winners.length === 0 ? (
               <p className="text-center text-green-900/70 dark:text-white/60">
-                {week.week === 1 && !hasSeenAnimation
+                {(week.week === 1 && !hasSeenAnimation) || (week.week === 2 && !week2HasSeenAnimation)
                   ? "Vent på trekningen for å se vinnerne"
                   : "Ingen vinnere enda"}
               </p>

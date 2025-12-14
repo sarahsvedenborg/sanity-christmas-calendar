@@ -87,12 +87,42 @@ export const queryDefinitionsData = defineQuery(`
 `);
 
 export const queryWinnerAnimationData = defineQuery(`
-  *[_type == "winnerAnimation"] | order(time desc) [0] {
+  *[_type == "winnerAnimation" && isActive == true] | order(time desc) [0] {
     _id,
     title,
     winnerName,
     time,
     id,
+    isActive,
+    "category": category-> {
+      _id,
+      identifier
+    }
+  }
+`);
+
+export const queryInactivePassedAnimations = defineQuery(`
+  *[_type == "winnerAnimation" && isActive == false && time < now()] | order(time desc) {
+    _id,
+    time,
+    id,
+    "category": category-> {
+      _id,
+      identifier
+    }
+  }
+`);
+
+export const queryAllAnimationsByWeek = defineQuery(`
+  *[_type == "winnerAnimation"] | order(time desc) {
+    _id,
+    id,
+    time,
+    isActive,
+    "category": category-> {
+      _id,
+      identifier
+    }
   }
 `);
 

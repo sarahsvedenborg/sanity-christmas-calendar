@@ -9,6 +9,13 @@ export const winnerAnimation = defineType({
   icon: Trophy,
   fields: [
      defineField({
+      name: "isActive",
+      type: "boolean",
+      title: "Er aktiv",
+      initialValue: false,
+      validation: (rule) => rule.required(),
+    }),
+     defineField({
       name: "title",
       type: "string",
       title: "Tittel (as slug)",

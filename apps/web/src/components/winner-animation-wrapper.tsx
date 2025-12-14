@@ -9,6 +9,9 @@ type WinnerAnimationWrapperProps = {
   scheduledTime?: string;
   animationTitle?: string;
   animationId?: string;
+  isActive?: boolean;
+  animationCategory?: string;
+  oldInactiveAnimationIds?: string[];
 };
 
 // Helper function to get cookie value
@@ -28,47 +31,119 @@ function setCookie(name: string, value: string, days: number = 365) {
   document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 }
 
+// Helper function to check if animation has been seen (synchronous)
+function hasSeenAnimationCookie(animationId: string | undefined, oldInactiveAnimationIds: string[], isActive: boolean): boolean {
+  if (!animationId || typeof document === 'undefined') return false;
+  
+  // If there are old inactive animations, don't check for cookie
+/*   if (oldInactiveAnimationIds.length > 0) {
+    return false;
+  } */
+  
+  // Only check cookie for active animations
+  if (!isActive) {
+    return false;
+  }
+  
+  const cookieName = `winner_animation_viewed`;
+  const viewed = getCookie(cookieName);
+
+  return viewed === animationId;
+}
+
 export function WinnerAnimationWrapper({ 
   participantName, 
   winnerName, 
   scheduledTime,
   animationTitle,
-  animationId
+  animationId,
+  isActive = true,
+  animationCategory,
+  oldInactiveAnimationIds = []
 }: WinnerAnimationWrapperProps) {
+  // Check cookie immediately on mount to prevent race condition
+  const initialHasSeenAnimation = hasSeenAnimationCookie(animationId, oldInactiveAnimationIds, isActive);
+  
+console.log('initialHasSeenAnimation', initialHasSeenAnimation);
+
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [showAnimation, setShowAnimation] = useState(false);
-  const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
+  const [hasSeenAnimation, setHasSeenAnimation] = useState(initialHasSeenAnimation);
 
-  // Check if user has already seen this animation
+  // Clear cookies from old inactive animations if they exist
+  // Also clear the current animation's cookie if there are old inactive animations that passed
+  // This ensures the new active animation shows even if user has seen it before
   useEffect(() => {
-    if (!animationId) return;
+    if (oldInactiveAnimationIds.length > 0 && typeof document !== 'undefined') {
+      // Clear cookies from old inactive animations
+      oldInactiveAnimationIds.forEach((oldId) => {
+        const cookieName = `animation_viewed_${oldId}`;
+        // Clear the cookie by setting it to expire in the past
+        document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+      });
+      
+      // Also clear the current animation's cookie so it shows again
+      if (animationId) {
+        const currentCookieName = `animation_viewed_${animationId}`;
+        document.cookie = `${currentCookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+        setHasSeenAnimation(false);
+      }
+    }
+  }, [oldInactiveAnimationIds, animationId]);
+
+  // Check if user has already seen this animation (re-check on prop changes)
+  useEffect(() => {
+    if (!animationId) {
+      setHasSeenAnimation(false);
+      return;
+    }
+    
+    // If there are old inactive animations, don't check for cookie (it's been cleared)
+    if (oldInactiveAnimationIds.length > 0) {
+      setHasSeenAnimation(false);
+      return;
+    }
+    
+    // Only check cookie for active animations
+    // Inactive animations should show winners if time has passed (handled in WeekWinnersSection)
+    if (!isActive) {
+      setHasSeenAnimation(false);
+      return;
+    }
     
     const cookieName = `animation_viewed_${animationId}`;
     const viewed = getCookie(cookieName);
-    if (viewed === 'true') {
-      setHasSeenAnimation(true);
-    }
-  }, [animationId]);
+    setHasSeenAnimation(viewed === 'true');
+  }, [animationId, oldInactiveAnimationIds, isActive]);
 
   // Callback when animation completes
   const handleAnimationComplete = () => {
     if (animationId) {
-      const cookieName = `animation_viewed_${animationId}`;
-      setCookie(cookieName, 'true', 365);
+      // Use animation ID as the cookie identifier
+      const cookieName = `winner_animation_viewed`;
+      // For week 2 (silver), set cookie to "week-2", otherwise use animation ID
+      const cookieValue = animationCategory === 'silver' ? 'week-2' : animationId;
+      setCookie(cookieName, cookieValue, 365);
+      
       setHasSeenAnimation(true);
+      // Immediately prevent auto-play on next render
+      setShowAnimation(false);
     }
   };
 
   useEffect(() => {
     // Don't auto-start animation if user has already seen it
-    if (hasSeenAnimation) {
+    // Check cookie again to ensure we have the latest state
+    const hasSeen = hasSeenAnimationCookie(animationId, oldInactiveAnimationIds, isActive);
+    if (hasSeen) {
       setShowAnimation(false);
+      setHasSeenAnimation(true);
       return;
     }
 
     if (!scheduledTime) {
-      // No scheduled time, show animation immediately
-      setShowAnimation(true);
+      // No scheduled time, show animation immediately (only if not seen)
+      setShowAnimation(!hasSeen);
       return;
     }
 
@@ -76,8 +151,8 @@ export function WinnerAnimationWrapper({
     const timeUntilStart = scheduleTime - currentTime;
 
     if (timeUntilStart <= 0) {
-      // Time has passed, show animation
-      setShowAnimation(true);
+      // Time has passed, show animation (only if not seen)
+      setShowAnimation(!hasSeen);
     } else {
       // Time is in the future, show countdown
       setShowAnimation(false);
@@ -88,11 +163,19 @@ export function WinnerAnimationWrapper({
 
       return () => clearInterval(intervalId);
     }
-  }, [scheduledTime, currentTime, hasSeenAnimation]);
+  }, [scheduledTime, currentTime, hasSeenAnimation, animationId, oldInactiveAnimationIds, isActive]);
 
   // Update showAnimation when time passes
   useEffect(() => {
-    if (!scheduledTime || hasSeenAnimation) return;
+    if (!scheduledTime) return;
+    
+    // Check cookie again to ensure we have the latest state
+    const hasSeen = hasSeenAnimationCookie(animationId, oldInactiveAnimationIds, isActive);
+    if (hasSeen) {
+      setShowAnimation(false);
+      setHasSeenAnimation(true);
+      return;
+    }
 
     const scheduleTime = new Date(scheduledTime).getTime();
     const timeUntilStart = scheduleTime - currentTime;
@@ -100,10 +183,12 @@ export function WinnerAnimationWrapper({
     if (timeUntilStart <= 0 && !showAnimation) {
       setShowAnimation(true);
     }
-  }, [scheduledTime, currentTime, showAnimation, hasSeenAnimation]);
+  }, [scheduledTime, currentTime, showAnimation, hasSeenAnimation, animationId, oldInactiveAnimationIds, isActive]);
 
   // Determine if animation should auto-start (only if not viewed and time is right)
-  const shouldAutoStart = !hasSeenAnimation && showAnimation;
+  // Double-check cookie before auto-starting
+  const hasSeen = hasSeenAnimationCookie(animationId, oldInactiveAnimationIds, isActive);
+  const shouldAutoStart = !hasSeen && !hasSeenAnimation && showAnimation;
 
   // If no scheduled time, auto-start only if not viewed
   if (!scheduledTime) {
@@ -113,7 +198,7 @@ export function WinnerAnimationWrapper({
         winnerName={winnerName}
         scheduledTime={scheduledTime}
         onAnimationComplete={handleAnimationComplete}
-        autoStart={!hasSeenAnimation}
+        autoStart={!hasSeen && !hasSeenAnimation}
       />
     );
   }
@@ -141,13 +226,17 @@ export function WinnerAnimationWrapper({
     );
   }
 
+  // Final check before rendering - ensure we don't auto-start if cookie exists
+  const finalHasSeen = hasSeenAnimationCookie(animationId, oldInactiveAnimationIds, isActive);
+  const finalShouldAutoStart = !finalHasSeen && !hasSeenAnimation && showAnimation;
+
   return (
     <WinnerAnimation 
       participantName={participantName}
       winnerName={winnerName}
       scheduledTime={scheduledTime}
       onAnimationComplete={handleAnimationComplete}
-      autoStart={shouldAutoStart}
+      autoStart={finalShouldAutoStart}
       animationTitle={animationTitle}
     />
   );

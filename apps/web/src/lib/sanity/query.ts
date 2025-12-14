@@ -87,12 +87,13 @@ export const queryDefinitionsData = defineQuery(`
 `);
 
 export const queryWinnerAnimationData = defineQuery(`
-  *[_type == "winnerAnimation"] | order(time desc) [0] {
+  *[_type == "winnerAnimation" && isActive == true] | order(time desc) [0] {
     _id,
     title,
     winnerName,
     time,
     id,
+    isActive,
   }
 `);
 

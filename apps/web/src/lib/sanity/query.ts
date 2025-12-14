@@ -97,6 +97,13 @@ export const queryWinnerAnimationData = defineQuery(`
   }
 `);
 
+export const queryInactivePassedAnimations = defineQuery(`
+  *[_type == "winnerAnimation" && isActive == false && time < now()] | order(time desc) {
+    _id,
+    time,
+  }
+`);
+
 const richTextFragment = /* groq */ `
   richText[]{
     ...,

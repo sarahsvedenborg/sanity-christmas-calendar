@@ -20,6 +20,9 @@ type WeekWinners = {
 type WeekWinnersSectionProps = {
   weekWinners: WeekWinners[];
   animationId?: string;
+  isActive?: boolean;
+  scheduledTime?: string;
+  oldInactiveAnimationIds?: string[];
 };
 
 // Helper function to get cookie value
@@ -29,6 +32,12 @@ function getCookie(name: string): string | null {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
   return null;
+}
+
+// Helper function to delete cookie
+function deleteCookie(name: string) {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
 }
 
 // Category background colors matching the homepage
@@ -52,10 +61,41 @@ const getWeekLogo = (week: number) => {
   }
 };
 
-export function WeekWinnersSection({ weekWinners, animationId }: WeekWinnersSectionProps) {
+export function WeekWinnersSection({ weekWinners, animationId, isActive = true, scheduledTime, oldInactiveAnimationIds = [] }: WeekWinnersSectionProps) {
   const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
-  // Check if user has already seen this animation
+  // Update current time periodically
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Clear cookies from old inactive animations if they exist
+  // Also clear the current animation's cookie if there are old inactive animations that passed
+  // This ensures winners show even if user has seen the animation before
+  useEffect(() => {
+    if (oldInactiveAnimationIds.length > 0) {
+      // Clear cookies from old inactive animations
+      oldInactiveAnimationIds.forEach((oldId) => {
+        const cookieName = `animation_viewed_${oldId}`;
+        deleteCookie(cookieName);
+      });
+      
+      // Also clear the current animation's cookie so winners show
+      if (animationId) {
+        const currentCookieName = `animation_viewed_${animationId}`;
+        deleteCookie(currentCookieName);
+      }
+    }
+  }, [oldInactiveAnimationIds, animationId]);
+
+  // Check if winners should be displayed
+  // Winners should be shown if:
+  // 1. Animation has been seen (cookie exists), OR
+  // 2. Animation is inactive AND time has passed
   useEffect(() => {
     if (!animationId) {
       // If no animation ID, show all winners
@@ -63,25 +103,43 @@ export function WeekWinnersSection({ weekWinners, animationId }: WeekWinnersSect
       return;
     }
     
-    const cookieName = `animation_viewed_${animationId}`;
-    const viewed = getCookie(cookieName);
-    if (viewed === 'true') {
+    // If there are old inactive animations, show winners (cookies have been cleared)
+    if (oldInactiveAnimationIds.length > 0) {
       setHasSeenAnimation(true);
+      return;
     }
-
-    // Also listen for storage events in case cookie is set in another tab
-    const checkCookie = () => {
+    
+    // If animation is inactive and time has passed, show winners
+    if (!isActive && scheduledTime) {
+      const scheduleTime = new Date(scheduledTime).getTime();
+      if (scheduleTime <= currentTime) {
+        setHasSeenAnimation(true);
+        return;
+      }
+    }
+    
+    // For active animations, check if user has seen it
+    if (isActive) {
+      const cookieName = `animation_viewed_${animationId}`;
       const viewed = getCookie(cookieName);
       if (viewed === 'true') {
         setHasSeenAnimation(true);
       }
-    };
 
-    // Check cookie periodically
-    const intervalId = setInterval(checkCookie, 500);
+      // Also listen for storage events in case cookie is set in another tab
+      const checkCookie = () => {
+        const viewed = getCookie(cookieName);
+        if (viewed === 'true') {
+          setHasSeenAnimation(true);
+        }
+      };
 
-    return () => clearInterval(intervalId);
-  }, [animationId]);
+      // Check cookie periodically
+      const intervalId = setInterval(checkCookie, 500);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [animationId, oldInactiveAnimationIds, isActive, scheduledTime, currentTime]);
 
   // Filter week winners - hide week 1 if animation hasn't been viewed
   const visibleWeekWinners = weekWinners.map((week) => {

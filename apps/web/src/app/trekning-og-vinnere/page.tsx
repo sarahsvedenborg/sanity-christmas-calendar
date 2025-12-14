@@ -2,7 +2,7 @@ import { Snowflakes } from "@/components/elements/snowflakes";
 import { WinnerAnimationWrapper } from "@/components/winner-animation-wrapper";
 import { WeekWinnersSection } from "@/components/week-winners-section";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryWinnerAnimationData, queryDayCategoriesWithWinners, queryUserProgressByEmail } from "@/lib/sanity/query";
+import { queryWinnerAnimationData, queryDayCategoriesWithWinners, queryUserProgressByEmail, queryInactivePassedAnimations } from "@/lib/sanity/query";
 import { auth } from "@/auth";
 
 export const revalidate = 10;
@@ -88,6 +88,12 @@ export default async function WinnersPage() {
     stega: true,
   });
 
+  // Fetch inactive animations that have passed their date
+  const { data: inactivePassedAnimations } = await sanityFetch({
+    query: queryInactivePassedAnimations,
+    stega: true,
+  });
+
   // Fetch day categories with winners
   const { data: categoriesData } = await sanityFetch({
     query: queryDayCategoriesWithWinners,
@@ -97,7 +103,14 @@ export default async function WinnersPage() {
   const winnerName = winnerAnimationData?.winnerName;
   const scheduledTime = winnerAnimationData?.time;
   const animationTitle = winnerAnimationData?.title;
-  const animationId = winnerAnimationData?._id;
+  const animationId = winnerAnimationData?.id;
+  const isActive = winnerAnimationData?.isActive ?? false;
+
+  // Check if there are inactive animations that have passed AND a new active animation exists
+  // If so, we should ignore cookies from old inactive animations
+  const hasInactivePassedAnimations = inactivePassedAnimations && Array.isArray(inactivePassedAnimations) && inactivePassedAnimations.length > 0;
+  const hasNewActiveAnimation = !!winnerAnimationData;
+  const shouldIgnoreOldCookies = hasInactivePassedAnimations && hasNewActiveAnimation;
 
   // Get logged-in user's name and check if they've completed days 1-5
   const session = await auth();
@@ -182,12 +195,20 @@ export default async function WinnersPage() {
               scheduledTime={scheduledTime}
               animationTitle={animationTitle}
               animationId={animationId}
+              isActive={isActive}
+              oldInactiveAnimationIds={shouldIgnoreOldCookies ? inactivePassedAnimations?.map((anim: { _id: string }) => anim._id) || [] : []}
             />
           </div>
         </section>
 
         {/* Winners by Week Section */}
-        <WeekWinnersSection weekWinners={weekWinners} animationId={animationId} />
+        <WeekWinnersSection 
+          weekWinners={weekWinners} 
+          animationId={animationId}
+          isActive={isActive}
+          scheduledTime={scheduledTime}
+          oldInactiveAnimationIds={shouldIgnoreOldCookies ? inactivePassedAnimations?.map((anim: { _id: string }) => anim._id) || [] : []}
+        />
       </div>
     </div>
   );

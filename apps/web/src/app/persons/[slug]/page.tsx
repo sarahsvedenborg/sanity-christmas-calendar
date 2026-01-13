@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 
 import { SanityImage } from "@/components/elements/sanity-image";
 import { RichText } from "@/components/elements/rich-text";
@@ -39,7 +39,7 @@ export default async function PersonDetailPage({
   return (
     <main className="container mx-auto my-16 px-4 md:px-6">
       <Link
-        href="/sanity-demonstration"
+        href="/persons"
         className="mb-8 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
       >
         <ArrowLeft className="h-4 w-4" />
@@ -47,30 +47,36 @@ export default async function PersonDetailPage({
       </Link>
 
       <div className="mx-auto max-w-4xl">
-        <header className="mb-8">
-          <h1 className="mb-4 text-4xl font-bold">{fullName}</h1>
-          {person.birthDate && (
-            <p className="text-lg text-muted-foreground">
-              Born: {new Date(person.birthDate).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
+        <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start">
+          {person.image?.id ? (
+            <div className="h-48 w-48 flex-shrink-0 overflow-hidden rounded-lg md:h-64 md:w-64">
+              <SanityImage
+                alt={fullName}
+                className="h-full w-full object-cover"
+                height={256}
+                image={person.image}
+                width={256}
+              />
+            </div>
+          ) : (
+            <div className="flex h-48 w-48 flex-shrink-0 items-center justify-center rounded-lg bg-muted md:h-64 md:w-64">
+              <User className="h-24 w-24 text-muted-foreground md:h-32 md:w-32" />
+            </div>
           )}
-        </header>
 
-        {person.image?.id && (
-          <div className="mb-12 aspect-video overflow-hidden rounded-lg">
-            <SanityImage
-              alt={fullName}
-              className="h-full w-full object-cover"
-              height={600}
-              image={person.image}
-              width={1200}
-            />
-          </div>
-        )}
+          <header className="flex-1">
+            <h1 className="mb-4 text-4xl font-bold">{fullName}</h1>
+            {person.birthDate && (
+              <p className="text-lg text-muted-foreground">
+                Born: {new Date(person.birthDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            )}
+          </header>
+        </div>
 
         {person.shortBio && (
           <div className="mb-8">

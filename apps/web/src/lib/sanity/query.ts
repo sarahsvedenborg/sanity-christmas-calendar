@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 
-const imageFields = /* groq */ `
+export const imageFields = /* groq */ `
   "id": asset._ref,
   "preview": asset->metadata.lqip,
   hotspot {
@@ -15,13 +15,13 @@ const imageFields = /* groq */ `
   }
 `;
 // Base fragments for reusable query parts
-const imageFragment = /* groq */ `
+export const imageFragment = /* groq */ `
   image {
     ${imageFields}
   }
 `;
 
-const customLinkFragment = /* groq */ `
+export const customLinkFragment = /* groq */ `
   ...customLink{
     openInNewTab,
     "href": select(
@@ -32,7 +32,7 @@ const customLinkFragment = /* groq */ `
   }
 `;
 
-const markDefsFragment = /* groq */ `
+export const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
     ${customLinkFragment},

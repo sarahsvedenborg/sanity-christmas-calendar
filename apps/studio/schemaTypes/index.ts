@@ -2,9 +2,9 @@ import { pageBuilderBlocks } from "./blocks";
 import { definitions } from "./definitions";
 import { documents, singletons } from "./documents";
 import { demoStudioDocuments } from "./demoStudio/index";
-
+import { person } from "./demonstration/person";
 // Creating a new constant 'schemaTypes' which is a copy of the 'documents' array
-export const schemaTypes = [...documents, ...definitions, ...pageBuilderBlocks, ...demoStudioDocuments];
+export const schemaTypes = [...documents, ...definitions, ...pageBuilderBlocks, ...demoStudioDocuments, person];
 
 // Creating a new constant 'schemaNames' which is an array of names extracted from the 'documents' array
 export const schemaNames = [...documents].map((doc) => doc.name);

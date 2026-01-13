@@ -97,7 +97,7 @@ export default async function PersonDetailPage({
                     Mother
                   </h3>
                   <Link
-                    href={`/sanity-demonstration/${person.mother._id}`}
+                    href={`/persons/${person.mother.slug}`}
                     className="group flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
                     {person.mother.image?.id && (
@@ -126,7 +126,7 @@ export default async function PersonDetailPage({
                     Father
                   </h3>
                   <Link
-                    href={`/sanity-demonstration/${person.father._id}`}
+                    href={`/persons/${person.father.slug}`}
                     className="group flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
                     {person.father.image?.id && (

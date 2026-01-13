@@ -26,6 +26,7 @@ export const queryPersonBySlug = defineQuery(`
     },
     "mother": mother-> {
       _id,
+      "slug": slug.current,
       firstName,
       lastName,
       image {
@@ -34,6 +35,7 @@ export const queryPersonBySlug = defineQuery(`
     },
     "father": father-> {
       _id,
+      "slug": slug.current,
       firstName,
       lastName,
       image {

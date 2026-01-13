@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 
-const imageFields = /* groq */ `
+export const imageFields = /* groq */ `
   "id": asset._ref,
   "preview": asset->metadata.lqip,
   hotspot {
@@ -15,13 +15,13 @@ const imageFields = /* groq */ `
   }
 `;
 // Base fragments for reusable query parts
-const imageFragment = /* groq */ `
+export const imageFragment = /* groq */ `
   image {
     ${imageFields}
   }
 `;
 
-const customLinkFragment = /* groq */ `
+export const customLinkFragment = /* groq */ `
   ...customLink{
     openInNewTab,
     "href": select(
@@ -32,7 +32,7 @@ const customLinkFragment = /* groq */ `
   }
 `;
 
-const markDefsFragment = /* groq */ `
+export const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
     ${customLinkFragment},
@@ -799,80 +799,5 @@ export const queryDayCategoriesWithWinners = defineQuery(`
     title,
     identifier,
     winners
-  }
-`);
-
-export const queryAllPersons = defineQuery(`
-  *[_type == "person"] | order(firstName asc, lastName asc) {
-    _id,
-    "slug": slug.current,
-    firstName,
-    lastName,
-    shortBio,
-    longBio[]{
-      ...,
-      _type == "block" => {
-        ...,
-        ${markDefsFragment}
-      },
-      _type == "image" => {
-        ${imageFields},
-        "caption": caption
-      }
-    },
-    birthDate,
-    image {
-      ${imageFields}
-    },
-    "mother": mother-> {
-      _id,
-      firstName,
-      lastName
-    },
-    "father": father-> {
-      _id,
-      firstName,
-      lastName
-    }
-  }
-`);
-
-export const queryPersonBySlug = defineQuery(`
-  *[_type == "person" && slug.current == $slug][0] {
-    _id,
-    firstName,
-    lastName,
-    shortBio,
-    longBio[]{
-      ...,
-      _type == "block" => {
-        ...,
-        ${markDefsFragment}
-      },
-      _type == "image" => {
-        ${imageFields},
-        "caption": caption
-      }
-    },
-    birthDate,
-    image {
-      ${imageFields}
-    },
-    "mother": mother-> {
-      _id,
-      firstName,
-      lastName,
-      image {
-        ${imageFields}
-      }
-    },
-    "father": father-> {
-      _id,
-      firstName,
-      lastName,
-      image {
-        ${imageFields}
-      }
-    }
   }
 `);

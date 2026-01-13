@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { User } from "lucide-react";
 
 import { SanityImage } from "@/components/elements/sanity-image";
-import { RichText } from "@/components/elements/rich-text";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryAllPersons } from "@/lib/sanity/query";
+import { queryAllPersons } from "./queries";
 import { handleErrors } from "@/utils";
 
 async function fetchPersons() {
@@ -50,68 +50,46 @@ export default async function SanityDemonstrationPage() {
         List of all persons in the system
       </p>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {persons.map((person: Person) => (
-          <Link
-            key={person._id}
-            href={`/persons/${person.slug}`}
-            className="rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          >
-            {person.image?.id && (
-              <div className="mb-4 aspect-square overflow-hidden rounded-lg">
-                <SanityImage
-                  alt={`${person.firstName || ""} ${person.lastName || ""}`.trim() || "Person image"}
-                  className="h-full w-full object-cover"
-                  height={400}
-                  image={person.image}
-                  width={400}
-                />
+      <div className="space-y-4">
+        {persons.map((person: Person) => {
+          const fullName =
+            person.firstName && person.lastName
+              ? `${person.firstName} ${person.lastName}`
+              : person.firstName || person.lastName || "Unnamed person";
+
+          return (
+            <Link
+              key={person._id}
+              href={`/persons/${person.slug}`}
+              className="flex gap-4 rounded-lg border bg-card p-4 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              {person.image?.id ? (
+                <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg">
+                  <SanityImage
+                    alt={fullName}
+                    className="h-full w-full object-cover"
+                    height={80}
+                    image={person.image}
+                    width={80}
+                  />
+                </div>
+              ) : (
+                <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-lg bg-muted">
+                  <User className="h-10 w-10 text-muted-foreground" />
+                </div>
+              )}
+
+              <div className="flex flex-col justify-center">
+                <h2 className="text-xl font-semibold">{fullName}</h2>
+                {person.birthDate && (
+                  <p className="text-sm text-muted-foreground">
+                    Born: {new Date(person.birthDate).toLocaleDateString()}
+                  </p>
+                )}
               </div>
-            )}
-
-            <h2 className="mb-2 text-2xl font-semibold">
-              {person.firstName && person.lastName
-                ? `${person.firstName} ${person.lastName}`
-                : person.firstName || person.lastName || "Unnamed person"}
-            </h2>
-
-            {person.birthDate && (
-              <p className="mb-3 text-sm text-muted-foreground">
-                Born: {new Date(person.birthDate).toLocaleDateString()}
-              </p>
-            )}
-
-            {person.shortBio && (
-              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                {person.shortBio}
-              </p>
-            )}
-
-            {person.longBio && person.longBio.length > 0 && (
-              <div className="mb-4">
-                <RichText richText={person.longBio} />
-              </div>
-            )}
-
-            {(person.mother || person.father) && (
-              <div className="mt-4 border-t pt-4">
-                <p className="text-sm font-medium text-muted-foreground">Family:</p>
-                <ul className="mt-2 space-y-1 text-sm">
-                  {person.mother && (
-                    <li>
-                      Mother: {person.mother.firstName} {person.mother.lastName}
-                    </li>
-                  )}
-                  {person.father && (
-                    <li>
-                      Father: {person.father.firstName} {person.father.lastName}
-                    </li>
-                  )}
-                </ul>
-              </div>
-            )}
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </main>
   );

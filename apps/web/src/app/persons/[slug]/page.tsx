@@ -5,11 +5,10 @@ import { ArrowLeft } from "lucide-react";
 import { SanityImage } from "@/components/elements/sanity-image";
 import { RichText } from "@/components/elements/rich-text";
 import { sanityFetch } from "@/lib/sanity/live";
-import { queryPersonBySlug } from "@/lib/sanity/query";
+import { queryPersonBySlug } from "../queries";
 import { handleErrors } from "@/utils";
 
 async function fetchPersonBySlug(slug: string) {
-  console.log("fetching person by slug", slug);
   return await handleErrors(
     sanityFetch({
       query: queryPersonBySlug,

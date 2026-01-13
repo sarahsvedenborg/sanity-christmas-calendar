@@ -801,3 +801,78 @@ export const queryDayCategoriesWithWinners = defineQuery(`
     winners
   }
 `);
+
+export const queryAllPersons = defineQuery(`
+  *[_type == "person"] | order(firstName asc, lastName asc) {
+    _id,
+    "slug": slug.current,
+    firstName,
+    lastName,
+    shortBio,
+    longBio[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    },
+    birthDate,
+    image {
+      ${imageFields}
+    },
+    "mother": mother-> {
+      _id,
+      firstName,
+      lastName
+    },
+    "father": father-> {
+      _id,
+      firstName,
+      lastName
+    }
+  }
+`);
+
+export const queryPersonBySlug = defineQuery(`
+  *[_type == "person" && slug.current == $slug][0] {
+    _id,
+    firstName,
+    lastName,
+    shortBio,
+    longBio[]{
+      ...,
+      _type == "block" => {
+        ...,
+        ${markDefsFragment}
+      },
+      _type == "image" => {
+        ${imageFields},
+        "caption": caption
+      }
+    },
+    birthDate,
+    image {
+      ${imageFields}
+    },
+    "mother": mother-> {
+      _id,
+      firstName,
+      lastName,
+      image {
+        ${imageFields}
+      }
+    },
+    "father": father-> {
+      _id,
+      firstName,
+      lastName,
+      image {
+        ${imageFields}
+      }
+    }
+  }
+`);

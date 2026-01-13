@@ -1,5 +1,5 @@
 import {  UserRound } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { defineField, defineType, SlugSourceContext } from "sanity";
 
 export const person = defineType({
   name: "person",
@@ -18,6 +18,16 @@ export const person = defineType({
       title: "Last Name",
       type: "string",
       validation: (rule) => rule.required().error("A last name is required"),
+    }),
+      defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: 'firstName',
+        slugify: (input, schemaType, context: SlugSourceContext) => {return context.parent?.firstName?.toLowerCase() + "-" + context.parent?.lastName?.toLowerCase()},
+      },
+      validation: (rule) => rule.required().error("A slug is required"),
     }),
     defineField({
       name: "shortBio",

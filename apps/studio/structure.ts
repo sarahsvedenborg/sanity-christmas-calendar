@@ -18,6 +18,7 @@ import {
   User,
   FlaskConical,
   Trophy,
+  UserRound,
 } from "lucide-react";
 import type {
   StructureBuilder,
@@ -120,6 +121,13 @@ export const structure = (
   ) ?? false;
 
 
+   const demoStructure = (S: StructureBuilder) =>  createList({
+      S,
+      type: "person",
+      title: "Persons",
+      icon: UserRound,
+    });
+
 
   const items = [
     /*   createSingleTon({ S, type: "homePage", icon: HomeIcon }), */
@@ -217,6 +225,8 @@ export const structure = (
       title: "Trekninger",
       icon: Trophy,
     }),
+ S.divider({title: "Demo structure"}),
+  demoStructure(S),
     /*    S.divider(),
         S.listItem()
           .title("Site Configuration")
